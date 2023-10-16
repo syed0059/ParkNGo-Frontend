@@ -1,4 +1,4 @@
-# Setting up backend
+# Setting up Frontend
 
 ### Dependencies
 

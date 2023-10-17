@@ -1,5 +1,5 @@
 import { StyleSheet, Text, View } from 'react-native';
-import Map from './MapView';
+import Map from './src/components/MapView/MapView';
 
 export default function App() {
   return (

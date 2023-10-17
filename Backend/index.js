@@ -9,7 +9,7 @@ async function runApp() {
         res.send('Hello world');
     })
     
-    const carparkManager = require("./CarparkManager/carparkManager");
+    const carparkManager = require("./CarparkInterface/carparkInterface");
 
     app.use('/carpark', carparkManager);
     app.listen(port, () => {

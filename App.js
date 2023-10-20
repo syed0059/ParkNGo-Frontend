@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
-import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { StyleSheet, Text, TouchableOpacity, View, SafeAreaView } from 'react-native';
 import Modal from 'react-native-modal';
 import Map from './src/components/MapView/MapView';
 import CarparkInfo from './src/components/CarparkInfo/CarparkInfo';
+import { Button, Provider as PaperProvider } from 'react-native-paper';
 
 export default function App() {
   const [modalVisible, setModalVisible] = useState(false);
@@ -12,25 +13,27 @@ export default function App() {
   };
 
   return (
-    <View style={styles.container}>
-      <View style={styles.mapContainer}>
-        <Map />
-      </View>
-      <View style={styles.textContainer}>
-        <TouchableOpacity onPress={onClick}>
-          <Text>Hello World</Text>
-        </TouchableOpacity>
-      </View>
+    <PaperProvider>
+      <View style={styles.container}>
+        <View style={styles.mapContainer}>
+          <Map />
+        </View>
+        <View style={styles.textContainer}>
+          <Button mode="contained" onPress={onClick}>
+            <Text>Hello World</Text>
+          </Button>
+        </View>
 
-      <Modal
-        isVisible={modalVisible}
-        onSwipeComplete={() => setModalVisible(false)}
-        swipeDirection={['down']}
-        style={styles.modal}
-      >
-        <CarparkInfo onClose={() => setModalVisible(false)} />
-      </Modal>
-    </View>
+        <Modal
+          isVisible={modalVisible}
+          onSwipeComplete={() => setModalVisible(false)}
+          swipeDirection={['down']}
+          style={styles.modal}
+        >
+          <CarparkInfo onClose={() => setModalVisible(false)} />
+        </Modal>
+      </View>
+    </PaperProvider>
   );
 }
 

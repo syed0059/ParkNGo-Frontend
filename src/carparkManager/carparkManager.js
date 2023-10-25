@@ -1,7 +1,7 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 // Change this to your own ip address
-const localhost = '';
+const localhost = 'http://192.168.10.101';
 
 initialiseCarparks = async () => {
     console.log('initialising');
@@ -72,7 +72,7 @@ module.exports.getCarparksByIdArray = async (carparkIdsArray) => {
 }
 
 module.exports.getCarparksByLocation = async (coordinates, radius) => {
-    const response = await fetch(localhost + ':3000/search?' + URLSearchParams({
+    const response = await fetch(localhost + ':3000/search/nearby?' + new URLSearchParams({
         'longitude': coordinates['Long'],
         'latitude': coordinates['Lat'],
         radius

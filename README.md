@@ -16,3 +16,8 @@ To try running the app, run `npm start`, there should be a QR code in the termin
 
 To close everything, just end the process on the terminal using ctrl+c.
 
+## Steven's additional dependencies:
+
+React Native paper, React Native Modal, 
+
+React Native Example (Bar trend)

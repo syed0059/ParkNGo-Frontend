@@ -1,9 +1,9 @@
-import React, { useState } from 'react';
-import { StyleSheet, Text, TouchableOpacity, View, SafeAreaView } from 'react-native';
-import Modal from 'react-native-modal';
-import Map from './src/components/MapView/MapView';
-import CarparkInfo from './src/components/CarparkInfo/CarparkInfo';
-import { Button, Provider as PaperProvider } from 'react-native-paper';
+import React, { useState } from "react";
+import { StyleSheet, Text, View } from "react-native";
+import Modal from "react-native-modal";
+import Map from "./src/components/MapView/MapView";
+import CarparkInfo from "./src/components/CarparkInfo/CarparkInfo";
+import { Button, Provider as PaperProvider } from "react-native-paper";
 
 export default function App() {
   const [modalVisible, setModalVisible] = useState(false);
@@ -23,14 +23,18 @@ export default function App() {
             <Text>Hello World</Text>
           </Button>
         </View>
-
         <Modal
           isVisible={modalVisible}
           onSwipeComplete={() => setModalVisible(false)}
-          swipeDirection={['down']}
+          swipeDirection={["right", "up"]}
           style={styles.modal}
+          backdropColor="#21897E"
+          backdropOpacity={0.9}
         >
-          <CarparkInfo onClose={() => setModalVisible(false)} />
+          <CarparkInfo
+            information={"source"}
+            onClose={() => setModalVisible(false)}
+          />
         </Modal>
       </View>
     </PaperProvider>
@@ -46,11 +50,11 @@ const styles = StyleSheet.create({
   },
   textContainer: {
     flex: 0.5,
-    justifyContent: 'center',
-    alignItems: 'center',
+    justifyContent: "center",
+    alignItems: "center",
   },
   modal: {
-    justifyContent: 'flex-end',
+    justifyContent: "flex-end",
     margin: 0,
   },
 });

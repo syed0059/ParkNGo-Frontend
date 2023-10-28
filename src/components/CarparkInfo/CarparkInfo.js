@@ -9,7 +9,7 @@ import Navigation from "./Navigation/Navigation";
 const carparkInterface = require('../../carparkInterface/carparkInterface');
 
 
-function CarparkInfo({ selectedCarparkID }) {
+function CarparkInfo({ carpark }) {
 
   function formatString(string) {
     words = string.toLowerCase().split(" ");
@@ -23,6 +23,7 @@ function CarparkInfo({ selectedCarparkID }) {
     return result.trim();
   }
 
+  /* can adapt this to get trends
   const [loading, setLoading] = useState(true);
   const [data, setData] = useState([]);
   useEffect(() => {
@@ -40,42 +41,37 @@ function CarparkInfo({ selectedCarparkID }) {
       }
     }
     fetchCarpark();
-  }, [selectedCarparkID]);
+  }, [selectedCarparkID]); */
 
   function getContent() {
-    if (loading) {
-      return <ActivityIndicator size="large" />;
-    }
-    else {
-      return (
-        <View style={styles.carparkContent}>
-          <View style={styles.headerContainer}>
-            <Text variant="headlineLarge" style={styles.texts}>
-              {data.Address}
-            </Text>
-            <Text variant="titleSmall" style={styles.texts}>
-              {formatString(data.CarparkType)}
-            </Text>
-          </View>
-          <Button
-            mode="contained"
-            buttonColor="#464B76"
-            style={styles.button}
-            onPress={onClick}
-          >
-            Directions
-          </Button>
-
-          <Modal isVisible={naviModalVisible} style={styles.modal}>
-            <Navigation onClose={() => setNaviVisible(false)} />
-          </Modal>
-
-          <CarparkAvailability />
-          <Prices />
-          <Trends />
+    return (
+      <View style={styles.carparkContent}>
+        <View style={styles.headerContainer}>
+          <Text variant="headlineLarge" style={styles.texts}>
+            {carpark.Address}
+          </Text>
+          <Text variant="titleSmall" style={styles.texts}>
+            {formatString(carpark.CarparkType)}
+          </Text>
         </View>
-      );
-    }
+        <Button
+          mode="contained"
+          buttonColor="#464B76"
+          style={styles.button}
+          onPress={onClick}
+        >
+          Directions
+        </Button>
+
+        <Modal isVisible={naviModalVisible} style={styles.modal}>
+          <Navigation onClose={() => setNaviVisible(false)} />
+        </Modal>
+
+        <CarparkAvailability />
+        <Prices />
+        <Trends />
+      </View>
+    );
   }
 
   const [naviModalVisible, setNaviVisible] = useState(false);

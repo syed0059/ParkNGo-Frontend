@@ -11,7 +11,7 @@ import FavouritesContext from '../FavouritesContext';
 export default function CarparkList({ location, loading, carparks }) {
 
   const [modalVisible, setModalVisible] = useState(false);
-  const [selectedCarparkID, setSelectedCarparkID] = useState(null);
+  const [selectedCarpark, setSelectedCarpark] = useState(null);
 
   const onClick = () => {
     setModalVisible(true);
@@ -47,7 +47,7 @@ export default function CarparkList({ location, loading, carparks }) {
         keyExtractor={(item) => item._id}
         renderItem={({ item }) => (
           <TouchableOpacity onPress={() => {
-            setSelectedCarparkID(item.CarparkID);
+            setSelectedCarpark(item);
             setModalVisible(true);
           }}>
             <View style={styles.listItem}>
@@ -70,11 +70,17 @@ export default function CarparkList({ location, loading, carparks }) {
         isVisible={modalVisible}
         onSwipeComplete={() => setModalVisible(false)}
         swipeDirection="down"
-        propagateSwipe
+        propagateSwipe={true}
+        hideModalContentWhileAnimating={true}
+        animationInTiming={500}
+        animationOutTiming={500}
+        backdropTransitionInTiming={500}
+        backdropTransitionOutTiming={5000}
+        swipeThreshold={200}
         style={{ margin: 0 }} 
       >
         <View style={styles.modalContent}>
-          <CarparkInfo selectedCarparkID={selectedCarparkID} />
+          <CarparkInfo carpark={selectedCarpark} />
         </View>
       </Modal>
     </View>
@@ -119,5 +125,6 @@ const styles = StyleSheet.create({
   modalContent: {
     height: '100%',
     width: '100%',
+    backgroundColor: '#ffffff',
   },
 });

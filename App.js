@@ -1,42 +1,33 @@
-import React, { useState } from "react";
-import { StyleSheet, Text, View } from "react-native";
-import Modal from "react-native-modal";
-import Map from "./src/components/MapView/MapView";
-import CarparkInfo from "./src/components/CarparkInfo/CarparkInfo";
-import { Button, Provider as PaperProvider } from "react-native-paper";
+import React, { useState } from 'react';
+import { StyleSheet, View } from 'react-native';
+import { NavigationContainer } from '@react-navigation/native';
+import { Provider as PaperProvider } from 'react-native-paper';
+import Map from './src/components/MapView/MapView';
+import NavBar from './src/components/SearchView/NavBar';
+import useLocation from './src/components/FetchLocation';
+import useCarparksDistance from './src/components/FetchCarparkByDistance';
+import { RadiusContext } from './src/components/RadiusContext'
 
 export default function App() {
-  const [modalVisible, setModalVisible] = useState(false);
 
-  const onClick = () => {
-    setModalVisible(true);
-  };
+  const [radius, setRadius] = useState(2);
+  const location = useLocation();
+  const { loading, data: carparks } = useCarparksDistance(location, radius);
 
   return (
     <PaperProvider>
-      <View style={styles.container}>
-        <View style={styles.mapContainer}>
-          <Map />
+      <RadiusContext.Provider value={{ radius, setRadius }}>
+        <View style={styles.container}>
+          <View style={styles.mapContainer}>
+            <Map />
+          </View>
+          <View style={styles.searchContainer}>
+            <NavigationContainer>
+              <NavBar location={location} loading={loading} carparks={carparks} />
+            </NavigationContainer>
+          </View>
         </View>
-        <View style={styles.textContainer}>
-          <Button mode="contained" onPress={onClick}>
-            <Text>Hello World</Text>
-          </Button>
-        </View>
-        <Modal
-          isVisible={modalVisible}
-          onSwipeComplete={() => setModalVisible(false)}
-          swipeDirection={["right", "up"]}
-          style={styles.modal}
-          backdropColor="#21897E"
-          backdropOpacity={0.9}
-        >
-          <CarparkInfo
-            information={"source"}
-            onClose={() => setModalVisible(false)}
-          />
-        </Modal>
-      </View>
+      </RadiusContext.Provider>
     </PaperProvider>
   );
 }
@@ -48,13 +39,8 @@ const styles = StyleSheet.create({
   mapContainer: {
     flex: 0.5,
   },
-  textContainer: {
+  searchContainer: {
     flex: 0.5,
-    justifyContent: "center",
-    alignItems: "center",
-  },
-  modal: {
-    justifyContent: "flex-end",
-    margin: 0,
+    justifyContent: 'center',
   },
 });

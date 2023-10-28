@@ -6,26 +6,10 @@ import CarparkAvailability from "./Availability/CarparkAvailability";
 import Prices from "./Prices/Prices";
 import Trends from "./Trends/Trends";
 import Navigation from "./Navigation/Navigation";
+const carparkInterface = require('../../carparkInterface/carparkInterface');
 
-function CarparkInfo({ onClose }) {
-  let [isLoading, setIsLoading] = useState(true);
-  let [error, setError] = useState();
-  let [response, setReponse] = useState();
-  let name, type;
-  //http://127.0.0.1:3000/carpark/all//
-  useEffect(() => {
-    fetch("http://10.91.35.164:3000/carpark/all")
-      .then((response) => response.json())
-      .then((result) => {
-        setReponse(result);
-        setIsLoading(false);
-      })
-      .catch(function (error) {
-        setError(error.message);
-        setIsLoading(false);
-        throw error;
-      });
-  }, []);
+
+function CarparkInfo({ carpark }) {
 
   function formatString(string) {
     words = string.toLowerCase().split(" ");
@@ -39,44 +23,55 @@ function CarparkInfo({ onClose }) {
     return result.trim();
   }
 
+  /* can adapt this to get trends
+  const [loading, setLoading] = useState(true);
+  const [data, setData] = useState([]);
+  useEffect(() => {
+    const fetchCarpark = async () => {
+      try {
+        if (selectedCarparkID) { // Check if selectedCarparkID is available
+          setLoading(true);
+          const carpark = await carparkInterface.getCarparkById(selectedCarparkID);
+          setData(carpark);
+        }
+      } catch (error) {
+        console.error(error);
+      } finally {
+        setLoading(false);
+      }
+    }
+    fetchCarpark();
+  }, [selectedCarparkID]); */
+
   function getContent() {
-    if (isLoading) {
-      return <ActivityIndicator size="large" />;
-    }
-    if (error) {
-      return <Text>{error}</Text>;
-    } else {
-      name = formatString(response[0]["Address"]);
-      type = formatString(response[0]["CarparkType"]);
-      return (
-        <View style={styles.carparkContent}>
-          <View style={styles.headerContainer}>
-            <Text variant="headlineLarge" style={styles.texts}>
-              {name}
-            </Text>
-            <Text variant="titleSmall" style={styles.texts}>
-              {type}
-            </Text>
-          </View>
-          <Button
-            mode="contained"
-            buttonColor="#464B76"
-            style={styles.button}
-            onPress={onClick}
-          >
-            Directions
-          </Button>
-
-          <Modal isVisible={naviModalVisible} style={styles.modal}>
-            <Navigation onClose={() => setNaviVisible(false)} />
-          </Modal>
-
-          <CarparkAvailability />
-          <Prices />
-          <Trends />
+    return (
+      <View style={styles.carparkContent}>
+        <View style={styles.headerContainer}>
+          <Text variant="headlineLarge" style={styles.texts}>
+            {carpark.Address}
+          </Text>
+          <Text variant="titleSmall" style={styles.texts}>
+            {formatString(carpark.CarparkType)}
+          </Text>
         </View>
-      );
-    }
+        <Button
+          mode="contained"
+          buttonColor="#464B76"
+          style={styles.button}
+          onPress={onClick}
+        >
+          Directions
+        </Button>
+
+        <Modal isVisible={naviModalVisible} style={styles.modal}>
+          <Navigation onClose={() => setNaviVisible(false)} />
+        </Modal>
+
+        <CarparkAvailability />
+        <Prices />
+        <Trends />
+      </View>
+    );
   }
 
   const [naviModalVisible, setNaviVisible] = useState(false);
@@ -126,3 +121,4 @@ const styles = StyleSheet.create({
 });
 
 export default CarparkInfo;
+

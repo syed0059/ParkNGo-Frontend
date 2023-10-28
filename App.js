@@ -19,7 +19,7 @@ export default function App() {
       <RadiusContext.Provider value={{ radius, setRadius }}>
         <View style={styles.container}>
           <View style={styles.mapContainer}>
-            <Map />
+            <Map location={location} loading={loading} carparks={carparks}/>
           </View>
           <View style={styles.searchContainer}>
             <NavigationContainer>

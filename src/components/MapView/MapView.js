@@ -4,16 +4,14 @@ import { getAllCarparks, getCarparksByLocation } from '../../carparkInterface/ca
 import { useEffect, useState } from 'react';
 import * as Location from 'expo-location';
 
-const oldInterest = []
-
-const Map = () => {
+export default function Map({ location, loading, carparks }){
   const [locationsOfInterest, setLocationsOfInterest] = useState([]);
-  const [added, setadd] = useState(null)
-  
-  const addIn = async () => {
-    // oldInterest = []
+  const [toAdd, setadd] = useState(0)
 
-    const carparks = await getAllCarparks();
+  //To update list of carparks to be showns
+  const addIn = async () => {
+    data = []
+
     const carparkArray = Object.values(carparks);
 
     for (let i = 0; i < carparkArray.length; i++) {
@@ -28,10 +26,7 @@ const Map = () => {
           description: "Marker",
           capacity: 78,
         };
-        // setLocationsOfInterest([...locationsOfInterest, newCarparkInfo]);
-        oldInterest.push(newCarparkInfo)
-        // setLocationsOfInterest(locationsOfInterest => [...locationsOfInterest, newCarparkInfo])
-        // data.push(newCarparkInfo)
+        data.push(newCarparkInfo)
       }else{
         const newCarparkInfo = {
           title: carparkArray[i].Address,
@@ -42,29 +37,26 @@ const Map = () => {
           description: "Marker",
           capacity: 78,
         };
-        // setLocationsOfInterest([...locationsOfInterest, newCarparkInfo]);
-        oldInterest.push(newCarparkInfo)
-        // data.push(newCarparkInfo)
+        data.push(newCarparkInfo)
       }
 
     }
 
+    setLocationsOfInterest(data)
     console.log("Done")
-    setadd(true)
+    setadd(toAdd => toAdd + 1)
 
   };
 
+  // Call showLocationsOfInterest when the toAdd is updated
   useEffect(() => {
-    // Call showLocationsOfInterest when the added changes
     showLocationsOfInterest();
-  }, [added]);
+  }, [toAdd]);
 
   // Drawing out the pins
   const showLocationsOfInterest = () => {
     console.log("SHOW")
-    // console.log(oldInterest);
-    return oldInterest.map((item, index) => {
-    // return locationsOfInterest.map((item, index) => {
+    return locationsOfInterest.map((item, index) => {
       let color;
       if (item.capacity <= 50) {
         color = "green";
@@ -85,12 +77,12 @@ const Map = () => {
     });
   };
 
-  addIn()
+  // Call addIn after loading is done
+  useEffect(() => {
+    addIn();
+  }, [loading])
 
-  const onRegionChange = (region) =>{
-    console.log(region);
-  };
-
+  // Sets default location to NTU
   const [mapRegion, setMapRegion] = useState({
           latitude: 1.3478769602767113,
           latitudeDelta: 0.008540807106718562,
@@ -98,8 +90,9 @@ const Map = () => {
           longitudeDelta: 0.008127428591251373,
   })
 
+  // Update location when user allows GPS
   useEffect(() => {
-    const fetchLocation = async () => {
+    const fetchLocation = async () => { 
       try {
         
         let { status } = await Location.requestForegroundPermissionsAsync();
@@ -119,6 +112,7 @@ const Map = () => {
           longitude: location.coords.longitude,
           longitudeDelta: 0.008127428591251373,
         })
+
         console.log('Got Location');
       } catch (error) {
         console.error(error);
@@ -132,13 +126,6 @@ const Map = () => {
     <View style={styles.container}>
       <MapView
         style={styles.map}
-        // onRegionChange={onRegionChange}
-        // initialRegion={{
-        //   latitude: 1.3478769602767113,
-        //   latitudeDelta: 0.008540807106718562,
-        //   longitude: 103.68278687819839,
-        //   longitudeDelta: 0.008127428591251373,
-        // }}
         region = {mapRegion}
       >
         {showLocationsOfInterest()}
@@ -156,4 +143,3 @@ const styles = StyleSheet.create({
   },
 });
 
-export default Map;

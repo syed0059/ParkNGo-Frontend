@@ -1,98 +1,70 @@
 import MapView, { Marker } from 'react-native-maps';
-import { StyleSheet, View } from 'react-native';
-import { getAllCarparks } from '../../carparkInterface/carparkInterface';
+import { StyleSheet, View, Button } from 'react-native';
+import { getAllCarparks, getCarparksByLocation } from '../../carparkInterface/carparkInterface';
 import { useEffect, useState } from 'react';
+import * as Location from 'expo-location';
 
-const oldInterest = [
-  {
-    title: "First",
-    location:{
-      "latitude": 1.3445294817909517, 
-      "latitudeDelta": 0.00855422618570012, 
-      "longitude": 103.68161743506789, 
-      "longitudeDelta": 0.008127428591251373
-    },
-    description: "Marker",
-    capacity:50
-  },
-  {
-    title: "Second",
-    location:{
-      "latitude": 1.3388990512167616, 
-      "latitudeDelta": 0.0140593175280872, 
-      "longitude": 103.68115676566958, 
-      "longitudeDelta": 0.0133577361702919
-    },
-    description: "Marker",
-    capacity:52
-  },
-  {
-    title: "test",
-    location:{
-      "latitude": 1.342861271368623, 
-      "longitude": 103.67866197600961
-    },
-    capacity:78
-  }
-]
-
+const oldInterest = []
 
 const Map = () => {
   const [locationsOfInterest, setLocationsOfInterest] = useState([]);
   const [added, setadd] = useState(null)
   
   const addIn = async () => {
+    // oldInterest = []
+
     const carparks = await getAllCarparks();
     const carparkArray = Object.values(carparks);
 
-    // // Construct newCarparkInfo using the data from carparkArray
-    // const newCarparkInfo = {
-    //   title: carparkArray[1].Address,
-    //   location: {
-    //     latitude: carparkArray[1].Coordinates.coordinates[1],
-    //     longitude: carparkArray[1].Coordinates.coordinates[0],
-    //   },
-    //   description: "Marker",
-    //   capacity: 78,
-    // };
+    for (let i = 0; i < carparkArray.length; i++) {
 
-    // // Update the state with the new carpark info
-    // setLocationsOfInterest([...locationsOfInterest, newCarparkInfo]);
+      if(carparkArray[i].Coordinates.type != null){
+        const newCarparkInfo = {
+          title: carparkArray[i].Address,
+          location: {
+            latitude: carparkArray[i].Coordinates.coordinates[1],
+            longitude: carparkArray[i].Coordinates.coordinates[0],
+          },
+          description: "Marker",
+          capacity: 78,
+        };
+        // setLocationsOfInterest([...locationsOfInterest, newCarparkInfo]);
+        oldInterest.push(newCarparkInfo)
+        // setLocationsOfInterest(locationsOfInterest => [...locationsOfInterest, newCarparkInfo])
+        // data.push(newCarparkInfo)
+      }else{
+        const newCarparkInfo = {
+          title: carparkArray[i].Address,
+          location: {
+            latitude: carparkArray[i].Coordinates.Lat,
+            longitude: carparkArray[i].Coordinates.Long,
+          },
+          description: "Marker",
+          capacity: 78,
+        };
+        // setLocationsOfInterest([...locationsOfInterest, newCarparkInfo]);
+        oldInterest.push(newCarparkInfo)
+        // data.push(newCarparkInfo)
+      }
 
-    for (let i = 0; i < 10; i++) {
-      const newCarparkInfo = {
-        title: carparkArray[i].Address,
-        location: {
-          latitude: carparkArray[i]["Coordinates"]["coordinates"][1],
-          longitude: carparkArray[i]["Coordinates"]["coordinates"][0],
-        },
-        description: "Marker",
-        capacity: 78,
-      };
-  
-      // Update the state with the new carpark info
-      // oldInterest.push(newCarparkInfo);
-      console.log(newCarparkInfo)
-      oldInterest.push(newCarparkInfo)
     }
 
-    // setLocationsOfInterest([...locationsOfInterest, oldInterest]);
-    console.log(oldInterest)
-    console.log(locationsOfInterest)
+    console.log("Done")
     setadd(true)
 
   };
 
   useEffect(() => {
-    // Call addIn when the component mounts or when locationsOfInterest changes
+    // Call showLocationsOfInterest when the added changes
     showLocationsOfInterest();
   }, [added]);
 
   // Drawing out the pins
   const showLocationsOfInterest = () => {
     console.log("SHOW")
-    console.log(oldInterest);
+    // console.log(oldInterest);
     return oldInterest.map((item, index) => {
+    // return locationsOfInterest.map((item, index) => {
       let color;
       if (item.capacity <= 50) {
         color = "green";
@@ -115,16 +87,59 @@ const Map = () => {
 
   addIn()
 
-  return (
-    <View style={styles.container}>
-      <MapView
-        style={styles.map}
-        initialRegion={{
+  const onRegionChange = (region) =>{
+    console.log(region);
+  };
+
+  const [mapRegion, setMapRegion] = useState({
           latitude: 1.3478769602767113,
           latitudeDelta: 0.008540807106718562,
           longitude: 103.68278687819839,
           longitudeDelta: 0.008127428591251373,
-        }}
+  })
+
+  useEffect(() => {
+    const fetchLocation = async () => {
+      try {
+        
+        let { status } = await Location.requestForegroundPermissionsAsync();
+        
+        if (status !== 'granted') {
+          console.error('Location permission not granted');
+          return;
+        }
+        
+        let location = await Location.getCurrentPositionAsync({
+          accuracy: Location.Accuracy.Balanced,
+        });
+
+        setMapRegion({
+          latitude: location.coords.latitude,
+          latitudeDelta: 0.008540807106718562,
+          longitude: location.coords.longitude,
+          longitudeDelta: 0.008127428591251373,
+        })
+        console.log('Got Location');
+      } catch (error) {
+        console.error(error);
+      }
+    };
+
+    fetchLocation();
+  }, []);
+
+  return (
+    <View style={styles.container}>
+      <MapView
+        style={styles.map}
+        // onRegionChange={onRegionChange}
+        // initialRegion={{
+        //   latitude: 1.3478769602767113,
+        //   latitudeDelta: 0.008540807106718562,
+        //   longitude: 103.68278687819839,
+        //   longitudeDelta: 0.008127428591251373,
+        // }}
+        region = {mapRegion}
       >
         {showLocationsOfInterest()}
       </MapView>

@@ -25,13 +25,14 @@ export default function Favourites({ location }) {
           const carparks = await carparkInterface.getCarparksByIdArray(favouriteCarparks);
           // Calculate the distance from current location to carpark
           const carparksWithDistance = Object.values(carparks).map((carpark) => {
+            const [longitude, latitude] = carpark.Coordinates.coordinates;
             const distance = calculateDistance(
               // Current location
               location.latitude,
               location.longitude,
               // Carpark Location
-              carpark.Coordinates.Lat,
-              carpark.Coordinates.Long
+              latitude,
+              longitude
             );
             // Set random availability
             const randomProgress = Math.random();

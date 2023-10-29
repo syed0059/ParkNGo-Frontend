@@ -56,4 +56,7 @@ const styles = StyleSheet.create({
     flex: 0.5,
     justifyContent: "center",
   },
+  rootview: {
+    flex: 1,
+  },
 });

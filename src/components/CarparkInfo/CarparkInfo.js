@@ -1,4 +1,11 @@
-import { StyleSheet, View, ActivityIndicator } from "react-native";
+import {
+  StyleSheet,
+  View,
+  ActivityIndicator,
+  ScrollView,
+  TouchableOpacity,
+  TouchableWithoutFeedback,
+} from "react-native";
 import { Text, Button } from "react-native-paper";
 import React, { useEffect, useState } from "react";
 import Modal from "react-native-modal";
@@ -6,11 +13,9 @@ import CarparkAvailability from "./Availability/CarparkAvailability";
 import Prices from "./Prices/Prices";
 import Trends from "./Trends/Trends";
 import Navigation from "./Navigation/Navigation";
-const carparkInterface = require('../../carparkInterface/carparkInterface');
-
+const carparkInterface = require("../../carparkInterface/carparkInterface");
 
 function CarparkInfo({ carpark }) {
-
   function formatString(string) {
     words = string.toLowerCase().split(" ");
     result = "";
@@ -22,16 +27,19 @@ function CarparkInfo({ carpark }) {
     }
     return result.trim();
   }
-
-  /* can adapt this to get trends
+  selectedCarparkID = carpark.selectedCarpark;
+  /* can adapt this to get trends */
   const [loading, setLoading] = useState(true);
   const [data, setData] = useState([]);
   useEffect(() => {
     const fetchCarpark = async () => {
       try {
-        if (selectedCarparkID) { // Check if selectedCarparkID is available
+        if (selectedCarparkID) {
+          // Check if selectedCarparkID is available
           setLoading(true);
-          const carpark = await carparkInterface.getCarparkById(selectedCarparkID);
+          const carpark = await carparkInterface.getCarparkById(
+            selectedCarparkID
+          );
           setData(carpark);
         }
       } catch (error) {
@@ -39,38 +47,45 @@ function CarparkInfo({ carpark }) {
       } finally {
         setLoading(false);
       }
-    }
+    };
     fetchCarpark();
-  }, [selectedCarparkID]); */
+  }, [selectedCarparkID]);
+  console.log(data);
 
   function getContent() {
     return (
-      <View style={styles.carparkContent}>
-        <View style={styles.headerContainer}>
-          <Text variant="headlineLarge" style={styles.texts}>
-            {carpark.Address}
-          </Text>
-          <Text variant="titleSmall" style={styles.texts}>
-            {formatString(carpark.CarparkType)}
-          </Text>
-        </View>
-        <Button
-          mode="contained"
-          buttonColor="#464B76"
-          style={styles.button}
-          onPress={onClick}
-        >
-          Directions
-        </Button>
+      <ScrollView>
+        <TouchableOpacity>
+          <TouchableWithoutFeedback>
+            <View style={styles.carparkContent}>
+              <View style={styles.headerContainer}>
+                <Text variant="headlineLarge" style={styles.texts}>
+                  {formatString(carpark.Address)}
+                </Text>
+                <Text variant="titleSmall" style={styles.texts}>
+                  {formatString(carpark.CarparkType)}
+                </Text>
+              </View>
+              <Button
+                mode="contained"
+                buttonColor="#464B76"
+                style={styles.button}
+                onPress={onClick}
+              >
+                Directions
+              </Button>
 
-        <Modal isVisible={naviModalVisible} style={styles.modal}>
-          <Navigation onClose={() => setNaviVisible(false)} />
-        </Modal>
+              <Modal isVisible={naviModalVisible} style={styles.modal}>
+                <Navigation onClose={() => setNaviVisible(false)} />
+              </Modal>
 
-        <CarparkAvailability />
-        <Prices />
-        <Trends />
-      </View>
+              <CarparkAvailability />
+              <Prices />
+              <Trends />
+            </View>
+          </TouchableWithoutFeedback>
+        </TouchableOpacity>
+      </ScrollView>
     );
   }
 
@@ -90,6 +105,7 @@ const styles = StyleSheet.create({
   carparkContent: {
     flex: 1,
     justifyContent: "flex-start",
+    marginBottom: 30,
   },
   closeButton: {
     padding: 10,
@@ -98,11 +114,10 @@ const styles = StyleSheet.create({
   },
   headerContainer: {
     justifyContent: "center",
-    paddingTop: 60,
+    paddingTop: 5,
     color: "#F0F2EF",
   },
   texts: {
-    color: "#F0F2EF",
     fontWeight: "bold",
     textAlign: "auto",
     margin: 10,
@@ -121,4 +136,3 @@ const styles = StyleSheet.create({
 });
 
 export default CarparkInfo;
-

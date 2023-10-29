@@ -11,7 +11,11 @@ async function clearAllLocalData() {
 clearAllLocalData(); */
 
 // Change this to your own ip address
-const localhost = 'http://192.168.0.100';
+const localhost = 'http://192.168.10.101';
+
+// Added constant key names to avoid inconsistencies
+const Initialised = 'initialised';
+const Favourites = 'favourites';
 
 initialiseCarparks = async () => {
     console.log('initialising');
@@ -23,14 +27,14 @@ initialiseCarparks = async () => {
         for (const carpark of carparks) {
             await AsyncStorage.setItem(carpark['CarparkID'], JSON.stringify(carpark));
         }
-        await AsyncStorage.setItem('initialised', 'true');
+        await AsyncStorage.setItem(Initialised, 'true');
     } catch (e) {
         console.error(e);
     }
 }
 
 module.exports.getAllCarparks = async () => {
-    const initialised = await AsyncStorage.getItem('initialised');
+    const initialised = await AsyncStorage.getItem(Initialised);
 
     if (!initialised) {
         await initialiseCarparks();
@@ -39,7 +43,7 @@ module.exports.getAllCarparks = async () => {
     const keys = await AsyncStorage.getAllKeys();
 
     const carparks =  await AsyncStorage.multiGet(keys.filter(key => {
-        return key !== 'initialised';
+        return key !== Initialised;
     }));
 
     const res = new Object();
@@ -52,7 +56,7 @@ module.exports.getAllCarparks = async () => {
 }
 
 module.exports.getCarparkById = async (carparkId) => {
-    const initialised = await AsyncStorage.getItem('initialised');
+    const initialised = await AsyncStorage.getItem(Initialised);
 
     if (!initialised) {
         await initialiseCarparks();
@@ -64,18 +68,26 @@ module.exports.getCarparkById = async (carparkId) => {
 }
 
 module.exports.getCarparksByIdArray = async (carparkIdsArray) => {
-    const initialised = await AsyncStorage.getItem('initialised');
+    const initialised = await AsyncStorage.getItem(Initialised);
 
     if (!initialised) {
         await initialiseCarparks();
     }
 
     const carparks =  await AsyncStorage.multiGet(carparkIdsArray);
+    let availabilityData = await fetch(localhost + ':3000/search/availability?' + new URLSearchParams({
+        carparkIds: JSON.stringify(carparkIdsArray)
+    }))
+
+    availabilityData = await availabilityData.json();
 
     const res = new Object();
 
     for (const carpark of carparks) {
-        res[carpark[0]] = await JSON.parse(carpark[1]);
+        res[carpark[0]] = {
+            ...await JSON.parse(carpark[1]),
+            ...availabilityData[carpark[0]]
+        };
     }
 
     return res;
@@ -92,29 +104,29 @@ module.exports.getCarparksByLocation = async (coordinates, radius) => {
 }
 
 module.exports.addToFavourites = async (carparkId) => {
-    let prevFavourites = await AsyncStorage.getItem('favourites')
+    let prevFavourites = await AsyncStorage.getItem(Favourites);
     prevFavourites = prevFavourites ? await JSON.parse(prevFavourites) : [];
 
     if (prevFavourites.findIndex(id => {
-        return parseInt(id) === carparkId
+        return id === carparkId
     }) !== -1) {
         return;
     }
 
-    await AsyncStorage.setItem('favourites', JSON.stringify([...prevFavourites, carparkId]));
+    await AsyncStorage.setItem(Favourites, JSON.stringify([...prevFavourites, carparkId]));
 }
 
 module.exports.removeFromFavourites = async (carparkId) => {
-    let prevFavourites = await AsyncStorage.getItem('favourites')
+    let prevFavourites = await AsyncStorage.getItem(Favourites)
     prevFavourites = prevFavourites ? await JSON.parse(prevFavourites) : [];
 
-    await AsyncStorage.setItem('favourites', JSON.stringify(prevFavourites.filter(id => {
+    await AsyncStorage.setItem(Favourites, JSON.stringify(prevFavourites.filter(id => {
         return id !== carparkId;
     })))
 }
 
 module.exports.getFavourites = async () => {
-    let favourites = await AsyncStorage.getItem('favourites');
-    favourites = favourites ? await JSON.parse(favourites) : []
+    let favourites = await AsyncStorage.getItem(Favourites);
+    favourites = favourites ? await JSON.parse(favourites) : [];
     return favourites;
 }

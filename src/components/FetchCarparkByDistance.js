@@ -15,13 +15,14 @@ const useCarparksDistance = (location, radius) => {
                     const carparks = await carparkInterface.getCarparksByLocation({ Long: location.longitude, Lat: location.latitude }, radius*1000);
                     // Calculate the distance from current location to carpark
                     const carparksWithDistance = Object.values(carparks).map((carpark) => {
+                        const [longitude, latitude] = carpark.Coordinates.coordinates;
                         const distance = calculateDistance(
                             // Current location
                             location.latitude,
                             location.longitude,
                             // Carpark Location
-                            carpark.Coordinates.Lat,
-                            carpark.Coordinates.Long
+                            latitude,
+                            longitude
                         );
                         // Set random availability
                         const randomProgress = Math.random();

@@ -1,4 +1,4 @@
-import MapView, { Marker, PROVIDER_GOOGLE } from 'react-native-maps';
+import MapView, { Marker, PROVIDER_GOOGLE, Circle } from 'react-native-maps';
 import { StyleSheet, View, Button } from 'react-native';
 import { getAllCarparks, getCarparksByLocation } from '../../carparkInterface/carparkInterface';
 import { useEffect, useState } from 'react';
@@ -120,6 +120,14 @@ export default function Map({ location, loading, carparks }){
         region = {mapRegion}
       >
         {showLocationsOfInterest()}
+        <Circle
+          center = {{
+            latitude: mapRegion.latitude,
+            longitude: mapRegion.longitude
+          }} 
+          radius={1000}
+          strokeColor='blue'
+          strokeWidth={2}/>
       </MapView>
     </View>
   );

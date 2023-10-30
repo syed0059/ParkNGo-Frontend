@@ -118,6 +118,7 @@ export default function Map({ location, loading, carparks }){
         style={styles.map}
         provider={PROVIDER_GOOGLE}
         region = {mapRegion}
+        showsUserLocation={true}
       >
         {showLocationsOfInterest()}
         <Circle

@@ -11,7 +11,7 @@ import React, { useEffect, useState } from "react";
 import Modal from "react-native-modal";
 import CarparkAvailability from "./Availability/CarparkAvailability";
 import Prices from "./Prices/Prices";
-import Trends from "./Trends/Trends";
+import TrendsContainer from "./Trends/TrendsContainer";
 import Navigation from "./Navigation/Navigation";
 const carparkInterface = require("../../carparkInterface/carparkInterface");
 
@@ -81,7 +81,7 @@ function CarparkInfo({ carpark }) {
 
               <CarparkAvailability />
               <Prices />
-              <Trends />
+              <TrendsContainer />
             </View>
           </TouchableWithoutFeedback>
         </TouchableOpacity>

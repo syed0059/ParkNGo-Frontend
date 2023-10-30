@@ -1,4 +1,4 @@
-import MapView, { Marker } from 'react-native-maps';
+import MapView, { Marker, PROVIDER_GOOGLE } from 'react-native-maps';
 import { StyleSheet, View, Button } from 'react-native';
 import { getAllCarparks, getCarparksByLocation } from '../../carparkInterface/carparkInterface';
 import { useEffect, useState } from 'react';
@@ -16,29 +16,19 @@ export default function Map({ location, loading, carparks }){
 
     for (let i = 0; i < carparkArray.length; i++) {
 
-      if(carparkArray[i].Coordinates.type != null){
-        const newCarparkInfo = {
-          title: carparkArray[i].Address,
-          location: {
-            latitude: carparkArray[i].Coordinates.coordinates[1],
-            longitude: carparkArray[i].Coordinates.coordinates[0],
-          },
-          description: "Marker",
-          capacity: 78,
-        };
-        data.push(newCarparkInfo)
-      }else{
-        const newCarparkInfo = {
-          title: carparkArray[i].Address,
-          location: {
-            latitude: carparkArray[i].Coordinates.Lat,
-            longitude: carparkArray[i].Coordinates.Long,
-          },
-          description: "Marker",
-          capacity: 78,
-        };
-        data.push(newCarparkInfo)
-      }
+      let avail = carparkArray[i].availability.motorcycle.availability + carparkArray[i].availability.car.availability
+      let total = carparkArray[i].availability.motorcycle.total + carparkArray[i].availability.car.total
+      let percent = (avail/total) * 100
+      const newCarparkInfo = {
+        title: carparkArray[i].Address,
+        location: {
+          latitude: carparkArray[i].Coordinates.coordinates[1],
+          longitude: carparkArray[i].Coordinates.coordinates[0],
+        },
+        description: "Carpark",
+        capacity: percent,
+      };
+      data.push(newCarparkInfo)
 
     }
 
@@ -58,9 +48,9 @@ export default function Map({ location, loading, carparks }){
     console.log("SHOW")
     return locationsOfInterest.map((item, index) => {
       let color;
-      if (item.capacity <= 50) {
+      if (item.capacity <= 70) {
         color = "green";
-      } else if (item.capacity <= 75) {
+      } else if (item.capacity <= 90) {
         color = "orange";
       } else {
         color = "red";
@@ -126,6 +116,7 @@ export default function Map({ location, loading, carparks }){
     <View style={styles.container}>
       <MapView
         style={styles.map}
+        provider={PROVIDER_GOOGLE}
         region = {mapRegion}
       >
         {showLocationsOfInterest()}

@@ -20,6 +20,6 @@ export default function HDBPrices() {
 const curstyles = StyleSheet.create({
   header: {
     fontWeight: "bold",
-    fontSize: "15",
+    fontSize: 15,
   },
 });

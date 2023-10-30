@@ -11,22 +11,13 @@ import React, { useEffect, useState } from "react";
 import Modal from "react-native-modal";
 import CarparkAvailability from "./Availability/CarparkAvailability";
 import Prices from "./Prices/Prices";
-import Trends from "./Trends/Trends";
+import TrendsContainer from "./Trends/TrendsContainer";
 import Navigation from "./Navigation/Navigation";
 const carparkInterface = require("../../carparkInterface/carparkInterface");
+import { formatString } from "../formatString";
 
 function CarparkInfo({ carpark }) {
-  function formatString(string) {
-    words = string.toLowerCase().split(" ");
-    result = "";
-    for (i = 0; i < words.length; i++) {
-      word = words[i];
-      first = word.charAt(0).toUpperCase();
-      formattedword = first + word.slice(1);
-      result = result + formattedword + " ";
-    }
-    return result.trim();
-  }
+  console.log(carpark);
   selectedCarparkID = carpark.selectedCarpark;
   /* can adapt this to get trends */
   const [loading, setLoading] = useState(true);
@@ -60,10 +51,10 @@ function CarparkInfo({ carpark }) {
             <View style={styles.carparkContent}>
               <View style={styles.headerContainer}>
                 <Text variant="headlineLarge" style={styles.texts}>
-                  {formatString(carpark.Address)}
+                  {formatString(carpark["Address"])}
                 </Text>
                 <Text variant="titleSmall" style={styles.texts}>
-                  {formatString(carpark.CarparkType)}
+                  {formatString(carpark["CarparkType"])}
                 </Text>
               </View>
               <Button
@@ -81,7 +72,7 @@ function CarparkInfo({ carpark }) {
 
               <CarparkAvailability />
               <Prices />
-              <Trends />
+              <TrendsContainer />
             </View>
           </TouchableWithoutFeedback>
         </TouchableOpacity>

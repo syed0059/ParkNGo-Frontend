@@ -3,6 +3,7 @@ import { StyleSheet, View } from "react-native";
 import { Text, Button } from "react-native-paper";
 
 export default function Navigation(props) {
+  const coordinates = props.coordinates;
   return (
     <View style={styles.navContent}>
       <Text variant="displayLarge"> TEST </Text>

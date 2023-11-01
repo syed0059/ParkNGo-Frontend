@@ -6,6 +6,10 @@ export default function VehicleSlots(props) {
   let icon;
   vehicleAvail = props.vehicleAvail;
   vehicleTotal = props.vehicleTotal;
+  let showTotal = vehicleAvail + " / " + vehicleTotal;
+  if (vehicleTotal == 0) {
+    showTotal = "Unavailable";
+  }
 
   function colorCode() {
     let fraction = vehicleAvail / vehicleTotal;
@@ -16,6 +20,9 @@ export default function VehicleSlots(props) {
       color = "#F9A03F";
     } else {
       color = "#53ae31";
+    }
+    if (vehicleTotal == 0) {
+      color = "grey";
     }
     return color;
   }
@@ -33,7 +40,7 @@ export default function VehicleSlots(props) {
       </Text>
       <Icon source={icon} size={40} color={"#F0F2EF"} />
       <Text style={{ color: "#F0F2EF" }} variant="bodyLarge">
-        {vehicleAvail} / {vehicleTotal}
+        {showTotal}
       </Text>
     </View>
   );

@@ -5,10 +5,11 @@ import VehicleSlots from "./VehicleSlots";
 
 function CarparkAvailability(props) {
   let carAvail, carTotal, motorAvail, motorTotal;
-  carAvail = 100;
-  carTotal = 200;
-  motorAvail = 36;
-  motorTotal = 150;
+  console.log(props.carSet);
+  carAvail = props.carSet["availability"];
+  carTotal = props.carSet["total"];
+  motorAvail = props.motorSet["availability"];
+  motorTotal = props.motorSet["total"];
   return (
     <View style={curStyles.container}>
       <Card style={{ backgroundColor: "#F0F2EF" }}>

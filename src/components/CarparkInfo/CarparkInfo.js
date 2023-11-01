@@ -67,10 +67,16 @@ function CarparkInfo({ carpark }) {
               </Button>
 
               <Modal isVisible={naviModalVisible} style={styles.modal}>
-                <Navigation onClose={() => setNaviVisible(false)} />
+                <Navigation
+                  onClose={() => setNaviVisible(false)}
+                  coordinates={carpark["Coordinates"]["coordinates"]}
+                />
               </Modal>
 
-              <CarparkAvailability />
+              <CarparkAvailability
+                carSet={carpark["availability"]["car"]}
+                motorSet={carpark["availability"]["motorcycle"]}
+              />
               <Prices />
               <TrendsContainer />
             </View>

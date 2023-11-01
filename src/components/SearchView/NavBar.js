@@ -1,4 +1,6 @@
+import { useEffect } from 'react';
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
+import { useNavigation } from "@react-navigation/native";
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import { View, Text, StyleSheet } from 'react-native';
 import CarparkList from './CarparkList';
@@ -9,7 +11,7 @@ import { FavouritesProvider } from '../FavouritesContext';
 
 const Tab = createMaterialTopTabNavigator();
 
-export default function NavBar({ location , loading , carparks}) {
+export default function NavBar({ location , loading , carparks, searchLoading , searchCarparks }) {
 
   function HomeScreen() {
     return (
@@ -19,7 +21,7 @@ export default function NavBar({ location , loading , carparks}) {
 
   function SearchScreen() {
     return (
-      <SearchBar />
+      <SearchBar searchLoading={searchLoading} searchCarparks={searchCarparks}/>
     );
   }
 

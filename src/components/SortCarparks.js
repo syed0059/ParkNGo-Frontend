@@ -3,7 +3,7 @@ export const sortByDistance = (carparks) => {
   };
   
   export const sortByAvailability = (carparks) => {
-    return [...carparks].sort((a, b) => b.progress - a.progress);
+    return [...carparks].sort((a, b) => (b.availability.car.availability + b.availability.motorcycle.availability) - ( a.availability.car.availability + a.availability.motorcycle.availability));
   };
   
   export const sortByPrice = (carparks) => {

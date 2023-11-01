@@ -1,12 +1,15 @@
 import MapView, { Marker, PROVIDER_GOOGLE, Circle } from 'react-native-maps';
 import { StyleSheet, View, Button } from 'react-native';
 import { getAllCarparks, getCarparksByLocation } from '../../carparkInterface/carparkInterface';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useContext } from 'react';
 import * as Location from 'expo-location';
+import { RadiusContext } from '../RadiusContext'
 
 export default function Map({ location, loading, carparks }){
   const [locationsOfInterest, setLocationsOfInterest] = useState([]);
   const [toAdd, setadd] = useState(0)
+
+  const { radius } = useContext(RadiusContext);
 
   //To update list of carparks to be showns
   const addIn = async () => {
@@ -126,7 +129,7 @@ export default function Map({ location, loading, carparks }){
             latitude: mapRegion.latitude,
             longitude: mapRegion.longitude
           }} 
-          radius={1000}
+          radius= {radius * 1000}
           strokeColor='blue'
           strokeWidth={2}/>
       </MapView>

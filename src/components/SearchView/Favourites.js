@@ -63,8 +63,8 @@ export default function Favourites({ location }) {
                 longitude
               );
               // Set random availability
-              const randomProgress = Math.random();
-              return { ...carpark, distance, progress: randomProgress };
+              const availabilityPercentage = carpark.availability.car.availability / carpark.availability.car.total;
+              return { ...carpark, distance, progress: availabilityPercentage };
             }
           );
           // set carparks
@@ -135,11 +135,10 @@ export default function Favourites({ location }) {
             }}
           >
             <View style={styles.listItem}>
-              <ProgressBar
-                progress={item.progress}
-                color="green"
-                style={styles.progress}
-              />
+              <View style={styles.availableCarparks}>
+                <Text variant="labelLarge" style={styles.availableCarparksText}>{item.availability.car.availability + item.availability.motorcycle.availability} </Text>
+                <ProgressBar progress={item.progress} color="green" style={styles.progress} />
+              </View>
               <View style={styles.textContainer}>
                 <Text variant="labelLarge">{item.Address}</Text>
                 <Text variant="bodySmall">{item.distance.toFixed(2)} km</Text>
@@ -208,5 +207,17 @@ const styles = StyleSheet.create({
     height: "100%",
     width: "100%",
     backgroundColor: "#ffffff",
+  },
+  availableCarparks: {
+    flexDirection: 'column',
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginRight: 20,
+    marginLeft: 10,
+  },
+  availableCarparksText: {
+    color: 'black',
+    textAlign: 'center',
+    marginBottom: 5,
   },
 });

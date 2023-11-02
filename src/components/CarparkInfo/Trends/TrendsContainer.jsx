@@ -5,7 +5,8 @@ import VerticalBarGraph from "@chartiful/react-native-vertical-bar-graph";
 import Carousel from "react-native-reanimated-carousel";
 import Trends from "./Trends";
 
-export default function TrendsContainer() {
+export default function TrendsContainer(props) {
+  console.log("TrendsContainer is getting " + props.carparkID);
   return (
     <View style={curStyles.container}>
       <Card>

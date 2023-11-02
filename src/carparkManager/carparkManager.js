@@ -1,4 +1,5 @@
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import address from "./localHostAddress";
 /*
 async function clearAllLocalData() {
     try {
@@ -11,122 +12,141 @@ async function clearAllLocalData() {
 clearAllLocalData(); */
 
 // Change this to your own ip address
-const localhost = 'http://192.168.10.101';
-
+const localhost = address;
 // Added constant key names to avoid inconsistencies
-const Initialised = 'initialised';
-const Favourites = 'favourites';
+const Initialised = "initialised";
+const Favourites = "favourites";
 
 initialiseCarparks = async () => {
-    console.log('initialising');
-    let carparks;
-    try {
-        carparks = await fetch(localhost + ':3000/search/all');
-        carparks = await carparks.json();
+  console.log("initialising");
+  let carparks;
+  try {
+    carparks = await fetch(localhost + ":3000/search/all");
+    carparks = await carparks.json();
 
-        for (const carpark of carparks) {
-            await AsyncStorage.setItem(carpark['CarparkID'], JSON.stringify(carpark));
-        }
-        await AsyncStorage.setItem(Initialised, 'true');
-    } catch (e) {
-        console.error(e);
+    for (const carpark of carparks) {
+      await AsyncStorage.setItem(carpark["CarparkID"], JSON.stringify(carpark));
     }
-}
+    await AsyncStorage.setItem(Initialised, "true");
+  } catch (e) {
+    console.error(e);
+  }
+};
 
 module.exports.getAllCarparks = async () => {
-    const initialised = await AsyncStorage.getItem(Initialised);
+  const initialised = await AsyncStorage.getItem(Initialised);
 
-    if (!initialised) {
-        await initialiseCarparks();
-    }
+  if (!initialised) {
+    await initialiseCarparks();
+  }
 
-    const keys = await AsyncStorage.getAllKeys();
+  const keys = await AsyncStorage.getAllKeys();
 
-    const carparks =  await AsyncStorage.multiGet(keys.filter(key => {
-        return key !== Initialised;
-    }));
+  const carparks = await AsyncStorage.multiGet(
+    keys.filter((key) => {
+      return key !== Initialised;
+    })
+  );
 
-    const res = new Object();
+  const res = new Object();
 
-    for (const carpark of carparks) {
-        res[carpark[0]] = await JSON.parse(carpark[1]);
-    }
+  for (const carpark of carparks) {
+    res[carpark[0]] = await JSON.parse(carpark[1]);
+  }
 
-    return res;
-}
+  return res;
+};
 
 module.exports.getCarparkById = async (carparkId) => {
-    const initialised = await AsyncStorage.getItem(Initialised);
+  const initialised = await AsyncStorage.getItem(Initialised);
 
-    if (!initialised) {
-        await initialiseCarparks();
-    }
+  if (!initialised) {
+    await initialiseCarparks();
+  }
 
-    const carpark = await AsyncStorage.getItem(carparkId);
+  const carpark = await AsyncStorage.getItem(carparkId);
 
-    return await JSON.parse(carpark);
-}
+  return await JSON.parse(carpark);
+};
 
 module.exports.getCarparksByIdArray = async (carparkIdsArray) => {
-    const initialised = await AsyncStorage.getItem(Initialised);
+  const initialised = await AsyncStorage.getItem(Initialised);
 
-    if (!initialised) {
-        await initialiseCarparks();
-    }
+  if (!initialised) {
+    await initialiseCarparks();
+  }
 
-    const carparks =  await AsyncStorage.multiGet(carparkIdsArray);
-    let availabilityData = await fetch(localhost + ':3000/search/availability?' + new URLSearchParams({
-        carparkIds: JSON.stringify(carparkIdsArray)
-    }))
+  const carparks = await AsyncStorage.multiGet(carparkIdsArray);
+  let availabilityData = await fetch(
+    localhost +
+      ":3000/search/availability?" +
+      new URLSearchParams({
+        carparkIds: JSON.stringify(carparkIdsArray),
+      })
+  );
 
-    availabilityData = await availabilityData.json();
+  availabilityData = await availabilityData.json();
 
-    const res = new Object();
+  const res = new Object();
 
-    for (const carpark of carparks) {
-        res[carpark[0]] = {
-            ...await JSON.parse(carpark[1]),
-            ...availabilityData[carpark[0]]
-        };
-    }
+  for (const carpark of carparks) {
+    res[carpark[0]] = {
+      ...(await JSON.parse(carpark[1])),
+      ...availabilityData[carpark[0]],
+    };
+  }
 
-    return res;
-}
+  return res;
+};
 
 module.exports.getCarparksByLocation = async (coordinates, radius) => {
-    const response = await fetch(localhost + ':3000/search/nearby?' + new URLSearchParams({
-        'longitude': coordinates['Long'],
-        'latitude': coordinates['Lat'],
-        radius
-    }))
+  const response = await fetch(
+    localhost +
+      ":3000/search/nearby?" +
+      new URLSearchParams({
+        longitude: coordinates["Long"],
+        latitude: coordinates["Lat"],
+        radius,
+      })
+  );
 
-    return await response.json();
-}
+  return await response.json();
+};
 
 module.exports.addToFavourites = async (carparkId) => {
-    let prevFavourites = await AsyncStorage.getItem(Favourites);
-    prevFavourites = prevFavourites ? await JSON.parse(prevFavourites) : [];
+  let prevFavourites = await AsyncStorage.getItem(Favourites);
+  prevFavourites = prevFavourites ? await JSON.parse(prevFavourites) : [];
 
-    if (prevFavourites.findIndex(id => {
-        return id === carparkId
-    }) !== -1) {
-        return;
-    }
+  if (
+    prevFavourites.findIndex((id) => {
+      return id === carparkId;
+    }) !== -1
+  ) {
+    return;
+  }
 
-    await AsyncStorage.setItem(Favourites, JSON.stringify([...prevFavourites, carparkId]));
-}
+  await AsyncStorage.setItem(
+    Favourites,
+    JSON.stringify([...prevFavourites, carparkId])
+  );
+};
 
 module.exports.removeFromFavourites = async (carparkId) => {
-    let prevFavourites = await AsyncStorage.getItem(Favourites)
-    prevFavourites = prevFavourites ? await JSON.parse(prevFavourites) : [];
+  let prevFavourites = await AsyncStorage.getItem(Favourites);
+  prevFavourites = prevFavourites ? await JSON.parse(prevFavourites) : [];
 
-    await AsyncStorage.setItem(Favourites, JSON.stringify(prevFavourites.filter(id => {
+  await AsyncStorage.setItem(
+    Favourites,
+    JSON.stringify(
+      prevFavourites.filter((id) => {
         return id !== carparkId;
-    })))
-}
+      })
+    )
+  );
+};
 
 module.exports.getFavourites = async () => {
-    let favourites = await AsyncStorage.getItem(Favourites);
-    favourites = favourites ? await JSON.parse(favourites) : [];
-    return favourites;
-}
+  let favourites = await AsyncStorage.getItem(Favourites);
+  favourites = favourites ? await JSON.parse(favourites) : [];
+  return favourites;
+};

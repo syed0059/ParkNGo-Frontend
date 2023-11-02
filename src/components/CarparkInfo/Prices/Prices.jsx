@@ -3,13 +3,13 @@ import { Card, Text } from "react-native-paper";
 import { View, StyleSheet } from "react-native";
 import HDBPrices from "./HDBPrices";
 
-export default function Prices() {
+export default function Prices(props) {
   return (
     <View style={curStyles.container}>
       <Card>
         <Card.Title title="Prices" />
         <Card.Content>
-          <HDBPrices />
+          <HDBPrices freeParking={props.freeParking} />
         </Card.Content>
       </Card>
     </View>

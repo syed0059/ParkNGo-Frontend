@@ -17,7 +17,17 @@ export default function Trends() {
     "Friday",
     "Saturday",
   ];
-  var day = days[now.getDay()];
+  var day = now.getDay();
+  var hour = now.getHours();
+  function formatHours(hour) {
+    if (hour >= 24) {
+      hour -= 24;
+    }
+    if (hour > 12) {
+      hour -= 12;
+    }
+    return hour;
+  }
   return (
     <Carousel
       loop
@@ -25,18 +35,27 @@ export default function Trends() {
       height={Dimensions.get("window").width * 0.65}
       data={trend}
       scrollAnimationDuration={500}
+      defaultIndex={day}
       onSnapToItem={(index) => console.log("current index:", index)}
       renderItem={({ index }) => (
         <View style={curStyles.content}>
           <Text> {"<          " + trend[index].day + "          >"}</Text>
           <VerticalBarGraph
             data={trend[index].data}
-            labels={["1", "2", "3", "4", "5", "6", "7"]}
+            labels={[
+              formatHours(hour - 3),
+              formatHours(hour - 2),
+              formatHours(hour - 1),
+              formatHours(hour),
+              formatHours(hour + 1),
+              formatHours(hour + 2),
+              formatHours(hour + 3),
+            ]}
             width={Dimensions.get("window").width * 0.8}
             height={Dimensions.get("window").width / 2}
             barRadius={5}
             barWidthPercentage={0.5}
-            barColor="#53ae31"
+            barColor="#464B76"
             baseConfig={{
               hasXAxisBackgroundLines: false,
               hasXAxisLabels: false,

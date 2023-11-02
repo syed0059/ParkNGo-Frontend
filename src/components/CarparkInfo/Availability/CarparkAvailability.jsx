@@ -5,7 +5,6 @@ import VehicleSlots from "./VehicleSlots";
 
 function CarparkAvailability(props) {
   let carAvail, carTotal, motorAvail, motorTotal;
-  console.log(props.carSet);
   carAvail = props.carSet["availability"];
   carTotal = props.carSet["total"];
   motorAvail = props.motorSet["availability"];

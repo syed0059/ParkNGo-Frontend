@@ -54,7 +54,7 @@ export default function Map({ location, loading, carparks }){
       if (item.capacity <= 70) {
         color = "green";
       } else if (item.capacity <= 90) {
-        color = "orange";
+        color = "yellow";
       } else {
         color = "red";
       }

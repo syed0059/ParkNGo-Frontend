@@ -52,7 +52,6 @@ export default function Trends(props) {
     };
     fetchTrends();
   }, [props.carparkID]);
-  console.log(data);
 
   function scopedTrend(day) {
     var scoped = [7];
@@ -60,48 +59,56 @@ export default function Trends(props) {
       for (let i = 0; i < 7; i++) {
         scoped[i] = data[days[day]][twentyFourFormat(hour - 3 + i).toString()];
       }
+      console.log(scoped);
       return scoped;
     }
   }
-
-  return (
-    <Carousel
-      loop
-      width={Dimensions.get("window").width - 90}
-      height={Dimensions.get("window").width * 0.65}
-      data={[1, 2, 3, 4, 5, 6, 7]}
-      scrollAnimationDuration={500}
-      defaultIndex={day}
-      onSnapToItem={(index) => console.log("current index:", index)}
-      renderItem={({ index }) => (
-        <View style={curStyles.content}>
-          <Text> {"<          " + days[index] + "          >"}</Text>
-          <VerticalBarGraph
-            data={scopedTrend(index)}
-            labels={[
-              formatHours(hour - 3),
-              formatHours(hour - 2),
-              formatHours(hour - 1),
-              formatHours(hour),
-              formatHours(hour + 1),
-              formatHours(hour + 2),
-              formatHours(hour + 3),
-            ]}
-            width={Dimensions.get("window").width * 0.8}
-            height={Dimensions.get("window").width / 2}
-            barRadius={5}
-            barWidthPercentage={0.5}
-            barColor="#464B76"
-            baseConfig={{
-              hasXAxisBackgroundLines: false,
-              hasXAxisLabels: false,
-            }}
-            style={curStyles.trends}
-          />
-        </View>
-      )}
-    />
-  );
+  if (initialised) {
+    return (
+      <Carousel
+        loop
+        width={Dimensions.get("window").width - 90}
+        height={Dimensions.get("window").width * 0.65}
+        data={[1, 2, 3, 4, 5, 6, 7]}
+        scrollAnimationDuration={500}
+        defaultIndex={day}
+        onSnapToItem={(index) => console.log("current index:", index)}
+        renderItem={({ index }) => (
+          <View style={curStyles.content}>
+            <Text> {"<          " + days[index] + "          >"}</Text>
+            <VerticalBarGraph
+              data={scopedTrend(index)}
+              labels={[
+                formatHours(hour - 3),
+                formatHours(hour - 2),
+                formatHours(hour - 1),
+                formatHours(hour),
+                formatHours(hour + 1),
+                formatHours(hour + 2),
+                formatHours(hour + 3),
+              ]}
+              width={Dimensions.get("window").width * 0.8}
+              height={Dimensions.get("window").width / 2}
+              barRadius={5}
+              barWidthPercentage={0.5}
+              barColor="#464B76"
+              baseConfig={{
+                hasXAxisBackgroundLines: false,
+                hasXAxisLabels: true,
+              }}
+              style={curStyles.trends}
+            />
+          </View>
+        )}
+      />
+    );
+  } else {
+    return (
+      <View>
+        <Text>Loading...</Text>
+      </View>
+    );
+  }
 }
 
 const curStyles = StyleSheet.create({

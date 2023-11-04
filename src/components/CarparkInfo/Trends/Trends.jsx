@@ -1,12 +1,29 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Card, Text } from "react-native-paper";
 import { View, StyleSheet, Dimensions } from "react-native";
 import VerticalBarGraph from "@chartiful/react-native-vertical-bar-graph";
 import Carousel from "react-native-reanimated-carousel";
-import trend from "./trend";
 import { trimEnd } from "lodash";
+import getTrend from "./TrendInterface";
 
-export default function Trends() {
+function formatHours(hour) {
+  if (hour >= 24) {
+    hour -= 24;
+  }
+  if (hour > 12) {
+    hour -= 12;
+  }
+  return hour;
+}
+
+function twentyFourFormat(hour) {
+  if (hour >= 24) {
+    hour -= 24;
+  }
+  return hour;
+}
+
+export default function Trends(props) {
   var now = new Date();
   var days = [
     "Sunday",
@@ -19,29 +36,48 @@ export default function Trends() {
   ];
   var day = now.getDay();
   var hour = now.getHours();
-  function formatHours(hour) {
-    if (hour >= 24) {
-      hour -= 24;
+  const [initialised, setInitialise] = useState(false);
+  const [data, setData] = useState([]);
+  useEffect(() => {
+    const fetchTrends = async () => {
+      try {
+        if (props.carparkID) {
+          const pull = await getTrend(props.carparkID);
+          setData(pull);
+          setInitialise(true);
+        }
+      } catch (error) {
+        console.error(error);
+      }
+    };
+    fetchTrends();
+  }, [props.carparkID]);
+  console.log(data);
+
+  function scopedTrend(day) {
+    var scoped = [7];
+    if (initialised) {
+      for (let i = 0; i < 7; i++) {
+        scoped[i] = data[days[day]][twentyFourFormat(hour - 3 + i).toString()];
+      }
+      return scoped;
     }
-    if (hour > 12) {
-      hour -= 12;
-    }
-    return hour;
   }
+
   return (
     <Carousel
       loop
       width={Dimensions.get("window").width - 90}
       height={Dimensions.get("window").width * 0.65}
-      data={trend}
+      data={[1, 2, 3, 4, 5, 6, 7]}
       scrollAnimationDuration={500}
       defaultIndex={day}
       onSnapToItem={(index) => console.log("current index:", index)}
       renderItem={({ index }) => (
         <View style={curStyles.content}>
-          <Text> {"<          " + trend[index].day + "          >"}</Text>
+          <Text> {"<          " + days[index] + "          >"}</Text>
           <VerticalBarGraph
-            data={trend[index].data}
+            data={scopedTrend(index)}
             labels={[
               formatHours(hour - 3),
               formatHours(hour - 2),

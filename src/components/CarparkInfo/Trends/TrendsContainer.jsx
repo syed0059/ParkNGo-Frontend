@@ -6,14 +6,13 @@ import Carousel from "react-native-reanimated-carousel";
 import Trends from "./Trends";
 
 export default function TrendsContainer(props) {
-  console.log("TrendsContainer is getting " + props.carparkID);
   return (
     <View style={curStyles.container}>
       <Card>
         <Card.Title title="Past Trends" />
         <Card.Content style={curStyles.content}>
           <View style={curStyles.content}>
-            <Trends />
+            <Trends carparkID={props.carparkID} />
           </View>
         </Card.Content>
       </Card>

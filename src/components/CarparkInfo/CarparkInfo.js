@@ -75,6 +75,7 @@ function CarparkInfo({ carpark }) {
                 <Navigation
                   onClose={() => setNaviVisible(false)}
                   coordinates={carpark["Coordinates"]["coordinates"]}
+                  address={formatString(carpark["Address"])}
                 />
               </Modal>
             </View>

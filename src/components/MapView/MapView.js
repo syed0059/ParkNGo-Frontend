@@ -165,6 +165,7 @@ export default function Map({ location, loading, carparks }){
         initialRegion={mapCoordinates}
         region={mapCoordinates}
         showsUserLocation={true}
+        showsMyLocationButton={true}
         onRegionChangeComplete={onRegionChange}
       >
         {showLocationsOfInterest()}

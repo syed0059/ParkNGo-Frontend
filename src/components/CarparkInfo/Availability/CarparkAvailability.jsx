@@ -11,7 +11,7 @@ function CarparkAvailability(props) {
   motorTotal = props.motorSet["total"];
   return (
     <View style={curStyles.container}>
-      <Card style={{ backgroundColor: "#F0F2EF" }}>
+      <Card>
         <Card.Title title="Availability" />
         <Card.Content>
           <View style={curStyles.boxes}>

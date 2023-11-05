@@ -4,12 +4,15 @@ import { getAllCarparks, getCarparksByLocation } from '../../carparkInterface/ca
 import { useEffect, useState, useContext } from 'react';
 import * as Location from 'expo-location';
 import { RadiusContext } from '../RadiusContext'
+import { MapCoordinates } from '../MapCoordinatesContext';
+import { calculateDistance } from '../CalculateDistance';
 
 export default function Map({ location, loading, carparks }){
   const [locationsOfInterest, setLocationsOfInterest] = useState([]);
   const [toAdd, setadd] = useState(0)
 
   const { radius } = useContext(RadiusContext);
+  const { mapCoordinates, setMapCoordinates } = useContext(MapCoordinates);
 
   //To update list of carparks to be showns
   const addIn = async () => {
@@ -75,13 +78,21 @@ export default function Map({ location, loading, carparks }){
     addIn();
   }, [loading])
 
+
   // Sets default location to NTU
-  const [mapRegion, setMapRegion] = useState({
-          latitude: 1.3478769602767113,
-          latitudeDelta: 0.008540807106718562,
-          longitude: 103.68278687819839,
-          longitudeDelta: 0.008127428591251373,
-  })
+  // const [mapRegion, setMapRegion] = useState({
+  //         latitude: 1.3478769602767113,
+  //         latitudeDelta: 0.008540807106718562,
+  //         longitude: 103.68278687819839,
+  //         longitudeDelta: 0.008127428591251373,
+  // })
+
+  //  setMapCoordinates({
+  //     latitude: 1.3478769602767113,
+  //     longitude: 103.68278687819839,
+  //     latitudeDelta: 0.008540807106718562,
+  //     longitudeDelta: 0.008127428591251373,
+  // })
 
   // Update location when user allows GPS
   useEffect(() => {
@@ -99,10 +110,17 @@ export default function Map({ location, loading, carparks }){
           accuracy: Location.Accuracy.Balanced,
         });
 
-        setMapRegion({
+        // setMapRegion({
+        //   latitude: location.coords.latitude,
+        //   latitudeDelta: 0.008540807106718562,
+        //   longitude: location.coords.longitude,
+        //   longitudeDelta: 0.008127428591251373,
+        // })
+
+        setMapCoordinates({
           latitude: location.coords.latitude,
-          latitudeDelta: 0.008540807106718562,
           longitude: location.coords.longitude,
+          latitudeDelta: 0.008540807106718562,
           longitudeDelta: 0.008127428591251373,
         })
 
@@ -115,19 +133,47 @@ export default function Map({ location, loading, carparks }){
     fetchLocation();
   }, []);
 
+  // const onRegionChange = (region) => {
+  //   if(calculateDistance(mapRegion.latitude, mapRegion.longitude, region.latitude, region.longitude) >= 0.5){
+  //     setMapRegion({
+  //       latitude: region.latitude,
+  //       longitude: region.longitude,
+  //     })
+  //     addIn();
+  //   }
+  //   // console.log(region)
+  //   // console.log("NEW")
+  //   // console.log(mapRegion)
+  // }
+
+  const onRegionChange = (region) => {
+    if(calculateDistance(mapCoordinates.latitude, mapCoordinates.longitude, region.latitude, region.longitude) >= 0.5){
+      setMapCoordinates({
+        latitude: region.latitude,
+        longitude: region.longitude,
+      })
+      addIn();
+    }
+  }
+
   return (
     <View style={styles.container}>
       <MapView
         style={styles.map}
         provider={PROVIDER_GOOGLE}
-        region = {mapRegion}
+        // region = {mapRegion}
+        initialRegion={mapCoordinates}
+        region={mapCoordinates}
         showsUserLocation={true}
+        onRegionChangeComplete={onRegionChange}
       >
         {showLocationsOfInterest()}
         <Circle
           center = {{
-            latitude: mapRegion.latitude,
-            longitude: mapRegion.longitude
+            // latitude: mapRegion.latitude,
+            // longitude: mapRegion.longitude,
+            latitude: mapCoordinates.latitude,
+            longitude: mapCoordinates.longitude,
           }} 
           radius= {radius * 1000}
           strokeColor='blue'

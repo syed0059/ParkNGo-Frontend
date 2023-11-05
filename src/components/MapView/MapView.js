@@ -9,7 +9,8 @@ import { calculateDistance } from '../CalculateDistance';
 
 export default function Map({ location, loading, carparks }){
   const [locationsOfInterest, setLocationsOfInterest] = useState([]);
-  const [toAdd, setadd] = useState(0)
+  const [toAdd, setadd] = useState(0);
+  const [preventLoad, setPreventLoad] = useState(true);
 
   const { radius } = useContext(RadiusContext);
   const { mapCoordinates, setMapCoordinates } = useContext(MapCoordinates);
@@ -73,9 +74,11 @@ export default function Map({ location, loading, carparks }){
     });
   };
 
+  
   // Call addIn after loading is done
   useEffect(() => {
     addIn();
+    setPreventLoad(false);
   }, [loading])
 
 
@@ -147,7 +150,7 @@ export default function Map({ location, loading, carparks }){
   // }
 
   const onRegionChange = (region) => {
-    if(calculateDistance(mapCoordinates.latitude, mapCoordinates.longitude, region.latitude, region.longitude) >= 0.5){
+    if(calculateDistance(mapCoordinates.latitude, mapCoordinates.longitude, region.latitude, region.longitude) >= 1 && preventLoad == false){
       setMapCoordinates({
         latitude: region.latitude,
         longitude: region.longitude,
@@ -164,11 +167,12 @@ export default function Map({ location, loading, carparks }){
         style={styles.map}
         provider={PROVIDER_GOOGLE}
         // region = {mapRegion}
-        initialRegion={mapCoordinates}
+        // initialRegion={mapCoordinates}
         region={mapCoordinates}
         showsUserLocation={true}
         showsMyLocationButton={true}
         onRegionChangeComplete={onRegionChange}
+        minZoomLevel={13}
       >
         {showLocationsOfInterest()}
         <Circle

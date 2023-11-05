@@ -151,6 +151,8 @@ export default function Map({ location, loading, carparks }){
       setMapCoordinates({
         latitude: region.latitude,
         longitude: region.longitude,
+        latitudeDelta: region.latitudeDelta,
+        longitudeDelta: region.longitudeDelta,
       })
       addIn();
     }

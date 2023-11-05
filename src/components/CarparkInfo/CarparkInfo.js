@@ -69,7 +69,10 @@ function CarparkInfo({ carpark }) {
                 carSet={carpark["availability"]["car"]}
                 motorSet={carpark["availability"]["motorcycle"]}
               />
-              <Prices freeParking={carpark["FreeParking"]} />
+              <Prices
+                freeParking={carpark["FreeParking"]}
+                onPress={pricePress}
+              />
               <TrendsContainer carparkID={carpark["CarparkID"]} />
               <Modal isVisible={naviModalVisible} style={styles.modal}>
                 <Navigation
@@ -77,6 +80,19 @@ function CarparkInfo({ carpark }) {
                   coordinates={carpark["Coordinates"]["coordinates"]}
                   address={formatString(carpark["Address"])}
                 />
+              </Modal>
+              <Modal isVisible={priceModalVisible} onBackdropPress={closePrice}>
+                <View style={styles.priceModal}>
+                  <Text style={styles.priceText}>Calculate Price</Text>
+                  <Button
+                    mode="contained"
+                    buttonColor="#464B76"
+                    style={styles.button}
+                    onPress={closePrice}
+                  >
+                    Directions
+                  </Button>
+                </View>
               </Modal>
             </View>
           </TouchableWithoutFeedback>
@@ -89,7 +105,14 @@ function CarparkInfo({ carpark }) {
   const onClick = () => {
     setNaviVisible(true);
   };
-
+  const [priceModalVisible, setPriceVisible] = useState(false);
+  const pricePress = () => {
+    console.log("pressed");
+    setPriceVisible(true);
+  };
+  const closePrice = () => {
+    setPriceVisible(false);
+  };
   return <View style={styles.main}>{getContent()}</View>;
 }
 
@@ -128,6 +151,19 @@ const styles = StyleSheet.create({
   modal: {
     justifyContent: "flex-end",
     margin: 0,
+  },
+  priceModal: {
+    flex: 0.4,
+    backgroundColor: "#F0F2EF",
+    borderRadius: 30,
+    justifyContent: "flex-start",
+  },
+  priceText: {
+    fontWeight: "bold",
+    textAlign: "auto",
+    margin: 10,
+    fontSize: 20,
+    textAlign: "center",
   },
 });
 

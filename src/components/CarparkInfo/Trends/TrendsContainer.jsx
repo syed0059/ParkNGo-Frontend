@@ -9,7 +9,7 @@ export default function TrendsContainer(props) {
   return (
     <View style={curStyles.container}>
       <Card>
-        <Card.Title title="Past Trends" />
+        <Card.Title title="Past Trends (Showing availability)" />
         <Card.Content style={curStyles.content}>
           <View style={curStyles.content}>
             <Trends carparkID={props.carparkID} />

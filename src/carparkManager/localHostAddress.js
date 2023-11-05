@@ -1,2 +1,2 @@
-const address = "http://192.168.1.92";
+const address = "http://172.20.10.2";
 export default address;

@@ -5,6 +5,7 @@ import VerticalBarGraph from "@chartiful/react-native-vertical-bar-graph";
 import Carousel from "react-native-reanimated-carousel";
 import { trimEnd } from "lodash";
 import getTrend from "./TrendInterface";
+import trend from "./trend";
 
 function formatHours(hour) {
   if (hour >= 24) {
@@ -36,6 +37,9 @@ export default function Trends(props) {
   ];
   var day = now.getDay();
   var hour = now.getHours();
+  if (hour < 3) {
+    hour += 24;
+  }
   const [initialised, setInitialise] = useState(false);
   const [data, setData] = useState([]);
   useEffect(() => {
@@ -48,6 +52,8 @@ export default function Trends(props) {
         }
       } catch (error) {
         console.error(error);
+        console.log("error caught, default random trend showing.");
+        setData(trend);
       }
     };
     fetchTrends();
@@ -59,10 +65,10 @@ export default function Trends(props) {
       for (let i = 0; i < 7; i++) {
         scoped[i] = data[days[day]][twentyFourFormat(hour - 3 + i).toString()];
       }
-      console.log(scoped);
       return scoped;
     }
   }
+
   if (initialised) {
     return (
       <Carousel
@@ -101,12 +107,6 @@ export default function Trends(props) {
           </View>
         )}
       />
-    );
-  } else {
-    return (
-      <View>
-        <Text>Loading...</Text>
-      </View>
     );
   }
 }

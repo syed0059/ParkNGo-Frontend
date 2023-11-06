@@ -78,7 +78,7 @@ export default function Map({ location, loading, carparks }){
   // Call addIn after loading is done
   useEffect(() => {
     addIn();
-    setPreventLoad(false);
+    // setPreventLoad(false);
   }, [loading])
 
 
@@ -126,7 +126,6 @@ export default function Map({ location, loading, carparks }){
           latitudeDelta: 0.008540807106718562,
           longitudeDelta: 0.008127428591251373,
         })
-
         console.log('Got Location');
       } catch (error) {
         console.error(error);
@@ -159,6 +158,7 @@ export default function Map({ location, loading, carparks }){
       })
       addIn();
     }
+    setPreventLoad(false);
   }
 
   return (

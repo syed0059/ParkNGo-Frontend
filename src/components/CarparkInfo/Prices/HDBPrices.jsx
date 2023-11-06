@@ -6,8 +6,12 @@ export default function HDBPrices(props) {
   let motorcyclePrices =
     "7.00am to 10:30pm: $0.20 / 30min \n\n10.30pm to 7.00am: $0.20 / 30min \n\nSession is capped at $0.65 per lot\n";
   let terms = "Per minute charging";
-  if (props.carparkType == "LTA Carpark") {
-    carPrices = motorcyclePrices = "Unavailable for LTA carparks.\n";
+  if (
+    props.carparkType == "LTA Carpark" ||
+    props.carparkType == "URA Carpark"
+  ) {
+    carPrices = motorcyclePrices =
+      "Unavailable for " + props.carparkType + "s.\n\n";
     terms = "This feature is being looked into.";
   }
   return (

@@ -1,6 +1,6 @@
 import MapView, { Marker, PROVIDER_GOOGLE, Circle } from 'react-native-maps';
 import { StyleSheet, View, Button } from 'react-native';
-import { getAllCarparks, getCarparksByLocation } from '../../carparkInterface/carparkInterface';
+import { getFavourites, getCarparksByIdArray } from '../../carparkInterface/carparkInterface';
 import { useEffect, useState, useContext } from 'react';
 import * as Location from 'expo-location';
 import { RadiusContext } from '../RadiusContext'
@@ -30,28 +30,16 @@ export default function Map({ location, loading, carparks }){
 
   //To update list of carparks to be showns
   const addIn = async () => {
-    // data = []
+    let data;
 
-    // const carparkArray = Object.values(carparks);
+    if (isFavouritesActive) {
+      const favouriteCarparks = await getFavourites();
+      const carparksByFavs = await getCarparksByIdArray(favouriteCarparks);
+      data=getCarparks(carparksByFavs);
+    } else {
+      data=getCarparks(carparks);
+    }
 
-    // for (let i = 0; i < carparkArray.length; i++) {
-
-    //   let avail = carparkArray[i].availability.motorcycle.availability + carparkArray[i].availability.car.availability
-    //   let total = carparkArray[i].availability.motorcycle.total + carparkArray[i].availability.car.total
-    //   let percent = (avail/total) * 100
-    //   const newCarparkInfo = {
-    //     title: carparkArray[i].Address,
-    //     location: {
-    //       latitude: carparkArray[i].Coordinates.coordinates[1],
-    //       longitude: carparkArray[i].Coordinates.coordinates[0],
-    //     },
-    //     description: "Carpark",
-    //     capacity: percent,
-    //   };
-    //   data.push(newCarparkInfo)
-
-    // }
-    const data=getCarparks(carparks);
     setLocationsOfInterest(data)
     console.log("Done")
     setadd(toAdd => toAdd + 1)
@@ -60,7 +48,7 @@ export default function Map({ location, loading, carparks }){
 
   // Call showLocationsOfInterest when the toAdd is updated
   useEffect(() => {
-    showLocationsOfInterest();
+    // showLocationsOfInterest();
   }, [toAdd]);
 
   // Drawing out the pins
@@ -93,6 +81,10 @@ export default function Map({ location, loading, carparks }){
     addIn();
     // setPreventLoad(false);
   }, [loading])
+
+  useEffect(() => {
+    addIn();
+  }, [isFavouritesActive]);
 
 
   // Sets default location to NTU

@@ -3,6 +3,7 @@ import { View, Text, StyleSheet, TextInput } from "react-native";
 import { Button } from "react-native-paper";
 import DateTimePicker from "@react-native-community/datetimepicker";
 import SwitchSelector from "react-native-switch-selector";
+import { ceil } from "lodash";
 
 function PriceCalculator({ rates }) {
   const [arrivalTime, setArrivalTime] = useState(new Date());
@@ -17,15 +18,38 @@ function PriceCalculator({ rates }) {
   const calculatePrice = () => {
     // Dummy calculation logic - replace this with actual logic
     let rate;
+    let cap;
     if (vehicleType == "car") {
       rate = 0.6;
+      cap = 5.0;
     } else {
       rate = 0.2;
+      cap = 0.65;
     }
     const arrival = new Date(arrivalTime); // convert to date object
     const departure = new Date(departureTime); // convert to date object
-    const duration = (departure - arrival) / (1000 * 60 * 30); // duration in 30 min intervals
-    const price = duration * rate;
+    const duration = ceil(Math.abs(departure - arrival) / (1000 * 60 * 30)); // duration in 30 min intervals
+    console.log(duration);
+    let price = duration * rate;
+    if (price < 0) {
+      price = 0;
+    }
+    if (vehicleType == "car") {
+      const arrivalHours = arrival.getHours();
+      const arrivalMinutes = arrival.getMinutes();
+      const departureHours = departure.getHours();
+      const departureMinutes = departure.getMinutes();
+      if (
+        (((arrivalHours >= 22 && arrivalMinutes >= 30) || arrivalHours < 7) &&
+          departureHours <= 22 &&
+          departureMinutes >= 30) ||
+        departureHours < 7
+      ) {
+        price = Math.min(cap, price);
+      }
+    } else {
+      price = Math.min(cap, price);
+    }
     setCalculatedPrice(price.toFixed(2)); // round to 2 decimal places
   };
 
@@ -66,6 +90,9 @@ function PriceCalculator({ rates }) {
           initial={0}
           onPress={(value) => setVehicle(value)}
           hasPadding
+          textColor={"#464B76"} //'#7a44cf'
+          selectedColor={"#FFF"}
+          buttonColor={"#4CAF50"}
           options={[
             { label: "Car", value: "car" },
             { label: "Motorbike", value: "motorbike" },
@@ -126,7 +153,7 @@ function PriceCalculator({ rates }) {
 
       {calculatedPrice && (
         <View style={styles.resultContainer}>
-          <Text style={styles.resultText}>Total Price:</Text>
+          <Text style={styles.resultText}>Expected Price:</Text>
           <Text style={styles.price}>${calculatedPrice}</Text>
         </View>
       )}

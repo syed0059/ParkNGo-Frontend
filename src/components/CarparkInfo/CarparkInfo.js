@@ -15,6 +15,7 @@ import TrendsContainer from "./Trends/TrendsContainer";
 import Navigation from "./Navigation/Navigation";
 const carparkInterface = require("../../carparkInterface/carparkInterface");
 import { formatString } from "../formatString";
+import PriceCalculator from "./Prices/PriceCalculator";
 
 function CarparkInfo({ carpark }) {
   console.log(carpark);
@@ -54,7 +55,10 @@ function CarparkInfo({ carpark }) {
                   {formatString(carpark["Address"])}
                 </Text>
                 <Text variant="titleSmall" style={styles.texts}>
-                  {formatString(carpark["CarparkType"])}
+                  {formatString(carpark["CarparkType"]) +
+                    ", " +
+                    carpark["distance"].toFixed(2) +
+                    "km away"}
                 </Text>
               </View>
               <Button
@@ -83,14 +87,14 @@ function CarparkInfo({ carpark }) {
               </Modal>
               <Modal isVisible={priceModalVisible} onBackdropPress={closePrice}>
                 <View style={styles.priceModal}>
-                  <Text style={styles.priceText}>Calculate Price</Text>
+                  <PriceCalculator rates={carpark["Rates"]} />
                   <Button
                     mode="contained"
                     buttonColor="#464B76"
                     style={styles.button}
                     onPress={closePrice}
                   >
-                    Directions
+                    Close
                   </Button>
                 </View>
               </Modal>
@@ -145,15 +149,13 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   button: {
-    marginLeft: 10,
-    marginRight: 10,
+    margin: 20,
   },
   modal: {
     justifyContent: "flex-end",
     margin: 0,
   },
   priceModal: {
-    flex: 0.4,
     backgroundColor: "#F0F2EF",
     borderRadius: 30,
     justifyContent: "flex-start",
@@ -161,7 +163,7 @@ const styles = StyleSheet.create({
   priceText: {
     fontWeight: "bold",
     textAlign: "auto",
-    margin: 10,
+    margin: 20,
     fontSize: 20,
     textAlign: "center",
   },

@@ -15,11 +15,11 @@ export default function VehicleSlots(props) {
     let fraction = vehicleAvail / vehicleTotal;
     let color;
     if (fraction < 0.1) {
-      color = "#AF1B3F";
+      color = "#D9534F";
     } else if (fraction < 0.3) {
-      color = "#F9A03F";
+      color = "#FFC107";
     } else {
-      color = "#53ae31";
+      color = "#4CAF50";
     }
     if (vehicleTotal == 0) {
       color = "grey";

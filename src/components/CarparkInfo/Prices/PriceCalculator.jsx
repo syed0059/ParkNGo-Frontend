@@ -119,7 +119,9 @@ function PriceCalculator({ rates }) {
         />
       )}
       {showChosenArrivalTime && (
-        <Text style={styles.resultText}>Arrival Time:</Text>
+        <Text style={styles.resultText}>
+          Arrival Time: {arrivalTime.getHours()}:{arrivalTime.getMinutes()}
+        </Text>
       )}
       <Button
         mode="contained"
@@ -140,7 +142,10 @@ function PriceCalculator({ rates }) {
         />
       )}
       {showChosenDepartureTime && (
-        <Text style={styles.resultText}>Departure Time: </Text>
+        <Text style={styles.resultText}>
+          Departure Time: {departureTime.getHours()}:
+          {departureTime.getMinutes()}
+        </Text>
       )}
       <Button
         mode="contained"

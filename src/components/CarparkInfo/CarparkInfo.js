@@ -42,7 +42,7 @@ function CarparkInfo({ carpark }) {
     };
     fetchCarpark();
   }, [selectedCarparkID]);
-  console.log(data);
+  console.log("Carpark info's data:" + data);
 
   function getContent() {
     return (
@@ -75,6 +75,7 @@ function CarparkInfo({ carpark }) {
               />
               <Prices
                 freeParking={carpark["FreeParking"]}
+                carparkType={carpark["CarparkType"]}
                 onPress={pricePress}
               />
               <TrendsContainer carparkID={carpark["CarparkID"]} />
@@ -111,7 +112,6 @@ function CarparkInfo({ carpark }) {
   };
   const [priceModalVisible, setPriceVisible] = useState(false);
   const pricePress = () => {
-    console.log("pressed");
     setPriceVisible(true);
   };
   const closePrice = () => {
@@ -159,13 +159,6 @@ const styles = StyleSheet.create({
     backgroundColor: "#F0F2EF",
     borderRadius: 30,
     justifyContent: "flex-start",
-  },
-  priceText: {
-    fontWeight: "bold",
-    textAlign: "auto",
-    margin: 20,
-    fontSize: 20,
-    textAlign: "center",
   },
 });
 

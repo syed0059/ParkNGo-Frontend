@@ -40,10 +40,8 @@ function PriceCalculator({ rates }) {
       const departureHours = departure.getHours();
       const departureMinutes = departure.getMinutes();
       if (
-        (((arrivalHours >= 22 && arrivalMinutes >= 30) || arrivalHours < 7) &&
-          departureHours <= 22 &&
-          departureMinutes >= 30) ||
-        departureHours < 7
+        ((arrivalHours >= 22 && arrivalMinutes >= 30) || arrivalHours < 7) &&
+        ((departureHours <= 22 && departureMinutes >= 30) || departureHours < 7)
       ) {
         price = Math.min(cap, price);
       }

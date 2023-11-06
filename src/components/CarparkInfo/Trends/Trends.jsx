@@ -1,11 +1,10 @@
 import React, { useEffect, useState } from "react";
-import { Card, Text } from "react-native-paper";
+import { Text, ActivityIndicator } from "react-native-paper";
 import { View, StyleSheet, Dimensions } from "react-native";
 import VerticalBarGraph from "@chartiful/react-native-vertical-bar-graph";
 import Carousel from "react-native-reanimated-carousel";
 import { trimEnd } from "lodash";
 import getTrend from "./TrendInterface";
-import trend from "./trend";
 
 function formatHours(hour) {
   if (hour >= 24) {
@@ -40,36 +39,58 @@ export default function Trends(props) {
   if (hour < 3) {
     hour += 24;
   }
-  const [initialised, setInitialise] = useState(false);
-  const [data, setData] = useState([]);
+  const [data, setData] = useState(null);
+  const [isLoading, setIsLoading] = useState(true);
+  const [hasError, setHasError] = useState(false);
   useEffect(() => {
     const fetchTrends = async () => {
       try {
         if (props.carparkID) {
           const pull = await getTrend(props.carparkID);
-          setData(pull);
-          setInitialise(true);
+          if (pull && !pull.error) {
+            setData(pull);
+          } else {
+            setHasError(true);
+          }
         }
       } catch (error) {
-        console.error(error);
-        console.log("error caught, default random trend showing.");
-        setData(trend);
+        console.error("Error found:" + error);
+        setHasError(true);
+      } finally {
+        setIsLoading(false);
       }
     };
     fetchTrends();
   }, [props.carparkID]);
 
   function scopedTrend(day) {
-    var scoped = [7];
-    if (initialised) {
+    var scoped = [];
+    if (!hasError) {
       for (let i = 0; i < 7; i++) {
         scoped[i] = data[days[day]][twentyFourFormat(hour - 3 + i).toString()];
       }
       return scoped;
     }
+    return [];
+  }
+  if (isLoading) {
+    return (
+      <View style={curStyles.centerContent}>
+        <ActivityIndicator size="large" />
+        <Text>Loading trends...</Text>
+      </View>
+    );
   }
 
-  if (initialised) {
+  if (hasError) {
+    return (
+      <View style={curStyles.centerContent}>
+        <Text>Failed to get trends.</Text>
+      </View>
+    );
+  }
+
+  if (data) {
     return (
       <Carousel
         loop
@@ -108,6 +129,12 @@ export default function Trends(props) {
         )}
       />
     );
+  } else {
+    return (
+      <View style={curStyles.centerContent}>
+        <Text>No data available.</Text>
+      </View>
+    );
   }
 }
 
@@ -120,5 +147,8 @@ const curStyles = StyleSheet.create({
   content: {
     justifyContent: "center",
     alignItems: "center",
+  },
+  centerContent: {
+    justifyContent: "center",
   },
 });

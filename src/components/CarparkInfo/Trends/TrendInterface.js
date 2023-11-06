@@ -4,6 +4,7 @@ const localhost = address + ":3000/search/trend/";
 
 export default getTrend = async (carparkID) => {
   let data;
+  console.log("getTrend using carparkID: " + carparkID);
   data = await fetch(localhost + carparkID);
   data = await data.json();
   return data;

@@ -11,6 +11,7 @@ import { BottomSheetModalProvider } from "@gorhom/bottom-sheet";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import { GooglePlacesAutocomplete } from 'react-native-google-places-autocomplete';
 import { MapCoordinates } from "./src/components/MapCoordinatesContext";
+import ActiveFavouritesContext from "./src/components/ActiveFavouritesContext";
 
 export default function App() {
   const [radius, setRadius] = useState(2);
@@ -19,6 +20,8 @@ export default function App() {
 
   const [searchLocation, setSearchLocation] = useState(null);
   const { searchLoading, data: searchCarparks } = useCarparksDistance(searchLocation, radius);
+
+  const [isFavouritesActive, setFavouritesActive] = useState(false);
 
   const [mapCoordinates, setMapCoordinates] = useState({
     latitude: 1.3478769602767113,
@@ -32,51 +35,53 @@ export default function App() {
       <PaperProvider>
         <BottomSheetModalProvider>
           <RadiusContext.Provider value={{ radius, setRadius }}>
-            <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
-              <MapCoordinates.Provider value={{ mapCoordinates, setMapCoordinates }}>
-                <View style={styles.container}>
-                  <View style={styles.mapContainer}>
-                    <Map
-                      location={location}
-                      loading={loading}
-                      carparks={carparks}
-                    />
-                    <View style={styles.searchBar}>
-                      <GooglePlacesAutocomplete
-                        placeholder='Search'
-                        enablePoweredByContainer={false}
-                        fetchDetails={true}
-                        onPress={(data, details = null) => {
-                          if (details && details.geometry && details.geometry.location) {
-                            const lat = details.geometry.location.lat;
-                            const lng = details.geometry.location.lng;
-                            const newSearchLocation = { latitude: lat, longitude: lng };
-                            setSearchLocation(newSearchLocation);
-                            console.log(newSearchLocation);
-                          }
-                        }}
-                        query={{
-                          key: process.env.GOOGLE_API_KEY,
-                          language: 'en',
-                          components: 'country:sg',
-                        }}
-                      />
-                    </View>
-                  </View>
-                  <View style={styles.searchContainer}>
-                    <NavigationContainer>
-                      <NavBar
+            <ActiveFavouritesContext.Provider value={{ isFavouritesActive, setFavouritesActive }}>
+              <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
+                <MapCoordinates.Provider value={{ mapCoordinates, setMapCoordinates }}>
+                  <View style={styles.container}>
+                    <View style={styles.mapContainer}>
+                      <Map
                         location={location}
                         loading={loading}
                         carparks={carparks}
-                        searchLoading={searchLoading}
-                        searchCarparks={searchCarparks}
                       />
-                    </NavigationContainer>
+                      <View style={styles.searchBar}>
+                        <GooglePlacesAutocomplete
+                          placeholder='Search'
+                          enablePoweredByContainer={false}
+                          fetchDetails={true}
+                          onPress={(data, details = null) => {
+                            if (details && details.geometry && details.geometry.location) {
+                              const lat = details.geometry.location.lat;
+                              const lng = details.geometry.location.lng;
+                              const newSearchLocation = { latitude: lat, longitude: lng };
+                              setSearchLocation(newSearchLocation);
+                              console.log(newSearchLocation);
+                            }
+                          }}
+                          query={{
+                            key: process.env.GOOGLE_API_KEY,
+                            language: 'en',
+                            components: 'country:sg',
+                          }}
+                        />
+                      </View>
+                    </View>
+                    <View style={styles.searchContainer}>
+                      <NavigationContainer>
+                        <NavBar
+                          location={location}
+                          loading={loading}
+                          carparks={carparks}
+                          searchLoading={searchLoading}
+                          searchCarparks={searchCarparks}
+                        />
+                      </NavigationContainer>
+                    </View>
                   </View>
-                </View>
-              </MapCoordinates.Provider>
-            </TouchableWithoutFeedback>
+                </MapCoordinates.Provider>
+              </TouchableWithoutFeedback>
+            </ActiveFavouritesContext.Provider>
           </RadiusContext.Provider>
         </BottomSheetModalProvider>
       </PaperProvider>

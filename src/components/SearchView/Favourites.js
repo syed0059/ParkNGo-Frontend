@@ -22,8 +22,18 @@ import FavouritesContext from "../FavouritesContext";
 import CarparkInfo from "../CarparkInfo/CarparkInfo";
 import { BottomSheetModal } from "@gorhom/bottom-sheet";
 import "react-native-gesture-handler";
+import ActiveFavouritesContext from "../ActiveFavouritesContext";
+import { useIsFocused } from '@react-navigation/native';
 
 export default function Favourites({ location }) {
+
+  const { setFavouritesActive } = useContext(ActiveFavouritesContext);
+  const isFocused = useIsFocused();
+
+  useEffect(() => {
+    setFavouritesActive(isFocused);
+  }, [isFocused, setFavouritesActive]);
+
   function formatString(string) {
     words = string.toLowerCase().split(" ");
     result = "";

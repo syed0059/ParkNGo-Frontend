@@ -6,9 +6,21 @@ import * as Location from 'expo-location';
 import { RadiusContext } from '../RadiusContext'
 import { MapCoordinates } from '../MapCoordinatesContext';
 import { calculateDistance } from '../CalculateDistance';
+import ActiveFavouritesContext from "../ActiveFavouritesContext";
 import { getCarparks } from './mapInterface';
 
 export default function Map({ location, loading, carparks }){
+
+  const { isFavouritesActive } = useContext(ActiveFavouritesContext);
+
+  useEffect(() => {
+    if (isFavouritesActive) {
+      console.log('FavouritesScreen is focused');
+    } else {
+      console.log('FavouritesScreen is not focused');
+    }
+  }, [isFavouritesActive]);
+
   const [locationsOfInterest, setLocationsOfInterest] = useState([]);
   const [toAdd, setadd] = useState(0);
   const [preventLoad, setPreventLoad] = useState(true);

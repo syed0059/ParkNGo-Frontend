@@ -15,6 +15,7 @@ import TrendsContainer from "./Trends/TrendsContainer";
 import Navigation from "./Navigation/Navigation";
 const carparkInterface = require("../../carparkInterface/carparkInterface");
 import { formatString } from "../formatString";
+import PriceCalculator from "./Prices/PriceCalculator";
 
 function CarparkInfo({ carpark }) {
   console.log(carpark);
@@ -54,7 +55,10 @@ function CarparkInfo({ carpark }) {
                   {formatString(carpark["Address"])}
                 </Text>
                 <Text variant="titleSmall" style={styles.texts}>
-                  {formatString(carpark["CarparkType"])}
+                  {formatString(carpark["CarparkType"]) +
+                    ", " +
+                    carpark["distance"].toFixed(2) +
+                    "km away"}
                 </Text>
               </View>
               <Button
@@ -69,7 +73,10 @@ function CarparkInfo({ carpark }) {
                 carSet={carpark["availability"]["car"]}
                 motorSet={carpark["availability"]["motorcycle"]}
               />
-              <Prices freeParking={carpark["FreeParking"]} />
+              <Prices
+                freeParking={carpark["FreeParking"]}
+                onPress={pricePress}
+              />
               <TrendsContainer carparkID={carpark["CarparkID"]} />
               <Modal isVisible={naviModalVisible} style={styles.modal}>
                 <Navigation
@@ -77,6 +84,19 @@ function CarparkInfo({ carpark }) {
                   coordinates={carpark["Coordinates"]["coordinates"]}
                   address={formatString(carpark["Address"])}
                 />
+              </Modal>
+              <Modal isVisible={priceModalVisible} onBackdropPress={closePrice}>
+                <View style={styles.priceModal}>
+                  <PriceCalculator rates={carpark["Rates"]} />
+                  <Button
+                    mode="contained"
+                    buttonColor="#464B76"
+                    style={styles.button}
+                    onPress={closePrice}
+                  >
+                    Close
+                  </Button>
+                </View>
               </Modal>
             </View>
           </TouchableWithoutFeedback>
@@ -89,7 +109,14 @@ function CarparkInfo({ carpark }) {
   const onClick = () => {
     setNaviVisible(true);
   };
-
+  const [priceModalVisible, setPriceVisible] = useState(false);
+  const pricePress = () => {
+    console.log("pressed");
+    setPriceVisible(true);
+  };
+  const closePrice = () => {
+    setPriceVisible(false);
+  };
   return <View style={styles.main}>{getContent()}</View>;
 }
 
@@ -122,12 +149,23 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   button: {
-    marginLeft: 10,
-    marginRight: 10,
+    margin: 20,
   },
   modal: {
     justifyContent: "flex-end",
     margin: 0,
+  },
+  priceModal: {
+    backgroundColor: "#F0F2EF",
+    borderRadius: 30,
+    justifyContent: "flex-start",
+  },
+  priceText: {
+    fontWeight: "bold",
+    textAlign: "auto",
+    margin: 20,
+    fontSize: 20,
+    textAlign: "center",
   },
 });
 

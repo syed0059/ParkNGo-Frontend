@@ -1,6 +1,19 @@
-import React, { useContext, useEffect, useState, useCallback, useMemo, useRef } from "react";
+import React, {
+  useContext,
+  useEffect,
+  useState,
+  useCallback,
+  useMemo,
+  useRef,
+} from "react";
 import { View, StyleSheet, FlatList, TouchableOpacity } from "react-native";
-import { Divider, ProgressBar, Text, IconButton, ActivityIndicator } from "react-native-paper";
+import {
+  Divider,
+  ProgressBar,
+  Text,
+  IconButton,
+  ActivityIndicator,
+} from "react-native-paper";
 import Sort from "./Sort";
 import CarparkInfo from "../CarparkInfo/CarparkInfo";
 import { sortCarparks } from "../SortCarparks";
@@ -70,8 +83,15 @@ export default function CarparkList({ location, loading, carparks }) {
           >
             <View style={styles.listItem}>
               <View style={styles.availableCarparks}>
-                <Text variant="labelLarge" style={styles.availableCarparksText}>{item.availability.car.availability + item.availability.motorcycle.availability} </Text>
-                <ProgressBar progress={item.progress} color="green" style={styles.progress} />
+                <Text variant="labelLarge" style={styles.availableCarparksText}>
+                  {item.availability.car.availability +
+                    item.availability.motorcycle.availability}{" "}
+                </Text>
+                <ProgressBar
+                  progress={item.progress}
+                  color="green"
+                  style={styles.progress}
+                />
               </View>
               <View style={styles.textContainer}>
                 <Text variant="labelLarge">{item.Address}</Text>
@@ -142,15 +162,15 @@ const styles = StyleSheet.create({
     backgroundColor: "#ffffff",
   },
   availableCarparks: {
-    flexDirection: 'column',
-    justifyContent: 'center',
-    alignItems: 'center',
+    flexDirection: "column",
+    justifyContent: "center",
+    alignItems: "center",
     marginRight: 20,
     marginLeft: 10,
   },
   availableCarparksText: {
-    color: 'black',
-    textAlign: 'center',
+    color: "black",
+    textAlign: "center",
     marginBottom: 5,
   },
 });

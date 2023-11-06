@@ -6,6 +6,7 @@ import * as Location from 'expo-location';
 import { RadiusContext } from '../RadiusContext'
 import { MapCoordinates } from '../MapCoordinatesContext';
 import { calculateDistance } from '../CalculateDistance';
+import { getCarparks } from './mapInterface';
 
 export default function Map({ location, loading, carparks }){
   const [locationsOfInterest, setLocationsOfInterest] = useState([]);
@@ -17,28 +18,28 @@ export default function Map({ location, loading, carparks }){
 
   //To update list of carparks to be showns
   const addIn = async () => {
-    data = []
+    // data = []
 
-    const carparkArray = Object.values(carparks);
+    // const carparkArray = Object.values(carparks);
 
-    for (let i = 0; i < carparkArray.length; i++) {
+    // for (let i = 0; i < carparkArray.length; i++) {
 
-      let avail = carparkArray[i].availability.motorcycle.availability + carparkArray[i].availability.car.availability
-      let total = carparkArray[i].availability.motorcycle.total + carparkArray[i].availability.car.total
-      let percent = (avail/total) * 100
-      const newCarparkInfo = {
-        title: carparkArray[i].Address,
-        location: {
-          latitude: carparkArray[i].Coordinates.coordinates[1],
-          longitude: carparkArray[i].Coordinates.coordinates[0],
-        },
-        description: "Carpark",
-        capacity: percent,
-      };
-      data.push(newCarparkInfo)
+    //   let avail = carparkArray[i].availability.motorcycle.availability + carparkArray[i].availability.car.availability
+    //   let total = carparkArray[i].availability.motorcycle.total + carparkArray[i].availability.car.total
+    //   let percent = (avail/total) * 100
+    //   const newCarparkInfo = {
+    //     title: carparkArray[i].Address,
+    //     location: {
+    //       latitude: carparkArray[i].Coordinates.coordinates[1],
+    //       longitude: carparkArray[i].Coordinates.coordinates[0],
+    //     },
+    //     description: "Carpark",
+    //     capacity: percent,
+    //   };
+    //   data.push(newCarparkInfo)
 
-    }
-
+    // }
+    const data=getCarparks(carparks);
     setLocationsOfInterest(data)
     console.log("Done")
     setadd(toAdd => toAdd + 1)
@@ -55,12 +56,12 @@ export default function Map({ location, loading, carparks }){
     console.log("SHOW")
     return locationsOfInterest.map((item, index) => {
       let color;
-      if (item.capacity <= 70) {
-        color = "green";
-      } else if (item.capacity <= 90) {
+      if (item.capacity < 10) {
+        color = "red";
+      } else if (item.capacity < 30) {
         color = "yellow";
       } else {
-        color = "red";
+        color = "green";
       }
       return (
         <Marker

@@ -89,12 +89,36 @@ export default function Favourites({ location }) {
     fetchCarparks();
   }, [location, favourites]); // The useEffect will rerun whenever userLocation changes
 
-  const [sortOption, setSortOption] = useState("distance");
-  const [sortedCarparks, setSortedCarparks] = useState(carparks);
+  const [sortOption, setSortOption] = useState('distance');
+  const [sortedLists, setSortedLists] = useState({
+    distance: [],
+    availability: [],
+    price: [],
+  });
+  const [sortedCarparks, setSortedCarparks] = useState([]);
+  const [isSorting, setIsSorting] = useState(false);
+
+  // Compute all sorted lists whenever the list of carparks changes
   useEffect(() => {
-    const sortedData = sortCarparks(carparks, sortOption);
-    setSortedCarparks(sortedData);
-  }, [carparks, sortOption]);
+    setIsSorting(true);
+
+    const distanceSorted = sortCarparks(carparks, 'distance');
+    const availabilitySorted = sortCarparks(carparks, 'availability');
+    const priceSorted = sortCarparks(carparks, 'price');
+
+    setSortedLists({
+      distance: distanceSorted,
+      availability: availabilitySorted,
+      price: priceSorted,
+    });
+
+    setIsSorting(false);
+  }, [carparks]);
+
+  // Update the sortedCarparks based on the selected sort option
+  useEffect(() => {
+    setSortedCarparks(sortedLists[sortOption]);
+  }, [sortOption, sortedLists]);
 
   //Select carpark
   const [selectedCarpark, setSelectedCarpark] = useState(null);
@@ -116,7 +140,7 @@ export default function Favourites({ location }) {
     console.log("handleSheetChanges", index);
   }, []);
 
-  if (loading) {
+  if (loading || isSorting) {
     return (
       <View style={styles.loaderContainer}>
         <ActivityIndicator />

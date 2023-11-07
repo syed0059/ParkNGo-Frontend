@@ -11,15 +11,36 @@ import "react-native-gesture-handler";
 export default function SearchBar({ location, searchLoading, searchCarparks }) {
   const [selectedCarpark, setSelectedCarpark] = useState(null);
 
-  const [sortOption, setSortOption] = useState("distance");
-  const [sortedCarparks, setSortedCarparks] = useState(searchCarparks);
+  const [sortOption, setSortOption] = useState('distance');
+  const [sortedLists, setSortedLists] = useState({
+    distance: [],
+    availability: [],
+    price: [],
+  });
+  const [sortedCarparks, setSortedCarparks] = useState([]);
   const [isSorting, setIsSorting] = useState(false);
+
+  // Compute all sorted lists whenever the list of carparks changes
   useEffect(() => {
     setIsSorting(true);
-    const sortedData = sortCarparks(searchCarparks, sortOption);
-    setSortedCarparks(sortedData);
+
+    const distanceSorted = sortCarparks(searchCarparks, 'distance');
+    const availabilitySorted = sortCarparks(searchCarparks, 'availability');
+    const priceSorted = sortCarparks(searchCarparks, 'price');
+
+    setSortedLists({
+      distance: distanceSorted,
+      availability: availabilitySorted,
+      price: priceSorted,
+    });
+
     setIsSorting(false);
-  }, [searchCarparks, sortOption]);
+  }, [searchCarparks]);
+
+  // Update the sortedCarparks based on the selected sort option
+  useEffect(() => {
+    setSortedCarparks(sortedLists[sortOption]);
+  }, [sortOption, sortedLists]);
 
   const { favourites, toggleFavourites } = useContext(FavouritesContext);
 

@@ -24,15 +24,36 @@ import "react-native-gesture-handler";
 export default function CarparkList({ location, loading, carparks }) {
   const [selectedCarpark, setSelectedCarpark] = useState(null);
 
-  const [sortOption, setSortOption] = useState("distance");
-  const [sortedCarparks, setSortedCarparks] = useState(carparks);
+  const [sortOption, setSortOption] = useState('distance');
+  const [sortedLists, setSortedLists] = useState({
+    distance: [],
+    availability: [],
+    price: [],
+  });
+  const [sortedCarparks, setSortedCarparks] = useState([]);
   const [isSorting, setIsSorting] = useState(false);
+
+  // Compute all sorted lists whenever the list of carparks changes
   useEffect(() => {
     setIsSorting(true);
-    const sortedData = sortCarparks(carparks, sortOption);
-    setSortedCarparks(sortedData);
+
+    const distanceSorted = sortCarparks(carparks, 'distance');
+    const availabilitySorted = sortCarparks(carparks, 'availability');
+    const priceSorted = sortCarparks(carparks, 'price');
+
+    setSortedLists({
+      distance: distanceSorted,
+      availability: availabilitySorted,
+      price: priceSorted,
+    });
+
     setIsSorting(false);
-  }, [carparks, sortOption]);
+  }, [carparks]);
+
+  // Update the sortedCarparks based on the selected sort option
+  useEffect(() => {
+    setSortedCarparks(sortedLists[sortOption]);
+  }, [sortOption, sortedLists]);
 
   const { favourites, toggleFavourites } = useContext(FavouritesContext);
 

@@ -1,13 +1,14 @@
 import MapView, { Marker, PROVIDER_GOOGLE, Circle } from 'react-native-maps';
 import { StyleSheet, View, Button } from 'react-native';
 import { getFavourites, getCarparksByIdArray } from '../../carparkInterface/carparkInterface';
-import { useEffect, useState, useContext } from 'react';
+import { useEffect, useState, useContext, useCallback } from 'react';
 import * as Location from 'expo-location';
 import { RadiusContext } from '../RadiusContext'
 import { MapCoordinates } from '../MapCoordinatesContext';
 import { calculateDistance } from '../CalculateDistance';
 import ActiveFavouritesContext from "../ActiveFavouritesContext";
 import { getCarparks } from './mapInterface';
+import _ from 'lodash'; 
 
 export default function Map({ location, loading, carparks }){
 
@@ -153,17 +154,24 @@ export default function Map({ location, loading, carparks }){
   //   // console.log(mapRegion)
   // }
 
-  const onRegionChange = (region) => {
-    if(calculateDistance(mapCoordinates.latitude, mapCoordinates.longitude, region.latitude, region.longitude) >= 1 && preventLoad == false){
+  const debouncedOnRegionChange = useCallback(_.debounce((region) => {
+    if(calculateDistance(mapCoordinates.latitude, mapCoordinates.longitude, region.latitude, region.longitude) >= 1 && !preventLoad){
       setMapCoordinates({
         latitude: region.latitude,
         longitude: region.longitude,
         latitudeDelta: region.latitudeDelta,
         longitudeDelta: region.longitudeDelta,
-      })
+      });
       addIn();
+      console.log("move complete");
     }
     setPreventLoad(false);
+  }, 700));
+
+  const onRegionChange = (region, gesture) => {
+    if (gesture.isGesture) {
+      debouncedOnRegionChange(region);
+    }
   }
 
   return (

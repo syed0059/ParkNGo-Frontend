@@ -56,9 +56,9 @@ export default function Favourites({ location }) {
         try {
           setLoading(true); // Set loading true at the beginning of the data fetching
           // get carparks nearby
-          const favouriteCarparks = await carparkInterface.getFavourites();
+          // const favouriteCarparks = await carparkInterface.getFavourites();
           const carparks = await carparkInterface.getCarparksByIdArray(
-            favouriteCarparks
+            favourites
           );
           // Calculate the distance from current location to carpark
           const carparksWithDistance = Object.values(carparks).map(
@@ -178,8 +178,13 @@ export default function Favourites({ location }) {
                 <Text variant="bodySmall">{item.distance.toFixed(2)} km</Text>
               </View>
               <IconButton
-                icon={favourites[item.CarparkID] ? "heart" : "heart-outline"}
+                icon={favourites[item.CarparkID] ? "bell" : "bell-outline"}
                 iconColor={favourites[item.CarparkID] ? "blue" : "black"}
+                size = {24}
+              />
+              <IconButton
+                icon={favourites.includes(item.CarparkID) ? "heart" : "heart-outline"}
+                iconColor={favourites.includes(item.CarparkID) ? "blue" : "black"}
                 size={24}
                 onPress={() => toggleFavourites(item.CarparkID)}
               />

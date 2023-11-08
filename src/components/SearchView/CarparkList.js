@@ -119,8 +119,8 @@ export default function CarparkList({ location, loading, carparks }) {
                 <Text variant="bodySmall">{item.distance.toFixed(2)} km</Text>
               </View>
               <IconButton
-                icon={favourites[item.CarparkID] ? "heart" : "heart-outline"}
-                iconColor={favourites[item.CarparkID] ? "blue" : "black"}
+                icon={favourites.includes(item.CarparkID) ? "heart" : "heart-outline"}
+                iconColor={favourites.includes(item.CarparkID) ? "blue" : "black"}
                 size={24}
                 onPress={() => toggleFavourites(item.CarparkID)}
               />

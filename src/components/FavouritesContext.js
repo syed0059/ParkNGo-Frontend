@@ -4,13 +4,13 @@ const carparkInterface = require('../carparkInterface/carparkInterface');
 const FavouritesContext = createContext();
 
 export const FavouritesProvider = ({ children }) => {
-    const [favourites, setFavourites] = useState({});
+    const [favourites, setFavourites] = useState([]);
 
     useEffect(() => {
       const loadFavourites = async () => {
         const favs = await carparkInterface.getFavourites();
-        const favsObject = favs.reduce((acc, id) => ({ ...acc, [id]: true }), {});
-        setFavourites(favsObject);
+        // const favsObject = favs.reduce((acc, id) => ({ ...acc, [id]: true }), {});
+        setFavourites(favs);
       };
   
       loadFavourites();
@@ -19,14 +19,21 @@ export const FavouritesProvider = ({ children }) => {
     const toggleFavourites = async (carparkId) => {
       const idString = carparkId.toString();
   
-      if (favourites[carparkId]) {
+      // Check if the carparkId is already in the favourites array
+      const isFavourite = favourites.includes(carparkId);
+
+      let updatedFavourites;
+      if (isFavourite) {
+        // Remove the carparkId from favourites
+        updatedFavourites = favourites.filter(favId => favId !== carparkId);
         await carparkInterface.removeFromFavourites(idString);
       } else {
+        // Add the carparkId to favourites
+        updatedFavourites = [...favourites, carparkId];
         await carparkInterface.addToFavourites(idString);
       }
   
       // Update favourites after toggling
-      const updatedFavourites = { ...favourites, [carparkId]: !favourites[carparkId] };
       setFavourites(updatedFavourites);
     };
   

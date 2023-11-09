@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Card, Button, Modal } from "react-native-paper";
 import { View, StyleSheet, Text } from "react-native";
-import HDBPrices from "./HDBPrices";
+import PricesContent from "./PricesContent";
 
 export default function Prices(props) {
   let freeParking = "Unavailable.";
@@ -13,18 +13,21 @@ export default function Prices(props) {
       <Card>
         <Card.Title title="Prices" />
         <Card.Content>
-          <HDBPrices
+          <PricesContent
             freeParking={freeParking}
             carparkType={props.carparkType}
           />
-          <Button
-            mode="contained"
-            onPress={props.onPress}
-            style={curStyles.button}
-            buttonColor="#AF1B3F"
-          >
-            Caclulate Prices
-          </Button>
+          {props.carparkType != "URA Carpark" &&
+            props.carparkType != "LTA Carpark" && (
+              <Button
+                mode="contained"
+                onPress={props.onPress}
+                style={curStyles.button}
+                buttonColor="#AF1B3F"
+              >
+                {"Caclulate Prices (for less than 24 Hours)"}
+              </Button>
+            )}
         </Card.Content>
       </Card>
     </View>

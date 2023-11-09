@@ -3,7 +3,7 @@ import { View, Text, StyleSheet, TextInput } from "react-native";
 import { Button } from "react-native-paper";
 import DateTimePicker from "@react-native-community/datetimepicker";
 import SwitchSelector from "react-native-switch-selector";
-import { ceil } from "lodash";
+import { ceil, floor } from "lodash";
 
 function PriceCalculator({ rates }) {
   const [arrivalTime, setArrivalTime] = useState(new Date());
@@ -17,38 +17,54 @@ function PriceCalculator({ rates }) {
 
   const calculatePrice = () => {
     // Dummy calculation logic - replace this with actual logic
-    let rate;
+    let rate = 0;
     let cap;
-    if (vehicleType == "car") {
-      rate = 0.6;
-      cap = 5.0;
-    } else {
+    let price;
+
+    const arrival = new Date(arrivalTime); // convert to date object
+    const departure = new Date(departureTime.getTime() + +24 * 60 * 60 * 1000); // convert to date object
+
+    if (vehicleType != "car") {
       rate = 0.2;
       cap = 0.65;
-    }
-    const arrival = new Date(arrivalTime); // convert to date object
-    const departure = new Date(departureTime); // convert to date object
-    const duration = ceil(Math.abs(departure - arrival) / (1000 * 60 * 30)); // duration in 30 min intervals
-    console.log(duration);
-    let price = duration * rate;
-    if (price < 0) {
-      price = 0;
-    }
-    if (vehicleType == "car") {
-      const arrivalHours = arrival.getHours();
-      const arrivalMinutes = arrival.getMinutes();
-      const departureHours = departure.getHours();
-      const departureMinutes = departure.getMinutes();
-      if (
-        ((arrivalHours >= 22 && arrivalMinutes >= 30) || arrivalHours < 7) &&
-        ((departureHours <= 22 && departureMinutes >= 30) || departureHours < 7)
-      ) {
-        price = Math.min(cap, price);
-      }
+      const duration = ceil(Math.abs((departure - arrival) / (30 * 1000 * 60)));
+      price = Math.min(0.65, duration * rate);
     } else {
-      price = Math.min(cap, price);
+      rate = 0.6;
+      cap = 5;
+      //calculating by 30 minute intervals
+      let totalCost = 0;
+      let cappedTimeCost = 0;
+      let currentTime = arrival;
+      console.log(currentTime);
+      console.log(departure);
+
+      while (currentTime < departure) {
+        let nextInterval = new Date(currentTime.getTime() + 30 * 60000);
+        console.log(nextInterval);
+        if (isCapped(currentTime)) {
+          cappedTimeCost += rate;
+          cappedTimeCost = Math.min(cap, cappedTimeCost);
+        } else {
+          totalCost += rate;
+        }
+        currentTime = nextInterval;
+      }
+      totalCost += cappedTimeCost;
+      console.log(totalCost);
+      price = totalCost;
     }
+
     setCalculatedPrice(price.toFixed(2)); // round to 2 decimal places
+  };
+
+  const isCapped = (time) => {
+    let hours = time.getHours();
+    let minutes = time.getMinutes();
+    let totalMinutes = hours * 60 + minutes;
+    let cappedStart = 22.5 * 60;
+    let cappedEnd = 7 * 60;
+    return totalMinutes >= cappedStart || totalMinutes < cappedEnd;
   };
 
   const onArrivalTimeChange = (event, selectedTime) => {

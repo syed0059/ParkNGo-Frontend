@@ -54,7 +54,7 @@ export default function Trends(props) {
           }
         }
       } catch (error) {
-        console.error("Error found:" + error);
+        console.error("Error found under trends.jsx: " + error);
         setHasError(true);
       } finally {
         setIsLoading(false);

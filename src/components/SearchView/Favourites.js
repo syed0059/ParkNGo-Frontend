@@ -19,6 +19,7 @@ const carparkInterface = require("../../carparkInterface/carparkInterface");
 import { calculateDistance } from "../CalculateDistance";
 import { sortCarparks } from "../SortCarparks";
 import FavouritesContext from "../FavouritesContext";
+import NotificationContext from "../NotificationContext";
 import CarparkInfo from "../CarparkInfo/CarparkInfo";
 import { BottomSheetModal } from "@gorhom/bottom-sheet";
 import "react-native-gesture-handler";
@@ -45,6 +46,9 @@ export default function Favourites({ location }) {
     }
     return result.trim();
   }
+
+  const { notification, toggleNotifications } = useContext(NotificationContext);
+
   const { favourites, toggleFavourites } = useContext(FavouritesContext);
 
   // GET CARPARK
@@ -56,7 +60,6 @@ export default function Favourites({ location }) {
         try {
           setLoading(true); // Set loading true at the beginning of the data fetching
           // get carparks nearby
-          // const favouriteCarparks = await carparkInterface.getFavourites();
           const carparks = await carparkInterface.getCarparksByIdArray(
             favourites
           );
@@ -140,7 +143,7 @@ export default function Favourites({ location }) {
     console.log("handleSheetChanges", index);
   }, []);
 
-  if (loading || isSorting) {
+  if (loading || isSorting || notification === undefined) {
     return (
       <View style={styles.loaderContainer}>
         <ActivityIndicator />
@@ -178,9 +181,10 @@ export default function Favourites({ location }) {
                 <Text variant="bodySmall">{item.distance.toFixed(2)} km</Text>
               </View>
               <IconButton
-                icon={favourites[item.CarparkID] ? "bell" : "bell-outline"}
-                iconColor={favourites[item.CarparkID] ? "blue" : "black"}
+                icon={notification.includes(item.CarparkID) ? "bell" : "bell-outline"}
+                iconColor={notification.includes(item.CarparkID) ? "blue" : "black"}
                 size = {24}
+                onPress={() => toggleNotifications(item.CarparkID)}
               />
               <IconButton
                 icon={favourites.includes(item.CarparkID) ? "heart" : "heart-outline"}

@@ -1,9 +1,29 @@
 import React, { createContext, useState, useEffect } from 'react';
 const notificationInterface = require('../notificationInterface/notificationInterface');
+import * as Notifications from 'expo-notifications';
 
 const NotificationContext = createContext();
 
 export const NotificationProvider = ({ children }) => {
+
+  Notifications.setNotificationHandler({
+    handleNotification: async () => ({
+      shouldShowAlert: true,
+      shouldPlaySound: false,
+      shouldSetBadge: false,
+    }),
+  });
+
+  const scheduleNotification = async (carparkId) => {
+    await Notifications.scheduleNotificationAsync({
+      content: {
+        title: "Carpark Reminder",
+        body: `Don't forget your carpark ${carparkId}!`,
+        data: { carparkId },
+      },
+      trigger: null, 
+    });
+  };
 
   const [notification, setNotification] = useState([]);
 
@@ -31,6 +51,7 @@ export const NotificationProvider = ({ children }) => {
       // Add the carparkId to notifications
       updatedNotifications = [...notification, carparkId];
       await notificationInterface.addToNotificationList(idString);
+      scheduleNotification(carparkId);
     }
 
     // Update notification after toggling

@@ -87,7 +87,7 @@ export default function AppWrapper() {
                                                     }
                                                 }}
                                                 query={{
-                                                    key: process.env.GOOGLE_API_KEY,
+                                                    key: String(process.env.GOOGLE_API_KEY),
                                                     language: 'en',
                                                     components: 'country:sg',
                                                 }}

@@ -4,6 +4,7 @@ import { MapCoordinates } from "./src/components/MapCoordinatesContext";
 import { MapSearchCoordinates } from "./src/components/MapSearchContext";
 import * as Device from 'expo-device';
 import * as Notifications from 'expo-notifications';
+import ActiveSearchContext from "./src/components/ActiveSearchContext";
 
 export default function App() {
 
@@ -20,7 +21,7 @@ export default function App() {
         return;
       }
     }
-  
+
     if (Platform.OS === 'android') {
       Notifications.setNotificationChannelAsync('default', {
         name: 'default',
@@ -30,7 +31,7 @@ export default function App() {
       });
     }
   }
-  
+
   // Call this function in useEffect
   useEffect(() => {
     registerForPushNotificationsAsync();
@@ -44,10 +45,14 @@ export default function App() {
   })
   const [mapSearchCoordinates, setMapSearchCoordinates] = useState({})
 
+  const [isSearchActive, setSearchActive] = useState(false);
+
   return (
     <MapCoordinates.Provider value={{ mapCoordinates, setMapCoordinates }}>
-      <MapSearchCoordinates.Provider value={{mapSearchCoordinates, setMapSearchCoordinates}}>
-        <AppWrapper />
+      <MapSearchCoordinates.Provider value={{ mapSearchCoordinates, setMapSearchCoordinates }}>
+        <ActiveSearchContext.Provider value={{ isSearchActive, setSearchActive }}>
+          <AppWrapper />
+        </ActiveSearchContext.Provider>
       </MapSearchCoordinates.Provider>
     </MapCoordinates.Provider>
   );

@@ -24,16 +24,22 @@ const useCarparksDistance = (location, radius) => {
                             latitude,
                             longitude
                         );
-                        // Set random availability
-                        let availabilityPercentage;
+                        const cAvail = carpark.availability.car.availability || 0;
+                        const mAvail = carpark.availability.motorcycle.availability || 0;
+                        const tAvail = cAvail + mAvail;
 
-                        const totalSpaces = carpark.availability.car.total + carpark.availability.motorcycle.total;
+                        const cTotal = carpark.availability.car.total || 0;
+                        const mTotal = carpark.availability.motorcycle.total || 0;
+                        const tTotal = cTotal + mTotal;
 
-                        if (totalSpaces === 0) {
-                            availabilityPercentage = 0;
-                        } else {
-                            availabilityPercentage = (carpark.availability.car.availability + carpark.availability.motorcycle.availability) / totalSpaces;
-                        } return { ...carpark, distance, progress: availabilityPercentage };
+                        let avail = 0;
+
+                        if (tTotal != 0) {
+                            avail = tAvail / tTotal;
+                        }
+
+                        const availabilityPercentage = avail;
+                        return { ...carpark, distance, progress: availabilityPercentage, tAvail };
                     });
                     // set carparks
                     setData(carparksWithDistance);

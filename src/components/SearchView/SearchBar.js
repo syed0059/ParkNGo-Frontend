@@ -7,8 +7,17 @@ import { sortCarparks } from "../SortCarparks";
 import FavouritesContext from "../FavouritesContext";
 import { BottomSheetModal } from "@gorhom/bottom-sheet";
 import "react-native-gesture-handler";
+import ActiveSearchContext from "../ActiveSearchContext";
+import { useIsFocused } from '@react-navigation/native';
 
 export default function SearchBar({ location, searchLoading, searchCarparks }) {
+  const { setSearchActive } = useContext(ActiveSearchContext);
+  const isFocused = useIsFocused();
+
+  useEffect(() => {
+    setSearchActive(isFocused);
+  }, [isFocused, setSearchActive]);
+
   const [selectedCarpark, setSelectedCarpark] = useState(null);
 
   const [sortOption, setSortOption] = useState('distance');

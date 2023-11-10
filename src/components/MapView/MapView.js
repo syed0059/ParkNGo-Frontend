@@ -50,9 +50,9 @@ export default function Map({ location, loading, carparks }){
     console.log("SHOW")
     return locationsOfInterest.map((item, index) => {
       let color;
-      if (item.capacity < 10) {
+      if (item.capacity < 0.1) {
         color = "red";
-      } else if (item.capacity < 30) {
+      } else if (item.capacity < 0.3) {
         color = "yellow";
       } else {
         color = "green";
@@ -68,7 +68,6 @@ export default function Map({ location, loading, carparks }){
       );
     });
   };
-
   
   // Call addIn after loading is done
   useEffect(() => {

@@ -7,7 +7,7 @@ export function getCarparks(carparks){
 
     let avail = carparkArray[i].availability.motorcycle.availability + carparkArray[i].availability.car.availability
     let total = carparkArray[i].availability.motorcycle.total + carparkArray[i].availability.car.total
-    let percent = (avail/total) * 100
+    let percent = avail/total
     const newCarparkInfo = {
       title: carparkArray[i].Address,
       location: {

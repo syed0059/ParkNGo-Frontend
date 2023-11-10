@@ -12,6 +12,7 @@ import { GestureHandlerRootView } from "react-native-gesture-handler";
 import { GooglePlacesAutocomplete } from 'react-native-google-places-autocomplete';
 import ActiveFavouritesContext from "./src/components/ActiveFavouritesContext";
 import { MapCoordinates } from "./src/components/MapCoordinatesContext";
+import { MapSearchCoordinates } from "./src/components/MapSearchContext";
 
 export default function AppWrapper() {
     const [radius, setRadius] = useState(2);
@@ -21,6 +22,7 @@ export default function AppWrapper() {
 
     // map location
     const { mapCoordinates } = useContext(MapCoordinates);
+    const { mapSearchCoordinates, setMapSearchCoordinates } = useContext(MapSearchCoordinates);
 
     // logic to update the effective location based on the current location or map location
     const [effectiveLocation, setEffectiveLocation] = useState({
@@ -84,6 +86,12 @@ export default function AppWrapper() {
                                                         const newSearchLocation = { latitude: lat, longitude: lng };
                                                         setSearchLocation(newSearchLocation);
                                                         console.log(newSearchLocation);
+                                                        setMapSearchCoordinates({
+                                                            latitude: lat,
+                                                            longitude: lng,
+                                                            latitudeDelta: 0.008540807106718562,
+                                                            longitudeDelta: 0.008127428591251373,
+                                                        })
                                                     }
                                                 }}
                                                 query={{

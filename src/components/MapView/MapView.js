@@ -5,6 +5,7 @@ import { useEffect, useState, useContext, useCallback } from 'react';
 import * as Location from 'expo-location';
 import { RadiusContext } from '../RadiusContext'
 import { MapCoordinates } from '../MapCoordinatesContext';
+import { MapSearchCoordinates } from '../MapSearchContext';
 import { calculateDistance } from '../CalculateDistance';
 import ActiveFavouritesContext from "../ActiveFavouritesContext";
 import { getCarparks } from './mapInterface';
@@ -27,6 +28,7 @@ export default function Map({ location, loading, carparks }){
 
   const { radius } = useContext(RadiusContext);
   const { mapCoordinates, setMapCoordinates } = useContext(MapCoordinates);
+  const { mapSearchCoordinates } = useContext(MapSearchCoordinates);
 
   //To update list of carparks to be showns
   const addIn = async () => {
@@ -73,6 +75,17 @@ export default function Map({ location, loading, carparks }){
   useEffect(() => {
     addIn();
   }, [loading])
+
+  useEffect(() => {
+    if(mapSearchCoordinates.latitude!=undefined && mapSearchCoordinates.longitude!=undefined){
+      setMapCoordinates({
+        latitude: mapSearchCoordinates.latitude,
+        longitude:mapSearchCoordinates.longitude,
+        latitudeDelta: 0.008540807106718562,
+        longitudeDelta: 0.008127428591251373,
+      })
+    }
+  }, [mapSearchCoordinates])
 
   useEffect(() => {
     addIn();

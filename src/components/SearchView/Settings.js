@@ -18,7 +18,7 @@ export default function Settings() {
                 <Slider
                     style={{ width: 200, height: 40 }}
                     minimumValue={1}
-                    maximumValue={5}
+                    maximumValue={3}
                     step={0.1}
                     value={sliderValue}
                     onValueChange={(value) => setSliderValue(value)}

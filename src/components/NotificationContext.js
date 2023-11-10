@@ -1,5 +1,6 @@
 import React, { createContext, useState, useEffect } from 'react';
 const notificationInterface = require('../notificationInterface/notificationInterface');
+const carparkInterface = require('../carparkInterface/carparkInterface');
 import * as Notifications from 'expo-notifications';
 
 const NotificationContext = createContext();
@@ -15,22 +16,41 @@ export const NotificationProvider = ({ children }) => {
   });
 
   const scheduleNotification = async (carparkId) => {
-    await Notifications.scheduleNotificationAsync({
-      content: {
-        title: "Carpark Reminder",
-        body: `Don't forget your carpark ${carparkId}!`,
-        data: { carparkId },
-      },
-      trigger: null, 
-    });
+    const carparkData = data[String(carparkId)];
+    // Make sure carparkData is not undefined before scheduling the notification
+    if (carparkData) {
+      const carAvailability = carparkData.availability.car.availability || 0;
+      const motorcycleAvailability = carparkData.availability.motorcycle.availability || 0;
+      const totalAvailability = carAvailability + motorcycleAvailability;
+      const notificationIdentifier = await Notifications.scheduleNotificationAsync({
+        content: {
+          title: `${carparkData.Address}`,
+          body: `Current Availability: ${totalAvailability}!`,
+          data: carparkData, // Include the entire carparkData object if necessary
+        },
+        /*trigger: {
+          seconds: 60,
+          repeats: false,
+        },*/
+        trigger: null,
+      });
+      return { carparkId, identifier: notificationIdentifier };
+    } else {
+      // Handle the case where the carparkData is undefined (e.g., carparkId not found)
+      console.error('Carpark data not found for id:', carparkId);
+      return null;
+    }
   };
 
   const [notification, setNotification] = useState([]);
+  const [data, setData] = useState([]);
 
   useEffect(() => {
     const loadNotifications = async () => {
       const noti = await notificationInterface.getNotificationList();
       setNotification(noti);
+      const carparks = await carparkInterface.getCarparksByIdArray(noti);
+      setData(carparks);
     };
 
     loadNotifications();
@@ -40,18 +60,21 @@ export const NotificationProvider = ({ children }) => {
     const idString = carparkId.toString();
 
     // Check if the carparkId is already in the notifications array
-    const isNotified = notification.includes(carparkId);
+    const isNotified = notification.find(noti => noti.carparkId === carparkId);
 
     let updatedNotifications;
     if (isNotified) {
+      // Cancel Notification
+      await Notifications.cancelScheduledNotificationAsync(isNotified.identifier);
       // Remove the carparkId from notifications
-      updatedNotifications = notification.filter(notiId => notiId !== carparkId);
+      updatedNotifications = notification.filter(noti => noti.carparkId !== carparkId);
       await notificationInterface.removeFromNotificationList(idString);
     } else {
+      // Schedule the notification and get the identifier
+      const newNotification = await scheduleNotification(carparkId);
       // Add the carparkId to notifications
-      updatedNotifications = [...notification, carparkId];
+      updatedNotifications = [...notification, newNotification];
       await notificationInterface.addToNotificationList(idString);
-      scheduleNotification(carparkId);
     }
 
     // Update notification after toggling

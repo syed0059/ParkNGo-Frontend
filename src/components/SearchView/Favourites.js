@@ -1,19 +1,6 @@
-import React, {
-  useContext,
-  useEffect,
-  useState,
-  useRef,
-  useMemo,
-  useCallback,
-} from "react";
+import React, { useContext, useEffect, useState, useRef, useMemo, useCallback } from "react";
 import { View, StyleSheet, FlatList, TouchableOpacity } from "react-native";
-import {
-  Divider,
-  ProgressBar,
-  Text,
-  IconButton,
-  ActivityIndicator,
-} from "react-native-paper";
+import { Divider, ProgressBar, Text, IconButton, ActivityIndicator } from "react-native-paper";
 import Sort from "./Sort";
 const carparkInterface = require("../../carparkInterface/carparkInterface");
 import { calculateDistance } from "../CalculateDistance";
@@ -181,8 +168,8 @@ export default function Favourites({ location }) {
                 <Text variant="bodySmall">{item.distance.toFixed(2)} km</Text>
               </View>
               <IconButton
-                icon={notification.includes(item.CarparkID) ? "bell" : "bell-outline"}
-                iconColor={notification.includes(item.CarparkID) ? "blue" : "black"}
+                icon={notification.some(noti => noti.carparkId === item.CarparkID) ? "bell" : "bell-outline"}
+                iconColor={notification.some(noti => noti.carparkId === item.CarparkID) ? "blue" : "black"}
                 size = {24}
                 onPress={() => toggleNotifications(item.CarparkID)}
               />

@@ -76,6 +76,7 @@ function CarparkInfo({ carpark }) {
               <Prices
                 freeParking={carpark["FreeParking"]}
                 carparkType={carpark["CarparkType"]}
+                priceInfo={carpark["Prices"]}
                 onPress={pricePress}
               />
               <TrendsContainer carparkID={carpark["CarparkID"]} />

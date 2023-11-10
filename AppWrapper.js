@@ -1,7 +1,7 @@
 import React, { useState, useContext, useEffect } from "react";
-import { StyleSheet, View, TouchableWithoutFeedback, Keyboard } from "react-native";
+import { StyleSheet, View, TouchableWithoutFeedback, Keyboard, StatusBar } from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
-import { Provider as PaperProvider } from "react-native-paper";
+import { Provider as PaperProvider, IconButton } from "react-native-paper";
 import Map from "./src/components/MapView/MapView";
 import NavBar from "./src/components/SearchView/NavBar";
 import useLocation from "./src/components/FetchLocation";
@@ -13,8 +13,11 @@ import { GooglePlacesAutocomplete } from 'react-native-google-places-autocomplet
 import ActiveFavouritesContext from "./src/components/ActiveFavouritesContext";
 import { MapCoordinates } from "./src/components/MapCoordinatesContext";
 import { MapSearchCoordinates } from "./src/components/MapSearchContext";
+import ActiveSearchContext from "./src/components/ActiveSearchContext";
 
 export default function AppWrapper() {
+    const { isSearchActive } = useContext(ActiveSearchContext);
+
     const [radius, setRadius] = useState(2);
 
     // current location
@@ -68,39 +71,42 @@ export default function AppWrapper() {
                         <ActiveFavouritesContext.Provider value={{ isFavouritesActive, setFavouritesActive }}>
                             <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
                                 <View style={styles.container}>
+                                    <StatusBar barStyle="dark-content" />
                                     <View style={styles.mapContainer}>
                                         <Map
                                             location={location}
                                             loading={loading}
                                             carparks={carparks}
                                         />
-                                        <View style={styles.searchBar}>
-                                            <GooglePlacesAutocomplete
-                                                placeholder='Search'
-                                                enablePoweredByContainer={false}
-                                                fetchDetails={true}
-                                                onPress={(data, details = null) => {
-                                                    if (details && details.geometry && details.geometry.location) {
-                                                        const lat = details.geometry.location.lat;
-                                                        const lng = details.geometry.location.lng;
-                                                        const newSearchLocation = { latitude: lat, longitude: lng };
-                                                        setSearchLocation(newSearchLocation);
-                                                        console.log(newSearchLocation);
-                                                        setMapSearchCoordinates({
-                                                            latitude: lat,
-                                                            longitude: lng,
-                                                            latitudeDelta: 0.008540807106718562,
-                                                            longitudeDelta: 0.008127428591251373,
-                                                        })
-                                                    }
-                                                }}
-                                                query={{
-                                                    key: String(process.env.GOOGLE_API_KEY),
-                                                    language: 'en',
-                                                    components: 'country:sg',
-                                                }}
-                                            />
-                                        </View>
+                                        {isSearchActive && (
+                                            <View style={styles.searchBar}>
+                                                <GooglePlacesAutocomplete
+                                                    placeholder='Search'
+                                                    enablePoweredByContainer={false}
+                                                    fetchDetails={true}
+                                                    onPress={(data, details = null) => {
+                                                        if (details && details.geometry && details.geometry.location) {
+                                                            const lat = details.geometry.location.lat;
+                                                            const lng = details.geometry.location.lng;
+                                                            const newSearchLocation = { latitude: lat, longitude: lng };
+                                                            setSearchLocation(newSearchLocation);
+                                                            console.log(newSearchLocation);
+                                                            setMapSearchCoordinates({
+                                                                latitude: lat,
+                                                                longitude: lng,
+                                                                latitudeDelta: 0.008540807106718562,
+                                                                longitudeDelta: 0.008127428591251373,
+                                                            })
+                                                        }
+                                                    }}
+                                                    query={{
+                                                        key: String(process.env.GOOGLE_API_KEY),
+                                                        language: 'en',
+                                                        components: 'country:sg',
+                                                    }}
+                                                />
+                                            </View>
+                                        )}
                                     </View>
                                     <View style={styles.searchContainer}>
                                         <NavigationContainer>
@@ -148,6 +154,12 @@ const styles = StyleSheet.create({
         shadowOpacity: 0.25,
         shadowRadius: 3.84,
         elevation: 5,
+    },
+    closeButton: {
+        position: 'absolute',
+        right: 0,
+        top: '50%',
+        transform: [{ translateY: -25 }],
     },
     rootview: {
         flex: 1,

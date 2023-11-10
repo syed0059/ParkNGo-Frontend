@@ -1,10 +1,15 @@
 import { View, Text, StyleSheet } from "react-native";
 
 export default function PricesContent(props) {
+  console.log("PriceContent gets Prices: " + props.priceInfo);
+  // console.log(props.priceInfo["weekdayRate1"]);
+  // console.log(props.priceInfo["weekdayRate2"]);
+  // console.log(props.priceInfo["saturdayRate"]);
+  // console.log(props.priceInfo["sundayPublicHolidayRate"]);
   let carPrices =
-    "7.00am to 10:30pm: $0.60 / 30min \n\n10.30pm to 7.00am: $0.60 / 30min \n\nParking from 10.30pm to 7.00am capped at $5\n";
+    "Car: 7.00am to 10:30pm: $0.60 / 30min \n\n10.30pm to 7.00am: $0.60 / 30min \n\nParking from 10.30pm to 7.00am capped at $5\n";
   let motorcyclePrices =
-    "7.00am to 10:30pm: $0.20 / 30min \n\n10.30pm to 7.00am: $0.20 / 30min \n\nSession is capped at $0.65 per lot\n";
+    "Motorcycle: 7.00am to 10:30pm: $0.20 / 30min \n\n10.30pm to 7.00am: $0.20 / 30min \n\nSession is capped at $0.65 per lot\n";
   let terms = "Per minute charging";
   if (
     props.carparkType == "LTA Carpark" ||

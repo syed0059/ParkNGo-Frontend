@@ -4,6 +4,7 @@ import { View, StyleSheet, Text } from "react-native";
 import PricesContent from "./PricesContent";
 
 export default function Prices(props) {
+  console.log("prices priceInfo: " + props.priceInfo);
   let freeParking = "Unavailable.";
   if (props.freeParking) {
     freeParking = props.freeParking;
@@ -16,6 +17,7 @@ export default function Prices(props) {
           <PricesContent
             freeParking={freeParking}
             carparkType={props.carparkType}
+            priceInfo={props.priceInfo}
           />
           {props.carparkType != "URA Carpark" &&
             props.carparkType != "LTA Carpark" && (

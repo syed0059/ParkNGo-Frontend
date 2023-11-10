@@ -44,6 +44,16 @@ export default function SearchBar({ location, searchLoading, searchCarparks }) {
 
   const { favourites, toggleFavourites } = useContext(FavouritesContext);
 
+  const getProgressBarColor = (progress) => {
+    if (progress < 0.1) {
+      return "red";
+    } else if (progress < 0.3) {
+      return "yellow";
+    } else {
+      return "green";
+    }
+  };
+
   // Bottom Sheet Modal
   // ref
   const bottomSheetModalRef = useRef(null);
@@ -55,11 +65,9 @@ export default function SearchBar({ location, searchLoading, searchCarparks }) {
   function handlePresentModalPress() {
     bottomSheetModalRef.current?.present();
   }
-  // const handlePresentModalPress = useCallback(() => {
-  //   bottomSheetModalRef.current?.present();
-  // }, []);
+
   const handleSheetChanges = useCallback((index) => {
-    console.log("handleSheetChanges", index);
+    // console.log("handleSheetChanges", index);
   }, []);
 
   if (searchLoading || isSorting) {
@@ -91,8 +99,12 @@ export default function SearchBar({ location, searchLoading, searchCarparks }) {
           >
             <View style={styles.listItem}>
               <View style={styles.availableCarparks}>
-                <Text variant="labelLarge" style={styles.availableCarparksText}>{item.availability.car.availability + item.availability.motorcycle.availability} </Text>
-                <ProgressBar progress={item.progress} color="green" style={styles.progress} />
+                <Text variant="labelLarge" style={styles.availableCarparksText}>{item.tAvail}</Text>
+                <ProgressBar
+                  progress={item.progress}
+                  color={getProgressBarColor(item.progress)}
+                  style={styles.progress}
+                />
               </View>
               <View style={styles.textContainer}>
                 <Text variant="labelLarge">{item.Address}</Text>

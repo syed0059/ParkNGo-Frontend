@@ -62,9 +62,23 @@ export default function Favourites({ location }) {
                 latitude,
                 longitude
               );
-              // Set random availability
-              const availabilityPercentage = carpark.availability.car.availability / carpark.availability.car.total;
-              return { ...carpark, distance, progress: availabilityPercentage };
+
+              const cAvail = carpark.availability.car.availability || 0;
+              const mAvail = carpark.availability.motorcycle.availability || 0;
+              const tAvail = cAvail + mAvail;
+
+              const cTotal = carpark.availability.car.total || 0;
+              const mTotal = carpark.availability.motorcycle.total || 0;
+              const tTotal = cTotal + mTotal;
+
+              let avail = 0;
+
+              if (tTotal != 0) {
+                avail = tAvail / tTotal;
+              }
+
+              const availabilityPercentage = avail;
+              return { ...carpark, distance, progress: availabilityPercentage, tAvail };
             }
           );
           // set carparks
@@ -110,6 +124,16 @@ export default function Favourites({ location }) {
     setSortedCarparks(sortedLists[sortOption]);
   }, [sortOption, sortedLists]);
 
+  const getProgressBarColor = (progress) => {
+    if (progress < 0.1) {
+      return "red";
+    } else if (progress < 0.3) {
+      return "yellow";
+    } else {
+      return "green";
+    }
+  };
+
   //Select carpark
   const [selectedCarpark, setSelectedCarpark] = useState(null);
   // Bottom Sheet Modal
@@ -123,11 +147,9 @@ export default function Favourites({ location }) {
   function handlePresentModalPress() {
     bottomSheetModalRef.current?.present();
   }
-  // const handlePresentModalPress = useCallback(() => {
-  //   bottomSheetModalRef.current?.present();
-  // }, []);
+
   const handleSheetChanges = useCallback((index) => {
-    console.log("handleSheetChanges", index);
+    // console.log("handleSheetChanges", index);
   }, []);
 
   if (loading || isSorting || notification === undefined) {
@@ -154,14 +176,17 @@ export default function Favourites({ location }) {
           <TouchableOpacity
             onPress={() => {
               setSelectedCarpark(item);
-              console.log("selected");
               handlePresentModalPress();
             }}
           >
             <View style={styles.listItem}>
               <View style={styles.availableCarparks}>
-                <Text variant="labelLarge" style={styles.availableCarparksText}>{item.availability.car.availability + item.availability.motorcycle.availability} </Text>
-                <ProgressBar progress={item.progress} color="green" style={styles.progress} />
+                <Text variant="labelLarge" style={styles.availableCarparksText}>{item.tAvail}</Text>
+                <ProgressBar
+                  progress={item.progress}
+                  color={getProgressBarColor(item.progress)}
+                  style={styles.progress}
+                />
               </View>
               <View style={styles.textContainer}>
                 <Text variant="labelLarge">{item.Address}</Text>
@@ -170,7 +195,7 @@ export default function Favourites({ location }) {
               <IconButton
                 icon={notification.some(noti => noti.carparkId === item.CarparkID) ? "bell" : "bell-outline"}
                 iconColor={notification.some(noti => noti.carparkId === item.CarparkID) ? "blue" : "black"}
-                size = {24}
+                size={24}
                 onPress={() => toggleNotifications(item.CarparkID)}
               />
               <IconButton

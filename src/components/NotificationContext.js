@@ -16,7 +16,10 @@ export const NotificationProvider = ({ children }) => {
   });
 
   const scheduleNotification = async (carparkId) => {
-    const carparkData = data[String(carparkId)];
+    // console.log(carparkId, "cpID");
+    const carparks = await carparkInterface.getCarparksByIdArray([carparkId.toString()]);
+    const carparkData = carparks[carparkId];
+    // console.log(carparkData);
     // Make sure carparkData is not undefined before scheduling the notification
     if (carparkData) {
       const carAvailability = carparkData.availability.car.availability || 0;
@@ -43,14 +46,12 @@ export const NotificationProvider = ({ children }) => {
   };
 
   const [notification, setNotification] = useState([]);
-  const [data, setData] = useState([]);
 
   useEffect(() => {
     const loadNotifications = async () => {
       const noti = await notificationInterface.getNotificationList();
       setNotification(noti);
-      const carparks = await carparkInterface.getCarparksByIdArray(noti);
-      setData(carparks);
+      // console.log(noti, "inital noti");
     };
 
     loadNotifications();
@@ -58,7 +59,7 @@ export const NotificationProvider = ({ children }) => {
 
   const toggleNotifications = async (carparkId) => {
     const idString = carparkId.toString();
-
+    // console.log(idString, "noti selected");
     // Check if the carparkId is already in the notifications array
     const isNotified = notification.find(noti => noti.carparkId === carparkId);
 
@@ -78,6 +79,7 @@ export const NotificationProvider = ({ children }) => {
     }
 
     // Update notification after toggling
+    // console.log(updatedNotifications, "updated noti");
     setNotification(updatedNotifications);
   };
 

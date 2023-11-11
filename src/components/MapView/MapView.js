@@ -16,18 +16,8 @@ export default function Map({ location, loading, carparks }){
 
   const { isFavouritesActive } = useContext(ActiveFavouritesContext);
   const { favourites } = useContext(FavouritesContext);
-
-  useEffect(() => {
-    if (isFavouritesActive) {
-      console.log('FavouritesScreen is focused');
-    } else {
-      console.log('FavouritesScreen is not focused');
-    }
-  }, [isFavouritesActive]);
-
   const [locationsOfInterest, setLocationsOfInterest] = useState([]);
   const [preventLoad, setPreventLoad] = useState(true);
-
   const { radius } = useContext(RadiusContext);
   const { mapCoordinates, setMapCoordinates } = useContext(MapCoordinates);
   const { mapSearchCoordinates } = useContext(MapSearchCoordinates);
@@ -45,13 +35,13 @@ export default function Map({ location, loading, carparks }){
     }
 
     setLocationsOfInterest(data)
-    console.log("Done")
+    // console.log("Done")
 
   };
 
   // Drawing out the pins
   const showLocationsOfInterest = () => {
-    console.log("SHOW")
+    // console.log("SHOW")
     return locationsOfInterest.map((item, index) => {
       let color;
       if (item.capacity < 0.1) {
@@ -90,8 +80,11 @@ export default function Map({ location, loading, carparks }){
   }, [mapSearchCoordinates])
 
   useEffect(() => {
-    addIn();
-    fetchLocation();
+    if(!isFavouritesActive){
+      fetchLocation();
+    }else{
+      addIn();
+    }
   }, [isFavouritesActive]);
 
   useEffect(() => {
@@ -102,7 +95,6 @@ export default function Map({ location, loading, carparks }){
 
   const fetchLocation = async () => { 
     try {
-      
       let { status } = await Location.requestForegroundPermissionsAsync();
       
       if (status !== 'granted') {
@@ -120,7 +112,8 @@ export default function Map({ location, loading, carparks }){
         latitudeDelta: 0.008540807106718562,
         longitudeDelta: 0.008127428591251373,
       })
-      console.log('Got Location');
+      // console.log('Got Location');
+      addIn();
     } catch (error) {
       console.error(error);
     }
@@ -151,6 +144,20 @@ export default function Map({ location, loading, carparks }){
     }
   }
 
+  const showCircle = () => {
+    // console.log("circle")
+    if(!isFavouritesActive){
+      return <Circle
+      center = {{
+        latitude: mapCoordinates.latitude,
+        longitude: mapCoordinates.longitude,
+      }} 
+      radius= {radius * 1000}
+      strokeColor='blue'
+      strokeWidth={2}/>
+    }
+  };
+
   return (
     <View style={styles.container}>
       <MapView
@@ -163,14 +170,8 @@ export default function Map({ location, loading, carparks }){
         minZoomLevel={13}
       >
         {showLocationsOfInterest()}
-        <Circle
-          center = {{
-            latitude: mapCoordinates.latitude,
-            longitude: mapCoordinates.longitude,
-          }} 
-          radius= {radius * 1000}
-          strokeColor='blue'
-          strokeWidth={2}/>
+        {showCircle()}
+
       </MapView>
     </View>
   );

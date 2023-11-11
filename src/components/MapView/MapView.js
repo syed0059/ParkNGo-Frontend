@@ -91,12 +91,7 @@ export default function Map({ location, loading, carparks }){
 
   useEffect(() => {
     addIn();
-    setMapCoordinates({
-      latitude: location.latitude,
-      longitude: location.longitude,
-      latitudeDelta: 0.008540807106718562,
-      longitudeDelta: 0.008127428591251373,
-    })
+    fetchLocation();
   }, [isFavouritesActive]);
 
   useEffect(() => {
@@ -105,34 +100,34 @@ export default function Map({ location, loading, carparks }){
     }
   }, [favourites]);
 
+  const fetchLocation = async () => { 
+    try {
+      
+      let { status } = await Location.requestForegroundPermissionsAsync();
+      
+      if (status !== 'granted') {
+        console.error('Location permission not granted');
+        return;
+      }
+      
+      let location = await Location.getCurrentPositionAsync({
+        accuracy: Location.Accuracy.Balanced,
+      });
+
+      setMapCoordinates({
+        latitude: location.coords.latitude,
+        longitude: location.coords.longitude,
+        latitudeDelta: 0.008540807106718562,
+        longitudeDelta: 0.008127428591251373,
+      })
+      console.log('Got Location');
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
   // Update location when user allows GPS
   useEffect(() => {
-    const fetchLocation = async () => { 
-      try {
-        
-        let { status } = await Location.requestForegroundPermissionsAsync();
-        
-        if (status !== 'granted') {
-          console.error('Location permission not granted');
-          return;
-        }
-        
-        let location = await Location.getCurrentPositionAsync({
-          accuracy: Location.Accuracy.Balanced,
-        });
-
-        setMapCoordinates({
-          latitude: location.coords.latitude,
-          longitude: location.coords.longitude,
-          latitudeDelta: 0.008540807106718562,
-          longitudeDelta: 0.008127428591251373,
-        })
-        console.log('Got Location');
-      } catch (error) {
-        console.error(error);
-      }
-    };
-
     fetchLocation();
   }, []);
 

@@ -125,7 +125,7 @@ export default function Map({ location, loading, carparks }){
   }, []);
 
   const debouncedOnRegionChange = useCallback(_.debounce((region) => {
-    if(calculateDistance(mapCoordinates.latitude, mapCoordinates.longitude, region.latitude, region.longitude) >= 1 && !preventLoad && !isFavouritesActive){
+    if(calculateDistance(mapCoordinates.latitude, mapCoordinates.longitude, region.latitude, region.longitude) >= 1 && !isFavouritesActive){
       setMapCoordinates({
         latitude: region.latitude,
         longitude: region.longitude,
@@ -135,7 +135,6 @@ export default function Map({ location, loading, carparks }){
       addIn();
       console.log("move complete");
     }
-    setPreventLoad(false);
   }, 700));
 
   const onRegionChange = (region, gesture) => {

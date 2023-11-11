@@ -66,7 +66,7 @@ export default function Map({ location, loading, carparks }){
   // Call addIn after loading is done
   useEffect(() => {
     addIn();
-  }, [loading])
+  }, [carparks])
 
   useEffect(() => {
     if(mapSearchCoordinates.latitude!=undefined && mapSearchCoordinates.longitude!=undefined){
@@ -113,7 +113,7 @@ export default function Map({ location, loading, carparks }){
         longitudeDelta: 0.008127428591251373,
       })
       // console.log('Got Location');
-      addIn();
+      // addIn();
     } catch (error) {
       console.error(error);
     }
@@ -132,7 +132,7 @@ export default function Map({ location, loading, carparks }){
         latitudeDelta: region.latitudeDelta,
         longitudeDelta: region.longitudeDelta,
       });
-      addIn();
+      // addIn();
       console.log("move complete");
     }
   }, 700));

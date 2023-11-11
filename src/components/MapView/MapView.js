@@ -91,6 +91,12 @@ export default function Map({ location, loading, carparks }){
 
   useEffect(() => {
     addIn();
+    setMapCoordinates({
+      latitude: location.latitude,
+      longitude: location.longitude,
+      latitudeDelta: 0.008540807106718562,
+      longitudeDelta: 0.008127428591251373,
+    })
   }, [isFavouritesActive]);
 
   useEffect(() => {
@@ -131,7 +137,7 @@ export default function Map({ location, loading, carparks }){
   }, []);
 
   const debouncedOnRegionChange = useCallback(_.debounce((region) => {
-    if(calculateDistance(mapCoordinates.latitude, mapCoordinates.longitude, region.latitude, region.longitude) >= 1 && !preventLoad){
+    if(calculateDistance(mapCoordinates.latitude, mapCoordinates.longitude, region.latitude, region.longitude) >= 1 && !preventLoad && !isFavouritesActive){
       setMapCoordinates({
         latitude: region.latitude,
         longitude: region.longitude,

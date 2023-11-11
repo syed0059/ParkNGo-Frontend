@@ -7,7 +7,6 @@ import CarparkList from './CarparkList';
 import SearchBar from './SearchBar';
 import Settings from './Settings';
 import Favourites from './Favourites';
-import { FavouritesProvider } from '../FavouritesContext';
 import { NotificationProvider } from '../NotificationContext';
 
 const Tab = createMaterialTopTabNavigator();
@@ -40,47 +39,45 @@ export default function NavBar({ location, loading, carparks, searchLoading, sea
 
   return (
     <NotificationProvider>
-      <FavouritesProvider>
-        <Tab.Navigator
-          screenOptions={{
-            tabBarShowIcon: true,
-            tabBarShowLabel: false,
-            tabBarIndicatorStyle: { backgroundColor: 'blue' },
-            tabBarIconStyle: { justifyContent: 'center', alignItems: 'center' },
-            tabBarInactiveTintColor: 'black',
-            tabBarActiveTintColor: 'blue',
+      <Tab.Navigator
+        screenOptions={{
+          tabBarShowIcon: true,
+          tabBarShowLabel: false,
+          tabBarIndicatorStyle: { backgroundColor: 'blue' },
+          tabBarIconStyle: { justifyContent: 'center', alignItems: 'center' },
+          tabBarInactiveTintColor: 'black',
+          tabBarActiveTintColor: 'blue',
+        }}
+      >
+        <Tab.Screen
+          name="Home"
+          component={HomeScreen}
+          options={{
+            tabBarIcon: ({ color, size }) => <Icon name="navigation-variant-outline" size={20} color={color} />,
           }}
-        >
-          <Tab.Screen
-            name="Home"
-            component={HomeScreen}
-            options={{
-              tabBarIcon: ({ color, size }) => <Icon name="navigation-variant-outline" size={20} color={color} />,
-            }}
-          />
-          <Tab.Screen
-            name="Search"
-            component={SearchScreen}
-            options={{
-              tabBarIcon: ({ color, size }) => <Icon name="magnify" size={20} color={color} />,
-            }}
-          />
-          <Tab.Screen
-            name="Favourites"
-            component={FavouritesScreen}
-            options={{
-              tabBarIcon: ({ color, size }) => <Icon name="heart-outline" size={20} color={color} />,
-            }}
-          />
-          <Tab.Screen
-            name="Settings"
-            component={SettingsScreen}
-            options={{
-              tabBarIcon: ({ color, size }) => <Icon name="cog" size={20} color={color} />,
-            }}
-          />
-        </Tab.Navigator>
-      </FavouritesProvider>
+        />
+        <Tab.Screen
+          name="Search"
+          component={SearchScreen}
+          options={{
+            tabBarIcon: ({ color, size }) => <Icon name="magnify" size={20} color={color} />,
+          }}
+        />
+        <Tab.Screen
+          name="Favourites"
+          component={FavouritesScreen}
+          options={{
+            tabBarIcon: ({ color, size }) => <Icon name="heart-outline" size={20} color={color} />,
+          }}
+        />
+        <Tab.Screen
+          name="Settings"
+          component={SettingsScreen}
+          options={{
+            tabBarIcon: ({ color, size }) => <Icon name="cog" size={20} color={color} />,
+          }}
+        />
+      </Tab.Navigator>
     </NotificationProvider>
   );
 }

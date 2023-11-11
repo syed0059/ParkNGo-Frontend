@@ -14,6 +14,7 @@ import ActiveFavouritesContext from "./src/components/ActiveFavouritesContext";
 import { MapCoordinates } from "./src/components/MapCoordinatesContext";
 import { MapSearchCoordinates } from "./src/components/MapSearchContext";
 import ActiveSearchContext from "./src/components/ActiveSearchContext";
+import { FavouritesProvider } from "./src/components/FavouritesContext";
 
 export default function AppWrapper() {
     const { isSearchActive } = useContext(ActiveSearchContext);
@@ -69,58 +70,60 @@ export default function AppWrapper() {
                 <BottomSheetModalProvider>
                     <RadiusContext.Provider value={{ radius, setRadius }}>
                         <ActiveFavouritesContext.Provider value={{ isFavouritesActive, setFavouritesActive }}>
-                            <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
-                                <View style={styles.container}>
-                                    <StatusBar barStyle="dark-content" />
-                                    <View style={styles.mapContainer}>
-                                        <Map
-                                            location={location}
-                                            loading={loading}
-                                            carparks={carparks}
-                                        />
-                                        {isSearchActive && (
-                                            <View style={styles.searchBar}>
-                                                <GooglePlacesAutocomplete
-                                                    placeholder='Search'
-                                                    enablePoweredByContainer={false}
-                                                    fetchDetails={true}
-                                                    onPress={(data, details = null) => {
-                                                        if (details && details.geometry && details.geometry.location) {
-                                                            const lat = details.geometry.location.lat;
-                                                            const lng = details.geometry.location.lng;
-                                                            const newSearchLocation = { latitude: lat, longitude: lng };
-                                                            setSearchLocation(newSearchLocation);
-                                                            console.log(newSearchLocation);
-                                                            setMapSearchCoordinates({
-                                                                latitude: lat,
-                                                                longitude: lng,
-                                                                latitudeDelta: 0.008540807106718562,
-                                                                longitudeDelta: 0.008127428591251373,
-                                                            })
-                                                        }
-                                                    }}
-                                                    query={{
-                                                        key: String(process.env.GOOGLE_API_KEY),
-                                                        language: 'en',
-                                                        components: 'country:sg',
-                                                    }}
-                                                />
-                                            </View>
-                                        )}
-                                    </View>
-                                    <View style={styles.searchContainer}>
-                                        <NavigationContainer>
-                                            <NavBar
+                            <FavouritesProvider>
+                                <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
+                                    <View style={styles.container}>
+                                        <StatusBar barStyle="dark-content" />
+                                        <View style={styles.mapContainer}>
+                                            <Map
                                                 location={location}
                                                 loading={loading}
                                                 carparks={carparks}
-                                                searchLoading={searchLoading}
-                                                searchCarparks={searchCarparks}
                                             />
-                                        </NavigationContainer>
+                                            {isSearchActive && (
+                                                <View style={styles.searchBar}>
+                                                    <GooglePlacesAutocomplete
+                                                        placeholder='Search'
+                                                        enablePoweredByContainer={false}
+                                                        fetchDetails={true}
+                                                        onPress={(data, details = null) => {
+                                                            if (details && details.geometry && details.geometry.location) {
+                                                                const lat = details.geometry.location.lat;
+                                                                const lng = details.geometry.location.lng;
+                                                                const newSearchLocation = { latitude: lat, longitude: lng };
+                                                                setSearchLocation(newSearchLocation);
+                                                                console.log(newSearchLocation);
+                                                                setMapSearchCoordinates({
+                                                                    latitude: lat,
+                                                                    longitude: lng,
+                                                                    latitudeDelta: 0.008540807106718562,
+                                                                    longitudeDelta: 0.008127428591251373,
+                                                                })
+                                                            }
+                                                        }}
+                                                        query={{
+                                                            key: String(process.env.GOOGLE_API_KEY),
+                                                            language: 'en',
+                                                            components: 'country:sg',
+                                                        }}
+                                                    />
+                                                </View>
+                                            )}
+                                        </View>
+                                        <View style={styles.searchContainer}>
+                                            <NavigationContainer>
+                                                <NavBar
+                                                    location={location}
+                                                    loading={loading}
+                                                    carparks={carparks}
+                                                    searchLoading={searchLoading}
+                                                    searchCarparks={searchCarparks}
+                                                />
+                                            </NavigationContainer>
+                                        </View>
                                     </View>
-                                </View>
-                            </TouchableWithoutFeedback>
+                                </TouchableWithoutFeedback>
+                            </FavouritesProvider>
                         </ActiveFavouritesContext.Provider>
                     </RadiusContext.Provider>
                 </BottomSheetModalProvider>

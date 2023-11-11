@@ -22,7 +22,10 @@ function PriceCalculator({ rates }) {
     let price;
 
     const arrival = new Date(arrivalTime); // convert to date object
-    const departure = new Date(departureTime.getTime() + +24 * 60 * 60 * 1000); // convert to date object
+    const departure =
+      departureTime < arrivalTime
+        ? new Date(departureTime.getTime() + 24 * 60 * 60 * 1000)
+        : departureTime; // convert to date object
 
     if (vehicleType != "car") {
       rate = 0.2;

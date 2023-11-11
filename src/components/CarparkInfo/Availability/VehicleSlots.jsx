@@ -4,8 +4,8 @@ import { View, StyleSheet } from "react-native";
 
 export default function VehicleSlots(props) {
   let icon;
-  vehicleAvail = props.vehicleAvail;
-  vehicleTotal = props.vehicleTotal;
+  vehicleAvail = Math.abs(props.vehicleAvail);
+  vehicleTotal = Math.abs(props.vehicleTotal);
   let showTotal = vehicleAvail + " / " + vehicleTotal;
   if (vehicleTotal == 0) {
     showTotal = "Unavailable";

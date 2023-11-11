@@ -1,6 +1,19 @@
-import React, { useContext, useEffect, useState, useRef, useMemo, useCallback } from "react";
+import React, {
+  useContext,
+  useEffect,
+  useState,
+  useRef,
+  useMemo,
+  useCallback,
+} from "react";
 import { View, StyleSheet, FlatList, TouchableOpacity } from "react-native";
-import { Divider, ProgressBar, Text, IconButton, ActivityIndicator } from "react-native-paper";
+import {
+  Divider,
+  ProgressBar,
+  Text,
+  IconButton,
+  ActivityIndicator,
+} from "react-native-paper";
 import Sort from "./Sort";
 const carparkInterface = require("../../carparkInterface/carparkInterface");
 import { calculateDistance } from "../CalculateDistance";
@@ -11,10 +24,9 @@ import CarparkInfo from "../CarparkInfo/CarparkInfo";
 import { BottomSheetModal } from "@gorhom/bottom-sheet";
 import "react-native-gesture-handler";
 import ActiveFavouritesContext from "../ActiveFavouritesContext";
-import { useIsFocused } from '@react-navigation/native';
+import { useIsFocused } from "@react-navigation/native";
 
 export default function Favourites({ location }) {
-
   const { setFavouritesActive } = useContext(ActiveFavouritesContext);
   const isFocused = useIsFocused();
 
@@ -78,7 +90,12 @@ export default function Favourites({ location }) {
               }
 
               const availabilityPercentage = avail;
-              return { ...carpark, distance, progress: availabilityPercentage, tAvail };
+              return {
+                ...carpark,
+                distance,
+                progress: availabilityPercentage,
+                tAvail,
+              };
             }
           );
           // set carparks
@@ -93,7 +110,7 @@ export default function Favourites({ location }) {
     fetchCarparks();
   }, [location, favourites]); // The useEffect will rerun whenever userLocation changes
 
-  const [sortOption, setSortOption] = useState('distance');
+  const [sortOption, setSortOption] = useState("distance");
   const [sortedLists, setSortedLists] = useState({
     distance: [],
     availability: [],
@@ -106,9 +123,9 @@ export default function Favourites({ location }) {
   useEffect(() => {
     setIsSorting(true);
 
-    const distanceSorted = sortCarparks(carparks, 'distance');
-    const availabilitySorted = sortCarparks(carparks, 'availability');
-    const priceSorted = sortCarparks(carparks, 'price');
+    const distanceSorted = sortCarparks(carparks, "distance");
+    const availabilitySorted = sortCarparks(carparks, "availability");
+    const priceSorted = sortCarparks(carparks, "price");
 
     setSortedLists({
       distance: distanceSorted,
@@ -181,10 +198,12 @@ export default function Favourites({ location }) {
           >
             <View style={styles.listItem}>
               <View style={styles.availableCarparks}>
-                <Text variant="labelLarge" style={styles.availableCarparksText}>{item.tAvail}</Text>
+                <Text variant="labelLarge" style={styles.availableCarparksText}>
+                  {Math.abs(item.tAvail)}
+                </Text>
                 <ProgressBar
-                  progress={item.progress}
-                  color={getProgressBarColor(item.progress)}
+                  progress={Math.abs(item.progress)}
+                  color={getProgressBarColor(Math.abs(item.progress))}
                   style={styles.progress}
                 />
               </View>
@@ -193,14 +212,28 @@ export default function Favourites({ location }) {
                 <Text variant="bodySmall">{item.distance.toFixed(2)} km</Text>
               </View>
               <IconButton
-                icon={notification.some(noti => noti.carparkId === item.CarparkID) ? "bell" : "bell-outline"}
-                iconColor={notification.some(noti => noti.carparkId === item.CarparkID) ? "blue" : "black"}
+                icon={
+                  notification.some((noti) => noti.carparkId === item.CarparkID)
+                    ? "bell"
+                    : "bell-outline"
+                }
+                iconColor={
+                  notification.some((noti) => noti.carparkId === item.CarparkID)
+                    ? "blue"
+                    : "black"
+                }
                 size={24}
                 onPress={() => toggleNotifications(item.CarparkID)}
               />
               <IconButton
-                icon={favourites.includes(item.CarparkID) ? "heart" : "heart-outline"}
-                iconColor={favourites.includes(item.CarparkID) ? "blue" : "black"}
+                icon={
+                  favourites.includes(item.CarparkID)
+                    ? "heart"
+                    : "heart-outline"
+                }
+                iconColor={
+                  favourites.includes(item.CarparkID) ? "blue" : "black"
+                }
                 size={24}
                 onPress={() => toggleFavourites(item.CarparkID)}
               />
@@ -264,15 +297,15 @@ const styles = StyleSheet.create({
     backgroundColor: "#ffffff",
   },
   availableCarparks: {
-    flexDirection: 'column',
-    justifyContent: 'center',
-    alignItems: 'center',
+    flexDirection: "column",
+    justifyContent: "center",
+    alignItems: "center",
     marginRight: 20,
     marginLeft: 10,
   },
   availableCarparksText: {
-    color: 'black',
-    textAlign: 'center',
+    color: "black",
+    textAlign: "center",
     marginBottom: 5,
   },
 });

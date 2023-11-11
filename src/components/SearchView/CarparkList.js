@@ -24,7 +24,7 @@ import "react-native-gesture-handler";
 export default function CarparkList({ location, loading, carparks }) {
   const [selectedCarpark, setSelectedCarpark] = useState(null);
 
-  const [sortOption, setSortOption] = useState('distance');
+  const [sortOption, setSortOption] = useState("distance");
   const [sortedLists, setSortedLists] = useState({
     distance: [],
     availability: [],
@@ -37,9 +37,9 @@ export default function CarparkList({ location, loading, carparks }) {
   useEffect(() => {
     setIsSorting(true);
 
-    const distanceSorted = sortCarparks(carparks, 'distance');
-    const availabilitySorted = sortCarparks(carparks, 'availability');
-    const priceSorted = sortCarparks(carparks, 'price');
+    const distanceSorted = sortCarparks(carparks, "distance");
+    const availabilitySorted = sortCarparks(carparks, "availability");
+    const priceSorted = sortCarparks(carparks, "price");
 
     setSortedLists({
       distance: distanceSorted,
@@ -112,10 +112,12 @@ export default function CarparkList({ location, loading, carparks }) {
           >
             <View style={styles.listItem}>
               <View style={styles.availableCarparks}>
-                <Text variant="labelLarge" style={styles.availableCarparksText}>{item.tAvail}</Text>
+                <Text variant="labelLarge" style={styles.availableCarparksText}>
+                  {Math.abs(item.tAvail)}
+                </Text>
                 <ProgressBar
-                  progress={item.progress}
-                  color={getProgressBarColor(item.progress)}
+                  progress={Math.abs(item.progress)}
+                  color={getProgressBarColor(Math.abs(item.progress))}
                   style={styles.progress}
                 />
               </View>
@@ -124,8 +126,14 @@ export default function CarparkList({ location, loading, carparks }) {
                 <Text variant="bodySmall">{item.distance.toFixed(2)} km</Text>
               </View>
               <IconButton
-                icon={favourites.includes(item.CarparkID) ? "heart" : "heart-outline"}
-                iconColor={favourites.includes(item.CarparkID) ? "blue" : "black"}
+                icon={
+                  favourites.includes(item.CarparkID)
+                    ? "heart"
+                    : "heart-outline"
+                }
+                iconColor={
+                  favourites.includes(item.CarparkID) ? "blue" : "black"
+                }
                 size={24}
                 onPress={() => toggleFavourites(item.CarparkID)}
               />

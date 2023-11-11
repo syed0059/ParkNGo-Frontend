@@ -19,18 +19,19 @@ const Favourites = "favourites";
 
 initialiseCarparks = async () => {
   console.log("initialising");
-  let carparks;
-  try {
-    carparks = await fetch(localhost + ":3000/search/all");
-    carparks = await carparks.json();
+  // let carparks;
+  // try {
+  //   carparks = await fetch(localhost + ":3000/search/all");
+  //   carparks = await carparks.json();
 
-    for (const carpark of carparks) {
-      await AsyncStorage.setItem(carpark["CarparkID"], JSON.stringify(carpark));
-    }
-    await AsyncStorage.setItem(Initialised, "true");
-  } catch (e) {
-    console.error(e);
-  }
+  //   for (const carpark of carparks) {
+  //     await AsyncStorage.setItem(carpark["CarparkID"], JSON.stringify(carpark));
+  //   }
+  //   await AsyncStorage.setItem(Initialised, "true");
+  // } catch (e) {
+  //   console.error(e);
+  // }
+  return
 };
 
 module.exports.getAllCarparks = async () => {
@@ -70,12 +71,7 @@ module.exports.getCarparkById = async (carparkId) => {
 };
 
 module.exports.getCarparksByIdArray = async (carparkIdsArray) => {
-  const initialised = await AsyncStorage.getItem(Initialised);
-
-  if (!initialised) {
-    await initialiseCarparks();
-  }
-
+  
   let availabilityData = await fetch(
     localhost +
       ":3000/search/availability?" +

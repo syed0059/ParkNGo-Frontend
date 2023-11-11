@@ -16,6 +16,7 @@ import Navigation from "./Navigation/Navigation";
 const carparkInterface = require("../../carparkInterface/carparkInterface");
 import { formatString } from "../formatString";
 import PriceCalculator from "./Prices/PriceCalculator";
+import NearbyPlaces from "./Details/NearbyPlaces";
 
 function CarparkInfo({ carpark }) {
   console.log(carpark);
@@ -42,7 +43,6 @@ function CarparkInfo({ carpark }) {
     };
     fetchCarpark();
   }, [selectedCarparkID]);
-  console.log("Carpark info's data:" + data);
 
   function getContent() {
     return (
@@ -69,6 +69,9 @@ function CarparkInfo({ carpark }) {
               >
                 Directions
               </Button>
+              <NearbyPlaces
+                coordinates={carpark["Coordinates"]["coordinates"]}
+              />
               <CarparkAvailability
                 carSet={carpark["availability"]["car"]}
                 motorSet={carpark["availability"]["motorcycle"]}

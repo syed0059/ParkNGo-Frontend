@@ -39,12 +39,9 @@ function PriceCalculator({ rates }) {
       let totalCost = 0;
       let cappedTimeCost = 0;
       let currentTime = arrival;
-      console.log(currentTime);
-      console.log(departure);
 
       while (currentTime < departure) {
         let nextInterval = new Date(currentTime.getTime() + 30 * 60000);
-        console.log(nextInterval);
         if (isCapped(currentTime)) {
           cappedTimeCost += rate;
           cappedTimeCost = Math.min(cap, cappedTimeCost);
@@ -54,7 +51,6 @@ function PriceCalculator({ rates }) {
         currentTime = nextInterval;
       }
       totalCost += cappedTimeCost;
-      console.log(totalCost);
       price = totalCost;
     }
 

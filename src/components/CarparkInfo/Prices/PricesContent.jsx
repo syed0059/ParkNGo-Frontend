@@ -1,7 +1,7 @@
 import { View, Text, StyleSheet } from "react-native";
 
 export default function PricesContent(props) {
-  console.log("PriceContent gets Prices: " + props.priceInfo);
+  // console.log("PriceContent gets Prices: " + props.priceInfo);
   // console.log(props.priceInfo["weekdayRate1"]);
   // console.log(props.priceInfo["weekdayRate2"]);
   // console.log(props.priceInfo["saturdayRate"]);
@@ -10,8 +10,7 @@ export default function PricesContent(props) {
     return (
       <View>
         <Text style={curstyles.main}>
-          {" "}
-          Prices is unavailable - exception raised.{" "}
+          Prices is unavailable - exception raised.
         </Text>
       </View>
     );
@@ -47,8 +46,9 @@ export default function PricesContent(props) {
         <Text style={curstyles.header}>Weekday Rates:</Text>
         <Text>{weekdayRate1 + "\n"}</Text>
         <Text>{weekdayRate2 + "\n\n"}</Text>
-        <Text style={curstyles.header}>Weekend Rates</Text>
-        <Text>{saturdayRate + "\n"}</Text>
+        <Text style={curstyles.header}>Satuday Rates</Text>
+        <Text>{saturdayRate + "\n\n"}</Text>
+        <Text style={curstyles.header}>Sunday/Public Holiday Rates</Text>
         <Text>{sundayPublicHolidayRate}</Text>
       </View>
     );

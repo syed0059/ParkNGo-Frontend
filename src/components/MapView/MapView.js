@@ -6,6 +6,7 @@ import * as Location from 'expo-location';
 import { RadiusContext } from '../RadiusContext'
 import { MapCoordinates } from '../MapCoordinatesContext';
 import { MapSearchCoordinates } from '../MapSearchContext';
+import FavouritesContext from "../FavouritesContext";
 import { calculateDistance } from '../CalculateDistance';
 import ActiveFavouritesContext from "../ActiveFavouritesContext";
 import { getCarparks } from './mapInterface';
@@ -14,6 +15,7 @@ import _ from 'lodash';
 export default function Map({ location, loading, carparks }){
 
   const { isFavouritesActive } = useContext(ActiveFavouritesContext);
+  const { favourites } = useContext(FavouritesContext);
 
   useEffect(() => {
     if (isFavouritesActive) {
@@ -90,6 +92,12 @@ export default function Map({ location, loading, carparks }){
   useEffect(() => {
     addIn();
   }, [isFavouritesActive]);
+
+  useEffect(() => {
+    if(isFavouritesActive){
+      addIn();
+    }
+  }, [favourites]);
 
   // Update location when user allows GPS
   useEffect(() => {

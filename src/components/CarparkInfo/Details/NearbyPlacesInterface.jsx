@@ -5,7 +5,7 @@ import { BottomSheetFlatList } from "@gorhom/bottom-sheet";
 export default function NearbyPlacesInterface(props) {
   console.log("Nearby Places Interface called");
   const coordinates = props.coordinates;
-  const GOOGLE_API_KEY = "AIzaSyCecXUKFPgmVlihNfz860pxtoCz_gpiCIs";
+  const GOOGLE_API_KEY = String(process.env.GOOGLE_API_KEY);
   console.log(coordinates[0]);
   const [nearbyPlacesPhotos, setNearbyPlacesPhotos] = useState([]);
 

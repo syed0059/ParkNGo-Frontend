@@ -213,12 +213,12 @@ export default function Favourites({ location }) {
               </View>
               <IconButton
                 icon={
-                  notification.some((noti) => noti.carparkId === item.CarparkID)
+                  notification.includes(item.CarparkID)
                     ? "bell"
                     : "bell-outline"
                 }
                 iconColor={
-                  notification.some((noti) => noti.carparkId === item.CarparkID)
+                  notification.includes(item.CarparkID)
                     ? "blue"
                     : "black"
                 }

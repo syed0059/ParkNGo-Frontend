@@ -17,6 +17,7 @@ const carparkInterface = require("../../carparkInterface/carparkInterface");
 import { formatString } from "../formatString";
 import PriceCalculator from "./Prices/PriceCalculator";
 import NearbyPlaces from "./Details/NearbyPlaces";
+import { useFocusEffect } from "@react-navigation/native";
 
 function CarparkInfo({ carpark }) {
   console.log(carpark);

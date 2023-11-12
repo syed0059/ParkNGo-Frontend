@@ -23,11 +23,6 @@ const curStyles = StyleSheet.create({
   container: {
     padding: 10,
   },
-  trends: {
-    padding: 10,
-    paddingTop: 20,
-    borderRadius: 10,
-  },
   content: {
     justifyContent: "center",
     alignItems: "center",

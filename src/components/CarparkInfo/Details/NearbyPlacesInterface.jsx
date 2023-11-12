@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { FlatList, Image, StyleSheet, View, Text } from "react-native";
+import { Image, StyleSheet, View, Text } from "react-native";
 import { BottomSheetFlatList } from "@gorhom/bottom-sheet";
 
 export default function NearbyPlacesInterface(props) {
@@ -13,7 +13,7 @@ export default function NearbyPlacesInterface(props) {
     try {
       const requestBody = {
         includedTypes: ["restaurant", "shopping_mall", "supermarket", "park"], // Modify as needed
-        maxResultCount: 20,
+        maxResultCount: 10,
         locationRestriction: {
           circle: {
             center: {
@@ -114,8 +114,7 @@ export default function NearbyPlacesInterface(props) {
 
 const styles = StyleSheet.create({
   container: {
-    height: 250,
-    margin: 10,
+    height: 230,
   },
   photo: {
     width: 200, // Adjust as needed

@@ -10,5 +10,5 @@ NetworkInfo.getIPAddress()
     console.error("Error fetching IP address:", error);
   });
 
-let temp = "http://192.168.1.92";
+let temp = "http://192.168.50.39";
 export default temp;

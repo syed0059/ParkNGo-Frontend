@@ -83,7 +83,7 @@ export const NotificationProvider = ({ children }) => {
       setNotification(updatedNotifications);
       setNotificationsWithIdentifiers(updatedNotificationsWithIdentifiers);
 
-      await notificationInterface.removeFromNotificationList(idString);
+      await notificationInterface.detach(idString);
     } else {
       // Schedule the notification and get the identifier
       const newNotification = await scheduleNotification(carparkId);
@@ -95,7 +95,7 @@ export const NotificationProvider = ({ children }) => {
       setNotification(updatedNotifications);
       setNotificationsWithIdentifiers(updatedNotificationsWithIdentifiers);
 
-      await notificationInterface.addToNotificationList(idString);
+      await notificationInterface.attach(idString);
     }
 
     // Update notification after toggling

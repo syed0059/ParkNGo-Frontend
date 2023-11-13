@@ -4,10 +4,10 @@ module.exports.getNotificationList = async () => {
     return await notificationManager.getNotificationList();
 }
 
-module.exports.addToNotificationList = async (carparkId) => {
+module.exports.attach = async (carparkId) => {
     await notificationManager.addToNotificationList(carparkId);
 }
 
-module.exports.removeFromNotificationList = async (carparkId) => {
+module.exports.detach = async (carparkId) => {
     await notificationManager.removeFromNotificationList(carparkId);
 }

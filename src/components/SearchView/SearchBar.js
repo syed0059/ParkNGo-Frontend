@@ -1,6 +1,19 @@
-import React, { useContext, useEffect, useState, useCallback, useMemo, useRef } from "react";
+import React, {
+  useContext,
+  useEffect,
+  useState,
+  useCallback,
+  useMemo,
+  useRef,
+} from "react";
 import { View, StyleSheet, FlatList, TouchableOpacity } from "react-native";
-import { Divider, ProgressBar, Text, IconButton, ActivityIndicator } from "react-native-paper";
+import {
+  Divider,
+  ProgressBar,
+  Text,
+  IconButton,
+  ActivityIndicator,
+} from "react-native-paper";
 import Sort from "./Sort";
 import CarparkInfo from "../CarparkInfo/CarparkInfo";
 import { sortCarparks } from "../SortCarparks";
@@ -8,7 +21,7 @@ import FavouritesContext from "../FavouritesContext";
 import { BottomSheetModal } from "@gorhom/bottom-sheet";
 import "react-native-gesture-handler";
 import ActiveSearchContext from "../ActiveSearchContext";
-import { useIsFocused } from '@react-navigation/native';
+import { useIsFocused } from "@react-navigation/native";
 
 export default function SearchBar({ location, searchLoading, searchCarparks }) {
   const { setSearchActive } = useContext(ActiveSearchContext);
@@ -20,7 +33,7 @@ export default function SearchBar({ location, searchLoading, searchCarparks }) {
 
   const [selectedCarpark, setSelectedCarpark] = useState(null);
 
-  const [sortOption, setSortOption] = useState('distance');
+  const [sortOption, setSortOption] = useState("distance");
   const [sortedLists, setSortedLists] = useState({
     distance: [],
     availability: [],
@@ -33,9 +46,9 @@ export default function SearchBar({ location, searchLoading, searchCarparks }) {
   useEffect(() => {
     setIsSorting(true);
 
-    const distanceSorted = sortCarparks(searchCarparks, 'distance');
-    const availabilitySorted = sortCarparks(searchCarparks, 'availability');
-    const priceSorted = sortCarparks(searchCarparks, 'price');
+    const distanceSorted = sortCarparks(searchCarparks, "distance");
+    const availabilitySorted = sortCarparks(searchCarparks, "availability");
+    const priceSorted = sortCarparks(searchCarparks, "price");
 
     setSortedLists({
       distance: distanceSorted,
@@ -108,7 +121,9 @@ export default function SearchBar({ location, searchLoading, searchCarparks }) {
           >
             <View style={styles.listItem}>
               <View style={styles.availableCarparks}>
-                <Text variant="labelLarge" style={styles.availableCarparksText}>{item.tAvail}</Text>
+                <Text variant="labelLarge" style={styles.availableCarparksText}>
+                  {item.tAvail}
+                </Text>
                 <ProgressBar
                   progress={item.progress}
                   color={getProgressBarColor(item.progress)}
@@ -120,8 +135,14 @@ export default function SearchBar({ location, searchLoading, searchCarparks }) {
                 <Text variant="bodySmall">{item.distance.toFixed(2)} km</Text>
               </View>
               <IconButton
-                icon={favourites.includes(item.CarparkID) ? "heart" : "heart-outline"}
-                iconColor={favourites.includes(item.CarparkID) ? "blue" : "black"}
+                icon={
+                  favourites.includes(item.CarparkID)
+                    ? "heart"
+                    : "heart-outline"
+                }
+                iconColor={
+                  favourites.includes(item.CarparkID) ? "blue" : "black"
+                }
                 size={24}
                 onPress={() => toggleFavourites(item.CarparkID)}
               />
@@ -137,7 +158,7 @@ export default function SearchBar({ location, searchLoading, searchCarparks }) {
         backgroundStyle={{ borderRadius: 20 }}
       >
         <View style={styles.modalContent}>
-          <CarparkInfo carpark={selectedCarpark} />
+          <CarparkInfo carpark={selectedCarpark} location={location} />
         </View>
       </BottomSheetModal>
     </View>
@@ -184,27 +205,27 @@ const styles = StyleSheet.create({
     backgroundColor: "#ffffff",
   },
   availableCarparks: {
-    flexDirection: 'column',
-    justifyContent: 'center',
-    alignItems: 'center',
+    flexDirection: "column",
+    justifyContent: "center",
+    alignItems: "center",
     marginRight: 20,
     marginLeft: 10,
   },
   availableCarparksText: {
-    color: 'black',
-    textAlign: 'center',
+    color: "black",
+    textAlign: "center",
     marginBottom: 5,
   },
   availableCarparks: {
-    flexDirection: 'column',
-    justifyContent: 'center',
-    alignItems: 'center',
+    flexDirection: "column",
+    justifyContent: "center",
+    alignItems: "center",
     marginRight: 20,
     marginLeft: 10,
   },
   availableCarparksText: {
-    color: 'black',
-    textAlign: 'center',
+    color: "black",
+    textAlign: "center",
     marginBottom: 5,
   },
 });

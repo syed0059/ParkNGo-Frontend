@@ -4,7 +4,6 @@ import { Card } from "react-native-paper";
 import { StyleSheet, View } from "react-native";
 
 export default function NearbyPlaces(props) {
-  console.log("Nearby Places called");
   return (
     <View style={curStyles.container}>
       <Card>

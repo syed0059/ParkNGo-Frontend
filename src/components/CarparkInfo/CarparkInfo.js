@@ -17,33 +17,44 @@ const carparkInterface = require("../../carparkInterface/carparkInterface");
 import { formatString } from "../formatString";
 import PriceCalculator from "./Prices/PriceCalculator";
 import NearbyPlaces from "./Details/NearbyPlaces";
-import { useFocusEffect } from "@react-navigation/native";
+import { calculateDistance } from "../CalculateDistance";
 
-function CarparkInfo({ carpark }) {
-  console.log(carpark);
+function CarparkInfo(props) {
+  const carpark = props.carpark;
+  let distance = carpark["distance"];
+  if (props.location) {
+    console.log(props.location);
+    distance = calculateDistance(
+      props.location["latitude"],
+      props.location["longitude"],
+      props.carpark.Coordinates.coordinates[1],
+      props.carpark.Coordinates.coordinates[0]
+    );
+    console.log(distance);
+  }
   selectedCarparkID = carpark.selectedCarpark;
   /* can adapt this to get trends */
-  const [loading, setLoading] = useState(true);
-  const [data, setData] = useState([]);
-  useEffect(() => {
-    const fetchCarpark = async () => {
-      try {
-        if (selectedCarparkID) {
-          // Check if selectedCarparkID is available
-          setLoading(true);
-          const carpark = await carparkInterface.getCarparkById(
-            selectedCarparkID
-          );
-          setData(carpark);
-        }
-      } catch (error) {
-        console.error(error);
-      } finally {
-        setLoading(false);
-      }
-    };
-    fetchCarpark();
-  }, [selectedCarparkID]);
+  // const [loading, setLoading] = useState(true);
+  // const [data, setData] = useState([]);
+  // useEffect(() => {
+  //   const fetchCarpark = async () => {
+  //     try {
+  //       if (selectedCarparkID) {
+  //         // Check if selectedCarparkID is available
+  //         setLoading(true);
+  //         const carpark = await carparkInterface.getCarparkById(
+  //           selectedCarparkID
+  //         );
+  //         setData(carpark);
+  //       }
+  //     } catch (error) {
+  //       console.error(error);
+  //     } finally {
+  //       setLoading(false);
+  //     }
+  //   };
+  //   fetchCarpark();
+  // }, [selectedCarparkID]);
 
   function getContent() {
     return (
@@ -58,7 +69,7 @@ function CarparkInfo({ carpark }) {
                 <Text variant="titleSmall" style={styles.texts}>
                   {formatString(carpark["CarparkType"]) +
                     ", " +
-                    carpark["distance"].toFixed(2) +
+                    distance.toFixed(2) +
                     "km away"}
                 </Text>
               </View>

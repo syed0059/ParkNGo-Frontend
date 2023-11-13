@@ -3,17 +3,15 @@ import { Image, StyleSheet, View, Text } from "react-native";
 import { BottomSheetFlatList } from "@gorhom/bottom-sheet";
 
 export default function NearbyPlacesInterface(props) {
-  console.log("Nearby Places Interface called");
   const coordinates = props.coordinates;
   const GOOGLE_API_KEY = String(process.env.GOOGLE_API_KEY);
-  console.log(coordinates[0]);
   const [nearbyPlacesPhotos, setNearbyPlacesPhotos] = useState([]);
 
   const fetchNearbyPlaces = async () => {
     try {
       const requestBody = {
         includedTypes: ["restaurant", "shopping_mall", "supermarket", "park"], // Modify as needed
-        maxResultCount: 10,
+        maxResultCount: 15,
         locationRestriction: {
           circle: {
             center: {
@@ -39,16 +37,9 @@ export default function NearbyPlacesInterface(props) {
       );
 
       const data = await response.json();
-      // console.log(data.places[0]);
-      // console.log(data.places[0].photos[0].name);
-      // const testPhoto = fetchPhoto(data.places[0].photos[0].name);
-      // console.log(testPhoto);
 
       const placesData = data.places.map((place) => {
         unavailURL = "https://demofree.sirv.com/nope-not-here.jpg?w=200";
-        if (!place.photos) {
-          console.log(place.displayName.text);
-        }
         return {
           name: place.displayName.text, // Assuming this is how the name is returned
           photoUrl: place.photos
@@ -56,7 +47,6 @@ export default function NearbyPlacesInterface(props) {
             : unavailURL,
         };
       });
-      console.log(placesData);
 
       setNearbyPlacesPhotos(placesData);
     } catch (error) {
@@ -65,7 +55,6 @@ export default function NearbyPlacesInterface(props) {
   };
 
   const fetchPhoto = (placePhotos) => {
-    const apiKey = GOOGLE_API_KEY; // Replace with your API key
     const maxHeight = 500;
     const maxWidth = 500; // You can adjust this value
     const resourceName = placePhotos;

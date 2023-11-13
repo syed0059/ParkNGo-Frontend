@@ -47,6 +47,9 @@ export default function Trends(props) {
       try {
         if (props.carparkID) {
           const pull = await getTrend(props.carparkID);
+          if (pull) {
+            console.log("Trends pulled here.");
+          }
           if (pull && !pull.error) {
             setData(pull);
           } else {

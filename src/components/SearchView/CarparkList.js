@@ -149,7 +149,7 @@ export default function CarparkList({ location, loading, carparks }) {
         backgroundStyle={{ borderRadius: 20 }}
       >
         <View style={styles.modalContent}>
-          <CarparkInfo carpark={selectedCarpark} />
+          <CarparkInfo carpark={selectedCarpark} location={location} />
         </View>
       </BottomSheetModal>
     </View>

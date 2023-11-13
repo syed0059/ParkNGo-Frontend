@@ -7,8 +7,8 @@ NetworkInfo.getIPAddress()
     console.log(ipAddress);
   })
   .catch((error) => {
-    console.error("Error fetching IP address:", error);
+    console.log("Error fetching IP address:", error);
   });
 
-let temp = "http://192.168.50.39";
+let temp = "http://192.168.10.101";
 export default temp;

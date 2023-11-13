@@ -18,8 +18,9 @@ export const NotificationProvider = ({ children }) => {
   const scheduleNotification = async (carparkId) => {
     // console.log(carparkId, "cpID");
     const carparks = await carparkInterface.getCarparksByIdArray([carparkId.toString()]);
-    const carparkData = carparks[carparkId];
-    // console.log(carparkData);
+    // console.log(carparks, "carparks");
+    const carparkData = carparks[0];
+    // console.log(carparkData, "carparkData");
     // Make sure carparkData is not undefined before scheduling the notification
     if (carparkData) {
       const carAvailability = carparkData.availability.car.availability || 0;
@@ -45,13 +46,17 @@ export const NotificationProvider = ({ children }) => {
     }
   };
 
+  // State for storing only the carparkIds
   const [notification, setNotification] = useState([]);
+
+  // State for storing the carparkIds with their respective identifiers
+  const [notificationsWithIdentifiers, setNotificationsWithIdentifiers] = useState([]);
 
   useEffect(() => {
     const loadNotifications = async () => {
       const noti = await notificationInterface.getNotificationList();
       setNotification(noti);
-      // console.log(noti, "inital noti");
+      console.log(noti, "inital noti");
     };
 
     loadNotifications();
@@ -59,28 +64,43 @@ export const NotificationProvider = ({ children }) => {
 
   const toggleNotifications = async (carparkId) => {
     const idString = carparkId.toString();
-    // console.log(idString, "noti selected");
-    // Check if the carparkId is already in the notifications array
-    const isNotified = notification.find(noti => noti.carparkId === carparkId);
+    // Find the notification object that includes the carparkId
+    const notificationObject = notificationsWithIdentifiers.find(noti => noti.carparkId === carparkId);
 
+    // Check if the carparkId is already notified
+    const isNotified = notificationObject !== undefined;
     let updatedNotifications;
+    let updatedNotificationsWithIdentifiers;
+
     if (isNotified) {
       // Cancel Notification
-      await Notifications.cancelScheduledNotificationAsync(isNotified.identifier);
+      await Notifications.cancelScheduledNotificationAsync(notificationObject.identifier);
+
       // Remove the carparkId from notifications
-      updatedNotifications = notification.filter(noti => noti.carparkId !== carparkId);
-      await notificationInterface.removeFromNotificationList(idString);
+      updatedNotifications = notification.filter(id => id !== carparkId);
+      updatedNotificationsWithIdentifiers = notificationsWithIdentifiers.filter(noti => noti.carparkId !== carparkId);
+
+      setNotification(updatedNotifications);
+      setNotificationsWithIdentifiers(updatedNotificationsWithIdentifiers);
+
+      await notificationInterface.detach(idString);
     } else {
       // Schedule the notification and get the identifier
       const newNotification = await scheduleNotification(carparkId);
+
       // Add the carparkId to notifications
-      updatedNotifications = [...notification, newNotification];
-      await notificationInterface.addToNotificationList(idString);
+      updatedNotifications = [...notification, carparkId];
+      updatedNotificationsWithIdentifiers = [...notificationsWithIdentifiers, newNotification];
+
+      setNotification(updatedNotifications);
+      setNotificationsWithIdentifiers(updatedNotificationsWithIdentifiers);
+
+      await notificationInterface.attach(idString);
     }
 
     // Update notification after toggling
-    // console.log(updatedNotifications, "updated noti");
-    setNotification(updatedNotifications);
+    console.log(updatedNotifications, "updated notificationIds");
+    console.log(updatedNotificationsWithIdentifiers, "updated notificationsWithIdentifiers");
   };
 
   return (

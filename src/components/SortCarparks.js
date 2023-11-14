@@ -7,7 +7,20 @@ export const sortByDistance = (carparks) => {
   };
   
   export const sortByPrice = (carparks) => {
-    return [...carparks].sort((a, b) => a.price - b.price);
+    return [...carparks].sort((a, b) => {
+      // Assign a high number for sorting URA and LTA types to the end
+      const typePriority = {
+        'URA Carpark': 2,
+        'LTA Carpark': 2,
+        // All other types will have a default priority of 1
+        'default': 1 
+      };
+  
+      const getPriority = (type) => typePriority[type] || typePriority['default'];
+  
+      // Compare the priorities to sort
+      return getPriority(a.CarparkType) - getPriority(b.CarparkType);
+    });
   };
   
   export const sortCarparks = (carparks, sortOption) => {

@@ -51,6 +51,26 @@ export default function Favourites({ location }) {
   const { favourites, toggleFavourites } = useContext(FavouritesContext);
 
   // GET CARPARK
+  const [rawCarparks, setRawCarparks] = useState([]);
+  useEffect(() => {
+    const fetchCarparks = async () => {
+      if (favourites.length > 0) {
+        setLoading(true);
+        try {
+          const fetchedCarparks = await carparkInterface.getCarparksByIdArray(favourites);
+          setRawCarparks(fetchedCarparks);
+        } catch (error) {
+          console.error(error);
+        } finally {
+          setLoading(false);
+        }
+      }
+    };
+
+    fetchCarparks();
+  }, [favourites]);
+
+
   const [carparks, setData] = useState([]);
   const [loading, setLoading] = useState(true);
   useEffect(() => {
@@ -58,12 +78,7 @@ export default function Favourites({ location }) {
       if (location) {
         try {
           setLoading(true); // Set loading true at the beginning of the data fetching
-          // get carparks nearby
-          const carparks = await carparkInterface.getCarparksByIdArray(
-            favourites
-          );
-          // Calculate the distance from current location to carpark
-          const carparksWithDistance = Object.values(carparks).map(
+          const carparksWithDistance = rawCarparks.map(
             (carpark) => {
               const [longitude, latitude] = carpark.Coordinates.coordinates;
               const distance = calculateDistance(
@@ -108,7 +123,7 @@ export default function Favourites({ location }) {
       }
     };
     fetchCarparks();
-  }, [location, favourites]); // The useEffect will rerun whenever userLocation changes
+  }, [location, rawCarparks]); // The useEffect will rerun whenever userLocation changes
 
   const [sortOption, setSortOption] = useState("distance");
   const [sortedLists, setSortedLists] = useState({

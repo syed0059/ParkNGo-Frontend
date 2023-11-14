@@ -51,6 +51,7 @@ const useCarparksDistance = (location, radius) => {
             }
         };
         fetchCarparks();
+        // console.log("called db");
     }, [location, radius]); // The useEffect will rerun whenever location changes
 
     return { loading, data };

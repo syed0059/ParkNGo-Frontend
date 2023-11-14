@@ -19,7 +19,7 @@ const useLocation = () => {
                     {
                         accuracy: Location.Accuracy.Balanced,
                         // distanceInterval: 100,
-                        timeInterval: 1000,
+                        timeInterval: 30000,
                     },
                     (location) => {
                         const { longitude, latitude } = location.coords;
@@ -32,6 +32,7 @@ const useLocation = () => {
         };
 
         fetchLocation();
+        console.log("get location");
 
         return () => {
             if (locationSubscription) {

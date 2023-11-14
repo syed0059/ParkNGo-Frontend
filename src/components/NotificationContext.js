@@ -41,7 +41,7 @@ export const NotificationProvider = ({ children }) => {
       return { carparkId, identifier: notificationIdentifier };
     } else {
       // Handle the case where the carparkData is undefined (e.g., carparkId not found)
-      console.error('Carpark data not found for id:', carparkId);
+      console.log('Carpark data not found for id:', carparkId);
       return null;
     }
   };
@@ -56,7 +56,7 @@ export const NotificationProvider = ({ children }) => {
     const loadNotifications = async () => {
       const noti = await notificationInterface.getNotificationList();
       setNotification(noti);
-      console.log(noti, "inital noti");
+      // console.log(noti, "inital noti");
     };
 
     loadNotifications();
@@ -99,8 +99,8 @@ export const NotificationProvider = ({ children }) => {
     }
 
     // Update notification after toggling
-    console.log(updatedNotifications, "updated notificationIds");
-    console.log(updatedNotificationsWithIdentifiers, "updated notificationsWithIdentifiers");
+    // console.log(updatedNotifications, "updated notificationIds");
+    // console.log(updatedNotificationsWithIdentifiers, "updated notificationsWithIdentifiers");
   };
 
   return (

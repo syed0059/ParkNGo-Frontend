@@ -3,12 +3,12 @@ import { StyleSheet, View, Button } from 'react-native';
 import { getFavourites, getCarparksByIdArray } from '../../carparkInterface/carparkInterface';
 import { useEffect, useState, useContext, useCallback } from 'react';
 import * as Location from 'expo-location';
-import { RadiusContext } from '../RadiusContext'
-import { MapCoordinates } from '../MapCoordinatesContext';
-import { MapSearchCoordinates } from '../MapSearchContext';
-import FavouritesContext from "../FavouritesContext";
-import { calculateDistance } from '../CalculateDistance';
-import ActiveFavouritesContext from "../ActiveFavouritesContext";
+import { RadiusContext } from '../../searchManager/RadiusContext'
+import { MapCoordinates } from '../../mapViewManager/MapCoordinatesContext';
+import { MapSearchCoordinates } from '../../mapViewManager/MapSearchContext';
+import FavouritesContext from "../../favouritesManager/FavouritesContext";
+import { calculateDistance } from '../../searchManager/CalculateDistance';
+import ActiveFavouritesContext from "../../favouritesManager/ActiveFavouritesContext";
 import { getCarparks } from './mapInterface';
 import _ from 'lodash'; 
 

@@ -1,15 +1,15 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import address from "./localHostAddress";
-// /*
-// async function clearAllLocalData() {
-//     try {
-//         await AsyncStorage.clear();
-//         console.log('Local data cleared!');
-//     } catch (e) {
-//         console.error('Failed to clear local data:', e);
-//     }
-// }
-// clearAllLocalData(); //*/
+
+async function clearAllLocalData() {
+     try {
+         await AsyncStorage.clear();
+         console.log('Local data cleared!');
+     } catch (e) {
+         console.error('Failed to clear local data:', e);
+     }
+ }
+ clearAllLocalData(); 
 
 // Change this to your own ip address
 const localhost = address;

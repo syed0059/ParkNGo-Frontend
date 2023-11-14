@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Image, StyleSheet, View, Text } from "react-native";
 import { BottomSheetFlatList } from "@gorhom/bottom-sheet";
+import { FlatList } from "react-native-gesture-handler";
 
 export default function NearbyPlacesInterface(props) {
   const coordinates = props.coordinates;
@@ -91,11 +92,12 @@ export default function NearbyPlacesInterface(props) {
 
   return (
     <View style={styles.container}>
-      <BottomSheetFlatList
+      <FlatList
         data={nearbyPlacesPhotos}
         renderItem={renderPhotoItem}
         horizontal
         keyExtractor={keyExtractor}
+        showsVerticalScrollIndicator={true}
       />
     </View>
   );

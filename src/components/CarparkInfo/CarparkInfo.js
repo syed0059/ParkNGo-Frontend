@@ -2,10 +2,10 @@ import {
   StyleSheet,
   View,
   ActivityIndicator,
-  ScrollView,
   TouchableOpacity,
   TouchableWithoutFeedback,
 } from "react-native";
+import { ScrollView } from "react-native-gesture-handler";
 import { Text, Button } from "react-native-paper";
 import React, { useEffect, useState } from "react";
 import Modal from "react-native-modal";
@@ -165,7 +165,7 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   button: {
-    margin: 20,
+    margin: 10,
   },
   modal: {
     justifyContent: "flex-end",

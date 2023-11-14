@@ -1,2 +1,2 @@
-let temp = "http://192.168.1.92";
+let temp = "http://10.91.212.64";
 export default temp;

@@ -122,11 +122,11 @@ export default function SearchBar({ location, searchLoading, searchCarparks }) {
             <View style={styles.listItem}>
               <View style={styles.availableCarparks}>
                 <Text variant="labelLarge" style={styles.availableCarparksText}>
-                  {item.tAvail}
+                  {Math.abs(item.tAvail)}
                 </Text>
                 <ProgressBar
-                  progress={item.progress}
-                  color={getProgressBarColor(item.progress)}
+                  progress={Math.abs(item.progress)}
+                  color={getProgressBarColor(Math.abs(item.progress))}
                   style={styles.progress}
                 />
               </View>

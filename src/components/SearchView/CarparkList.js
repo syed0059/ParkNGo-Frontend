@@ -16,8 +16,8 @@ import {
 } from "react-native-paper";
 import Sort from "./Sort";
 import CarparkInfo from "../CarparkInfo/CarparkInfo";
-import { sortCarparks } from "../SortCarparks";
-import FavouritesContext from "../FavouritesContext";
+import { sortCarparks } from "../../searchManager/SortCarparks";
+import FavouritesContext from "../../favouritesManager/FavouritesContext";
 import { BottomSheetModal } from "@gorhom/bottom-sheet";
 import "react-native-gesture-handler";
 

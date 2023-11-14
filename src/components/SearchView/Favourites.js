@@ -16,14 +16,14 @@ import {
 } from "react-native-paper";
 import Sort from "./Sort";
 const carparkInterface = require("../../carparkInterface/carparkInterface");
-import { calculateDistance } from "../CalculateDistance";
-import { sortCarparks } from "../SortCarparks";
-import FavouritesContext from "../FavouritesContext";
-import NotificationContext from "../NotificationContext";
+import { calculateDistance } from "../../searchManager/CalculateDistance";
+import { sortCarparks } from "../../searchManager/SortCarparks";
+import FavouritesContext from "../../favouritesManager/FavouritesContext";
+import NotificationContext from "../../notificationManager/NotificationContext";
 import CarparkInfo from "../CarparkInfo/CarparkInfo";
 import { BottomSheetModal } from "@gorhom/bottom-sheet";
 import "react-native-gesture-handler";
-import ActiveFavouritesContext from "../ActiveFavouritesContext";
+import ActiveFavouritesContext from "../../favouritesManager/ActiveFavouritesContext";
 import { useIsFocused } from "@react-navigation/native";
 
 export default function Favourites({ location }) {

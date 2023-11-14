@@ -7,7 +7,7 @@ import CarparkList from "./CarparkList";
 import SearchBar from "./SearchBar";
 import Settings from "./Settings";
 import Favourites from "./Favourites";
-import { NotificationProvider } from "../NotificationContext";
+import { NotificationProvider } from "../../notificationManager/NotificationContext";
 
 const Tab = createMaterialTopTabNavigator();
 

@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from "react";
 import AppWrapper from "./AppWrapper";
-import { MapCoordinates } from "./src/components/MapCoordinatesContext";
-import { MapSearchCoordinates } from "./src/components/MapSearchContext";
+import { MapCoordinates } from "./src/mapViewManager/MapCoordinatesContext"
+import { MapSearchCoordinates } from "./src/mapViewManager/MapSearchContext";
 import * as Device from 'expo-device';
 import * as Notifications from 'expo-notifications';
-import ActiveSearchContext from "./src/components/ActiveSearchContext";
+import ActiveSearchContext from "./src/searchManager/ActiveSearchContext";
 
 export default function App() {
 

@@ -2,10 +2,10 @@ import React, { useState , useContext } from 'react';
 import { View, StyleSheet } from 'react-native';
 import Slider from '@react-native-community/slider';
 import { Switch, Text, Divider } from 'react-native-paper'
-import { RadiusContext } from '../RadiusContext'
+import { RadiusContext } from '../../searchManager/RadiusContext'
 
 export default function Settings() {
-    const [darkMode, setDarkMode] = useState(false);
+    // const [darkMode, setDarkMode] = useState(false);
     const [colorblindMode, setColorblindMode] = useState(false);
 
     const { radius, setRadius } = useContext(RadiusContext);
@@ -27,18 +27,6 @@ export default function Settings() {
                 <Text> {sliderValue.toFixed(1)} km</Text>
             </View>
             <Divider />
-            <View style={styles.row}>
-                <Text>Dark Mode</Text>
-                <Switch value={darkMode} onValueChange={() => setDarkMode(!darkMode)} />
-            </View>
-            <Divider />
-            <View style={styles.row}>
-                <Text>Colourblind Mode</Text>
-                <Switch
-                    value={colorblindMode}
-                    onValueChange={() => setColorblindMode(!colorblindMode)}
-                />
-            </View>
         </View>
     );
 }
@@ -55,3 +43,17 @@ const styles = StyleSheet.create({
         margin: 10,
     },
 });
+
+/*
+<View style={styles.row}>
+                <Text>Dark Mode</Text>
+                <Switch />
+            </View>
+            <Divider />
+            <View style={styles.row}>
+                <Text>Colourblind Mode</Text>
+                <Switch
+                    value={colorblindMode}
+                    onValueChange={() => setColorblindMode(!colorblindMode)}
+                />
+            </View>*/

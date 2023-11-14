@@ -14,10 +14,10 @@ import Prices from "./Prices/Prices";
 import TrendsContainer from "./Trends/TrendsContainer";
 import Navigation from "./Navigation/Navigation";
 const carparkInterface = require("../../carparkInterface/carparkInterface");
-import { formatString } from "../formatString";
+import { formatString } from "../../searchManager/formatString";
 import PriceCalculator from "./Prices/PriceCalculator";
 import NearbyPlaces from "./Details/NearbyPlaces";
-import { calculateDistance } from "../CalculateDistance";
+import { calculateDistance } from "../../searchManager/CalculateDistance";
 
 function CarparkInfo(props) {
   const carpark = props.carpark;

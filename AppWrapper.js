@@ -1,22 +1,23 @@
 import React, { useState, useContext, useEffect } from "react";
 import { StyleSheet, View, TouchableWithoutFeedback, Keyboard, StatusBar } from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
-import { Provider as PaperProvider, IconButton } from "react-native-paper";
+import { Provider as PaperProvider } from "react-native-paper";
 import Map from "./src/components/MapView/MapView";
 import NavBar from "./src/components/SearchView/NavBar";
-import useLocation from "./src/components/FetchLocation";
-import useCarparksDistance from "./src/components/FetchCarparkByDistance";
-import { RadiusContext } from "./src/components/RadiusContext";
+import useLocation from "./src/searchManager/FetchLocation";
+import useCarparksDistance from "./src/searchManager/FetchCarparkByDistance";
+import { RadiusContext } from "./src/searchManager/RadiusContext";
 import { BottomSheetModalProvider } from "@gorhom/bottom-sheet";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import { GooglePlacesAutocomplete } from 'react-native-google-places-autocomplete';
-import ActiveFavouritesContext from "./src/components/ActiveFavouritesContext";
-import { MapCoordinates } from "./src/components/MapCoordinatesContext";
-import { MapSearchCoordinates } from "./src/components/MapSearchContext";
-import ActiveSearchContext from "./src/components/ActiveSearchContext";
-import { FavouritesProvider } from "./src/components/FavouritesContext";
+import ActiveFavouritesContext from "./src/favouritesManager/ActiveFavouritesContext";
+import { MapCoordinates } from "./src/mapViewManager/MapCoordinatesContext";
+import { MapSearchCoordinates } from "./src/mapViewManager/MapSearchContext";
+import ActiveSearchContext from "./src/searchManager/ActiveSearchContext";
+import { FavouritesProvider } from "./src/favouritesManager/FavouritesContext";
 
 export default function AppWrapper() {
+
     const { isSearchActive } = useContext(ActiveSearchContext);
 
     const [radius, setRadius] = useState(2);
@@ -42,7 +43,7 @@ export default function AppWrapper() {
                 latitude: location.latitude,
                 longitude: location.longitude
             });
-            console.log("current location used");
+            // console.log("current location used");
         }
     }, [location]);
 
@@ -53,7 +54,7 @@ export default function AppWrapper() {
                 latitude: mapCoordinates.latitude,
                 longitude: mapCoordinates.longitude
             });
-            console.log("map location used");
+            // console.log("map location used");
         }
     }, [mapCoordinates]);
 

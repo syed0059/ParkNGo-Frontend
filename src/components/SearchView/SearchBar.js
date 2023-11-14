@@ -16,11 +16,11 @@ import {
 } from "react-native-paper";
 import Sort from "./Sort";
 import CarparkInfo from "../CarparkInfo/CarparkInfo";
-import { sortCarparks } from "../SortCarparks";
-import FavouritesContext from "../FavouritesContext";
+import { sortCarparks } from "../../searchManager/SortCarparks";
+import FavouritesContext from "../../favouritesManager/FavouritesContext";
 import { BottomSheetModal } from "@gorhom/bottom-sheet";
 import "react-native-gesture-handler";
-import ActiveSearchContext from "../ActiveSearchContext";
+import ActiveSearchContext from "../../searchManager/ActiveSearchContext";
 import { useIsFocused } from "@react-navigation/native";
 
 export default function SearchBar({ location, searchLoading, searchCarparks }) {

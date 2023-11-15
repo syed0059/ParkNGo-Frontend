@@ -22,7 +22,7 @@ export default function Map({ location, loading, carparks }){
   const { mapCoordinates, setMapCoordinates } = useContext(MapCoordinates);
   const { mapSearchCoordinates } = useContext(MapSearchCoordinates);
 
-  //To update list of carparks to be showns
+  // To update list of carparks to be showns
   const addIn = async () => {
     let data;
 
@@ -35,13 +35,10 @@ export default function Map({ location, loading, carparks }){
     }
 
     setLocationsOfInterest(data)
-    // console.log("Done")
-
   };
 
   // Drawing out the pins
   const showLocationsOfInterest = () => {
-    // console.log("SHOW")
     return locationsOfInterest.map((item, index) => {
       let color;
       if (item.capacity < 0.1) {
@@ -65,11 +62,12 @@ export default function Map({ location, loading, carparks }){
     });
   };
 
-  // Call addIn after loading is done
+  // Update pins when carpark list is updated
   useEffect(() => {
     addIn();
   }, [carparks])
 
+  // Updates map view when user searches in the search bar
   useEffect(() => {
     if(mapSearchCoordinates.latitude!=undefined && mapSearchCoordinates.longitude!=undefined){
       setMapCoordinates({
@@ -81,6 +79,7 @@ export default function Map({ location, loading, carparks }){
     }
   }, [mapSearchCoordinates])
 
+  // Update map to show pins depending if user is in favourite menu or in other menu
   useEffect(() => {
     if(!isFavouritesActive){
       fetchLocation();
@@ -89,12 +88,14 @@ export default function Map({ location, loading, carparks }){
     }
   }, [isFavouritesActive]);
 
+  // Updates pin when favourites are added/removed
   useEffect(() => {
     if(isFavouritesActive){
       addIn();
     }
   }, [favourites]);
 
+  // Get user location
   const fetchLocation = async () => { 
     try {
       let { status } = await Location.requestForegroundPermissionsAsync();
@@ -114,8 +115,6 @@ export default function Map({ location, loading, carparks }){
         latitudeDelta: 0.008540807106718562,
         longitudeDelta: 0.008127428591251373,
       })
-      // console.log('Got Location');
-      // addIn();
     } catch (error) {
       console.error(error);
     }
@@ -126,6 +125,7 @@ export default function Map({ location, loading, carparks }){
     fetchLocation();
   }, []);
 
+  // Update map coordinates when not in favourite menu
   const debouncedOnRegionChange = useCallback(_.debounce((region) => {
     if(calculateDistance(mapCoordinates.latitude, mapCoordinates.longitude, region.latitude, region.longitude) >= 1 && !isFavouritesActive){
       setMapCoordinates({
@@ -134,19 +134,18 @@ export default function Map({ location, loading, carparks }){
         latitudeDelta: region.latitudeDelta,
         longitudeDelta: region.longitudeDelta,
       });
-      // addIn();
-      console.log("move complete");
     }
   }, 700));
 
+  // Function is called when map is moved
   const onRegionChange = (region, gesture) => {
     if (gesture.isGesture) {
       debouncedOnRegionChange(region);
     }
   }
 
+  // Shows circle of search when not in favourite menu
   const showCircle = () => {
-    // console.log("circle")
     if(!isFavouritesActive){
       return <Circle
       center = {{
@@ -158,11 +157,6 @@ export default function Map({ location, loading, carparks }){
       strokeWidth={2}/>
     }
   };
-
-  const test = (region) => {
-    console.log(region)
-
-  }
 
   return (
     <View style={styles.container}>
@@ -177,6 +171,7 @@ export default function Map({ location, loading, carparks }){
         showsMyLocationButton={true}
         onRegionChangeComplete={onRegionChange}
         minZoomLevel={13}
+        moveOnMarkerPress={false}
       >
         {showLocationsOfInterest()}
         {showCircle()}

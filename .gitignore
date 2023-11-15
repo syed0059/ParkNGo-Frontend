@@ -36,3 +36,4 @@ yarn-error.*
 .env
 *.js
 *.js
+src/carparkManager/localHostAddress.js

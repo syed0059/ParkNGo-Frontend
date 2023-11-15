@@ -152,7 +152,7 @@ export default function SearchBar({ location, searchLoading, searchCarparks }) {
       />
       <BottomSheetModal
         ref={bottomSheetModalRef}
-        index={1}
+        index={0}
         snapPoints={snapPoints}
         onChange={handleSheetChanges}
         backgroundStyle={{ borderRadius: 20 }}

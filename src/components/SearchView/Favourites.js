@@ -57,7 +57,9 @@ export default function Favourites({ location }) {
       if (favourites.length > 0) {
         setLoading(true);
         try {
-          const fetchedCarparks = await carparkInterface.getCarparksByIdArray(favourites);
+          const fetchedCarparks = await carparkInterface.getCarparksByIdArray(
+            favourites
+          );
           setRawCarparks(fetchedCarparks);
         } catch (error) {
           console.error(error);
@@ -70,7 +72,6 @@ export default function Favourites({ location }) {
     fetchCarparks();
   }, [favourites]);
 
-
   const [carparks, setData] = useState([]);
   const [loading, setLoading] = useState(true);
   useEffect(() => {
@@ -78,41 +79,39 @@ export default function Favourites({ location }) {
       if (location) {
         try {
           setLoading(true); // Set loading true at the beginning of the data fetching
-          const carparksWithDistance = rawCarparks.map(
-            (carpark) => {
-              const [longitude, latitude] = carpark.Coordinates.coordinates;
-              const distance = calculateDistance(
-                // Current location
-                location.latitude,
-                location.longitude,
-                // Carpark Location
-                latitude,
-                longitude
-              );
+          const carparksWithDistance = rawCarparks.map((carpark) => {
+            const [longitude, latitude] = carpark.Coordinates.coordinates;
+            const distance = calculateDistance(
+              // Current location
+              location.latitude,
+              location.longitude,
+              // Carpark Location
+              latitude,
+              longitude
+            );
 
-              const cAvail = carpark.availability.car.availability || 0;
-              const mAvail = carpark.availability.motorcycle.availability || 0;
-              const tAvail = cAvail + mAvail;
+            const cAvail = carpark.availability.car.availability || 0;
+            const mAvail = carpark.availability.motorcycle.availability || 0;
+            const tAvail = cAvail + mAvail;
 
-              const cTotal = carpark.availability.car.total || 0;
-              const mTotal = carpark.availability.motorcycle.total || 0;
-              const tTotal = cTotal + mTotal;
+            const cTotal = carpark.availability.car.total || 0;
+            const mTotal = carpark.availability.motorcycle.total || 0;
+            const tTotal = cTotal + mTotal;
 
-              let avail = 0;
+            let avail = 0;
 
-              if (tTotal != 0) {
-                avail = tAvail / tTotal;
-              }
-
-              const availabilityPercentage = avail;
-              return {
-                ...carpark,
-                distance,
-                progress: availabilityPercentage,
-                tAvail,
-              };
+            if (tTotal != 0) {
+              avail = tAvail / tTotal;
             }
-          );
+
+            const availabilityPercentage = avail;
+            return {
+              ...carpark,
+              distance,
+              progress: availabilityPercentage,
+              tAvail,
+            };
+          });
           // set carparks
           setData(carparksWithDistance);
         } catch (error) {
@@ -233,9 +232,7 @@ export default function Favourites({ location }) {
                     : "bell-outline"
                 }
                 iconColor={
-                  notification.includes(item.CarparkID)
-                    ? "blue"
-                    : "black"
+                  notification.includes(item.CarparkID) ? "blue" : "black"
                 }
                 size={24}
                 onPress={() => toggleNotifications(item.CarparkID)}
@@ -258,7 +255,7 @@ export default function Favourites({ location }) {
       />
       <BottomSheetModal
         ref={bottomSheetModalRef}
-        index={1}
+        index={0}
         snapPoints={snapPoints}
         onChange={handleSheetChanges}
         backgroundStyle={{ borderRadius: 20 }}

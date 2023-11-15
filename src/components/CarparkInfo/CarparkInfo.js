@@ -16,7 +16,7 @@ import Navigation from "./Navigation/Navigation";
 const carparkInterface = require("../../carparkInterface/carparkInterface");
 import { formatString } from "../../searchManager/formatString";
 import PriceCalculator from "./Prices/PriceCalculator";
-import NearbyPlaces from "./Details/NearbyPlaces";
+import NearbyPlaces from "./NearbyPlaces/NearbyPlaces";
 import { calculateDistance } from "../../searchManager/CalculateDistance";
 
 function CarparkInfo(props) {

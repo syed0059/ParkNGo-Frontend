@@ -58,11 +58,13 @@ export default function Map({ location, loading, carparks }){
           coordinate={item.location}
           title={item.title}
           description={item.description}
-        />
+          onPress={e => this.map.animateCamera({center: e.nativeEvent.coordinate}, {duration:500})}
+        >
+        </Marker>
       );
     });
   };
-  
+
   // Call addIn after loading is done
   useEffect(() => {
     addIn();
@@ -157,9 +159,17 @@ export default function Map({ location, loading, carparks }){
     }
   };
 
+  const test = (region) => {
+    console.log(region)
+
+  }
+
   return (
     <View style={styles.container}>
       <MapView
+      ref={ref=>{
+        this.map=ref;
+      }}
         style={styles.map}
         provider={PROVIDER_GOOGLE}
         region={mapCoordinates}

@@ -2,7 +2,7 @@ import React, { useState, useContext, useEffect } from "react";
 import { StyleSheet, View, TouchableWithoutFeedback, Keyboard, StatusBar } from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
 import { Provider as PaperProvider } from "react-native-paper";
-import Map from "./src/components/MapView/MapView";
+import Map from "./src/components/MapView/MapInterface";
 import NavBar from "./src/components/SearchView/NavBar";
 import useLocation from "./src/searchManager/FetchLocation";
 import useCarparksDistance from "./src/searchManager/FetchCarparkByDistance";

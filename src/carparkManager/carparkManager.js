@@ -1,5 +1,4 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import address from "./localHostAddress";
 
 async function clearAllLocalData() {
      try {
@@ -12,7 +11,7 @@ async function clearAllLocalData() {
  clearAllLocalData(); 
 
 // Change this to your own ip address
-const localhost = address;
+const localhost = String(process.env.LOCALHOST);
 // Added constant key names to avoid inconsistencies
 const Initialised = "initialised";
 const Favourites = "favourites";

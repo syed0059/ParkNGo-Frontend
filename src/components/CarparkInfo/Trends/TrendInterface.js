@@ -1,6 +1,4 @@
-import address from "../../../carparkManager/localHostAddress";
-
-const localhost = address + ":3000/trend/";
+const localhost = String(process.env.LOCALHOST) + ":3000/trend/";
 
 export default getTrend = async (carparkID) => {
   let data;

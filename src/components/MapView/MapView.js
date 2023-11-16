@@ -9,7 +9,7 @@ import { MapSearchCoordinates } from '../../mapViewManager/MapSearchContext';
 import FavouritesContext from "../../favouritesManager/FavouritesContext";
 import { calculateDistance } from '../../searchManager/CalculateDistance';
 import ActiveFavouritesContext from "../../favouritesManager/ActiveFavouritesContext";
-import { getCarparks } from './mapInterface';
+import { getCarparks } from '../../mapViewManager/MapManager';
 import _ from 'lodash'; 
 
 export default function Map({ location, loading, carparks }){

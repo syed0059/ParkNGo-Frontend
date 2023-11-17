@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import AppWrapper from "./AppWrapper";
 import { MapCoordinates } from "./src/mapViewManager/MapCoordinatesContext"
 import { MapSearchCoordinates } from "./src/mapViewManager/MapSearchContext";
+import { MapCenterToPin } from "./src/mapViewManager/MapCenterToPinContext";
 import * as Device from 'expo-device';
 import * as Notifications from 'expo-notifications';
 import ActiveSearchContext from "./src/searchManager/ActiveSearchContext";
@@ -44,15 +45,19 @@ export default function App() {
     latitudeDelta: 0.008540807106718562,
   })
   const [mapSearchCoordinates, setMapSearchCoordinates] = useState({})
+  const [mapCenterToPin, setMapCenterToPin]=useState({})
+  
 
   const [isSearchActive, setSearchActive] = useState(false);
 
   return (
     <MapCoordinates.Provider value={{ mapCoordinates, setMapCoordinates }}>
       <MapSearchCoordinates.Provider value={{ mapSearchCoordinates, setMapSearchCoordinates }}>
-        <ActiveSearchContext.Provider value={{ isSearchActive, setSearchActive }}>
-          <AppWrapper />
-        </ActiveSearchContext.Provider>
+        <MapCenterToPin.Provider value={{ mapCenterToPin, setMapCenterToPin }}>
+          <ActiveSearchContext.Provider value={{ isSearchActive, setSearchActive }}>
+            <AppWrapper />
+          </ActiveSearchContext.Provider>
+        </MapCenterToPin.Provider>
       </MapSearchCoordinates.Provider>
     </MapCoordinates.Provider>
   );

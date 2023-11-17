@@ -20,11 +20,13 @@ import { sortCarparks } from "../../searchManager/SortCarparks";
 import FavouritesContext from "../../favouritesManager/FavouritesContext";
 import { BottomSheetModal } from "@gorhom/bottom-sheet";
 import { MapCoordinates } from "../../mapViewManager/MapCoordinatesContext";
+import { MapCenterToPin } from "../../mapViewManager/MapCenterToPinContext";
 import "react-native-gesture-handler";
 
 export default function CarparkList({ location, loading, carparks }) {
   const [selectedCarpark, setSelectedCarpark] = useState(null);
   const { mapCoordinates, setMapCoordinates } = useContext(MapCoordinates);
+  const { mapCenterToPin, setMapCenterToPin} = useContext(MapCenterToPin);
 
   const [sortOption, setSortOption] = useState("distance");
   const [sortedLists, setSortedLists] = useState({
@@ -109,13 +111,11 @@ export default function CarparkList({ location, loading, carparks }) {
             onPress={() => {
               setSelectedCarpark(item);
               // setModalVisible(true);
-              setMapCoordinates({
-                latitude: item.Coordinates.coordinates[1],
-                longitude: item.Coordinates.coordinates[0],
-                latitudeDelta: 0.008540807106718562,
-                longitudeDelta: 0.008127428591251373,
-              })
               handlePresentModalPress();
+              // setMapCenterToPin({
+              //   latitude: item.Coordinates.coordinates[1],
+              //   longitude: item.Coordinates.coordinates[0],
+              // })
             }}
           >
             <View style={styles.listItem}>

@@ -6,6 +6,7 @@ import * as Location from 'expo-location';
 import { RadiusContext } from '../../searchManager/RadiusContext'
 import { MapCoordinates } from '../../mapViewManager/MapCoordinatesContext';
 import { MapSearchCoordinates } from '../../mapViewManager/MapSearchContext';
+import { MapCenterToPin } from '../../mapViewManager/MapCenterToPinContext';
 import FavouritesContext from "../../favouritesManager/FavouritesContext";
 import { calculateDistance } from '../../searchManager/CalculateDistance';
 import ActiveFavouritesContext from "../../favouritesManager/ActiveFavouritesContext";
@@ -17,10 +18,10 @@ export default function Map({ location, loading, carparks }){
   const { isFavouritesActive } = useContext(ActiveFavouritesContext);
   const { favourites } = useContext(FavouritesContext);
   const [locationsOfInterest, setLocationsOfInterest] = useState([]);
-  const [preventLoad, setPreventLoad] = useState(true);
   const { radius } = useContext(RadiusContext);
   const { mapCoordinates, setMapCoordinates } = useContext(MapCoordinates);
   const { mapSearchCoordinates } = useContext(MapSearchCoordinates);
+  const { mapCenterToPin, setMapCenterToPin} = useContext(MapCenterToPin);
 
   // To update list of carparks to be showns
   const addIn = async () => {
@@ -55,7 +56,7 @@ export default function Map({ location, loading, carparks }){
           coordinate={item.location}
           title={item.title}
           description={item.description}
-          onPress={e => centerToPin(e.nativeEvent.coordinate)}
+          onPress={e => setMapCenterToPin(e.nativeEvent.coordinate)}
         >
         </Marker>
       );
@@ -65,6 +66,10 @@ export default function Map({ location, loading, carparks }){
   const centerToPin = async (coords) => { 
     this.map.animateCamera({center:coords}, {duration:500})
   };
+
+  useEffect(() => {
+    centerToPin(mapCenterToPin)
+  }, [mapCenterToPin])
 
   // Update pins when carpark list is updated
   useEffect(() => {

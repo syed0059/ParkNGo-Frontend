@@ -55,11 +55,15 @@ export default function Map({ location, loading, carparks }){
           coordinate={item.location}
           title={item.title}
           description={item.description}
-          onPress={e => this.map.animateCamera({center: e.nativeEvent.coordinate}, {duration:500})}
+          onPress={e => centerToPin(e.nativeEvent.coordinate)}
         >
         </Marker>
       );
     });
+  };
+
+  const centerToPin = async (coords) => { 
+    this.map.animateCamera({center:coords}, {duration:500})
   };
 
   // Update pins when carpark list is updated

@@ -11,7 +11,7 @@ async function clearAllLocalData() {
  clearAllLocalData(); 
 
 // Change this to your own ip address
-const localhost = String(process.env.LOCALHOST);
+const localhost = String(process.env.LOCAL_IP);
 // Added constant key names to avoid inconsistencies
 const Initialised = "initialised";
 const Favourites = "favourites";

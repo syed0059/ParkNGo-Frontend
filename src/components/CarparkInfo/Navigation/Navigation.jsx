@@ -72,7 +72,7 @@ export default function Navigation(props) {
             strokeColor="#53ae31"
             strokeWidth={8}
             destination={destination}
-            apikey={String(process.env.GOOGLE_API_KEY)}
+            apikey={String(process.env.REACT_APP_GOOGLE_API_KEY)}
           />
         ) : null}
 

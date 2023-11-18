@@ -5,7 +5,7 @@ import { FlatList } from "react-native-gesture-handler";
 
 export default function NearbyPlacesInterface(props) {
   const coordinates = props.coordinates;
-  const GOOGLE_API_KEY = String(process.env.GOOGLE_API_KEY);
+  const GOOGLE_API_KEY = String(process.env.REACT_APP_GOOGLE_API_KEY);
   const [nearbyPlacesPhotos, setNearbyPlacesPhotos] = useState([]);
 
   const fetchNearbyPlaces = async () => {

@@ -1,15 +1,15 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { REACT_APP_LOCAL_IP } from '@env'
+import { REACT_APP_LOCAL_IP } from "@env";
 
 // async function clearAllLocalData() {
-//      try {
-//          await AsyncStorage.clear();
-//          console.log('Local data cleared!');
-//      } catch (e) {
-//          console.error('Failed to clear local data:', e);
-//      }
-//  }
-//  clearAllLocalData(); 
+//   try {
+//     await AsyncStorage.clear();
+//     console.log("Local data cleared!");
+//   } catch (e) {
+//     console.error("Failed to clear local data:", e);
+//   }
+// }
+// clearAllLocalData();
 
 // Change this to your own ip address
 const localhost = String(REACT_APP_LOCAL_IP);
@@ -31,7 +31,7 @@ initialiseCarparks = async () => {
   // } catch (e) {
   //   console.error(e);
   // }
-  return
+  return;
 };
 
 module.exports.getAllCarparks = async () => {
@@ -71,7 +71,6 @@ module.exports.getCarparkById = async (carparkId) => {
 };
 
 module.exports.getCarparksByIdArray = async (carparkIdsArray) => {
-  
   let availabilityData = await fetch(
     localhost +
       ":3000/search/availability?" +

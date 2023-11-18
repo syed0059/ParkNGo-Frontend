@@ -16,7 +16,6 @@ function PriceCalculator({ rates }) {
   const [vehicleType, setVehicle] = useState("car");
 
   const calculatePrice = () => {
-    // Dummy calculation logic - replace this with actual logic
     let rate = 0;
     let cap;
     let price;
@@ -55,6 +54,12 @@ function PriceCalculator({ rates }) {
     }
 
     setCalculatedPrice(price.toFixed(2)); // round to 2 decimal places
+    // Error handling
+    if (arrival.getHours() < 0 || departure.getHours() > 23) {
+      setCalculatedPrice(
+        "Invalid time inserted. Please check arrival or departure timing."
+      );
+    }
   };
 
   const isCapped = (time) => {

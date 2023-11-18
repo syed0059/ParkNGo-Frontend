@@ -116,25 +116,25 @@ CAN ADD DESCRIPTION HERE
     <img src="https://github.com/weikangg/Ascendo/assets/95838788/0975fe96-9ead-4c9b-a69b-b2fa546dca91" alt="Profile" width="200"/>
 </div> -->
 
-<!-- <h2 align="center" id = "tech-stack"> 🛠 Tech Stack:</h2>
+<h2 align="center" id = "tech-stack"> 🛠 Tech Stack:</h2>
 
 <div align="center">
   <h3>Frontend</h3>
   <p>
     <a href="https://skillicons.dev">
-      <img src="https://skillicons.dev/icons?i=js,react" />
+      <img src="https://skillicons.dev/icons?i=react,nodejs" height=50 width=50/>
     </a>
   </p>
   <h3>Backend</h3>
   <p>
     <a href="https://skillicons.dev">
-      <img src="https://skillicons.dev/icons?i=dynamodb,aws" />
+      <img src="https://skillicons.dev/icons?i=express,docker,mongodb" height=50 width=50 />
     </a>
   </p>
   <br />
 </div>
 
-<h2 align="center" id = "contributors"> :family_man_man_boy_boy: Contributors:</h2> -->
+<h2 align="center" id = "contributors"> :family_man_man_boy_boy: Contributors:</h2>
 
 <div align="center">
     <table>

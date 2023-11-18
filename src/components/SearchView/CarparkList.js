@@ -15,18 +15,21 @@ import {
   ActivityIndicator,
 } from "react-native-paper";
 import Sort from "./Sort";
-import CarparkInfo from "../CarparkInfo/CarparkInfo";
 import { sortCarparks } from "../../searchManager/SortCarparks";
 import FavouritesContext from "../../favouritesManager/FavouritesContext";
-import { BottomSheetModal } from "@gorhom/bottom-sheet";
 import { MapCoordinates } from "../../mapViewManager/MapCoordinatesContext";
 import { MapCenterToPin } from "../../mapViewManager/MapCenterToPinContext";
 import "react-native-gesture-handler";
 
-export default function CarparkList({ location, loading, carparks }) {
+export default function CarparkList({
+  location,
+  loading,
+  carparks,
+  selecting,
+}) {
   const [selectedCarpark, setSelectedCarpark] = useState(null);
   const { mapCoordinates, setMapCoordinates } = useContext(MapCoordinates);
-  const { mapCenterToPin, setMapCenterToPin} = useContext(MapCenterToPin);
+  const { mapCenterToPin, setMapCenterToPin } = useContext(MapCenterToPin);
 
   const [sortOption, setSortOption] = useState("distance");
   const [sortedLists, setSortedLists] = useState({
@@ -71,22 +74,6 @@ export default function CarparkList({ location, loading, carparks }) {
     }
   };
 
-  // Bottom Sheet Modal
-  // ref
-  const bottomSheetModalRef = useRef(null);
-
-  // variables
-  const snapPoints = useMemo(() => ["50%", "85%"], []);
-
-  // callbacks
-  function handlePresentModalPress() {
-    bottomSheetModalRef.current?.present();
-  }
-
-  const handleSheetChanges = useCallback((index) => {
-    // console.log("handleSheetChanges", index);
-  }, []);
-
   if (loading || isSorting) {
     return (
       <View style={styles.loaderContainer}>
@@ -111,11 +98,11 @@ export default function CarparkList({ location, loading, carparks }) {
             onPress={() => {
               setSelectedCarpark(item);
               // setModalVisible(true);
-              handlePresentModalPress();
               // setMapCenterToPin({
               //   latitude: item.Coordinates.coordinates[1],
               //   longitude: item.Coordinates.coordinates[0],
-              // })
+              // });
+              selecting(item);
             }}
           >
             <View style={styles.listItem}>
@@ -149,17 +136,6 @@ export default function CarparkList({ location, loading, carparks }) {
           </TouchableOpacity>
         )}
       />
-      <BottomSheetModal
-        ref={bottomSheetModalRef}
-        index={0}
-        snapPoints={snapPoints}
-        onChange={handleSheetChanges}
-        backgroundStyle={{ borderRadius: 20 }}
-      >
-        <View style={styles.modalContent}>
-          <CarparkInfo carpark={selectedCarpark} location={location} />
-        </View>
-      </BottomSheetModal>
     </View>
   );
 }

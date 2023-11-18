@@ -15,15 +15,18 @@ import {
   ActivityIndicator,
 } from "react-native-paper";
 import Sort from "./Sort";
-import CarparkInfo from "../CarparkInfo/CarparkInfo";
 import { sortCarparks } from "../../searchManager/SortCarparks";
 import FavouritesContext from "../../favouritesManager/FavouritesContext";
-import { BottomSheetModal } from "@gorhom/bottom-sheet";
 import "react-native-gesture-handler";
 import ActiveSearchContext from "../../searchManager/ActiveSearchContext";
 import { useIsFocused } from "@react-navigation/native";
 
-export default function SearchBar({ location, searchLoading, searchCarparks }) {
+export default function SearchBar({
+  location,
+  searchLoading,
+  searchCarparks,
+  selecting,
+}) {
   const { setSearchActive } = useContext(ActiveSearchContext);
   const isFocused = useIsFocused();
 
@@ -76,22 +79,6 @@ export default function SearchBar({ location, searchLoading, searchCarparks }) {
     }
   };
 
-  // Bottom Sheet Modal
-  // ref
-  const bottomSheetModalRef = useRef(null);
-
-  // variables
-  const snapPoints = useMemo(() => ["50%", "85%"], []);
-
-  // callbacks
-  function handlePresentModalPress() {
-    bottomSheetModalRef.current?.present();
-  }
-
-  const handleSheetChanges = useCallback((index) => {
-    // console.log("handleSheetChanges", index);
-  }, []);
-
   if (searchLoading || isSorting) {
     return (
       <View style={styles.loaderContainer}>
@@ -116,7 +103,8 @@ export default function SearchBar({ location, searchLoading, searchCarparks }) {
             onPress={() => {
               setSelectedCarpark(item);
               // setModalVisible(true);
-              handlePresentModalPress();
+              // handlePresentModalPress();
+              selecting(item);
             }}
           >
             <View style={styles.listItem}>
@@ -150,17 +138,6 @@ export default function SearchBar({ location, searchLoading, searchCarparks }) {
           </TouchableOpacity>
         )}
       />
-      <BottomSheetModal
-        ref={bottomSheetModalRef}
-        index={0}
-        snapPoints={snapPoints}
-        onChange={handleSheetChanges}
-        backgroundStyle={{ borderRadius: 20 }}
-      >
-        <View style={styles.modalContent}>
-          <CarparkInfo carpark={selectedCarpark} location={location} />
-        </View>
-      </BottomSheetModal>
     </View>
   );
 }

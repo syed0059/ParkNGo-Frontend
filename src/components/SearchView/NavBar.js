@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import React, { useEffect } from "react";
 import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs";
 import { useNavigation } from "@react-navigation/native";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
@@ -11,16 +11,22 @@ import { NotificationProvider } from "../../notificationManager/NotificationCont
 
 const Tab = createMaterialTopTabNavigator();
 
-export default function NavBar({
+function NavBar({
   location,
   loading,
   carparks,
   searchLoading,
   searchCarparks,
+  selectingCarpark,
 }) {
   function HomeScreen() {
     return (
-      <CarparkList location={location} loading={loading} carparks={carparks} />
+      <CarparkList
+        location={location}
+        loading={loading}
+        carparks={carparks}
+        selecting={selectingCarpark}
+      />
     );
   }
 
@@ -30,12 +36,13 @@ export default function NavBar({
         searchLoading={searchLoading}
         searchCarparks={searchCarparks}
         location={location}
+        selecting={selectingCarpark}
       />
     );
   }
 
   function FavouritesScreen() {
-    return <Favourites location={location} />;
+    return <Favourites location={location} selecting={selectingCarpark} />;
   }
 
   function SettingsScreen() {
@@ -94,6 +101,8 @@ export default function NavBar({
     </NotificationProvider>
   );
 }
+
+export default React.memo(NavBar);
 
 const styles = StyleSheet.create({
   container: {

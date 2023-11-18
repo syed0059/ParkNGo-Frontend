@@ -64,6 +64,7 @@ function PriceCalculator({ rates }) {
       setCalculatedPrice(
         "Invalid time inserted. Please check arrival or departure timing."
       );
+      console.error("Invalid time inserted.");
     }
   };
 

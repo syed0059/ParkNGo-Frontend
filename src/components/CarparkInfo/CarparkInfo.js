@@ -23,14 +23,12 @@ function CarparkInfo(props) {
   const carpark = props.carpark;
   let distance = carpark["distance"];
   if (props.location) {
-    console.log(props.location);
     distance = calculateDistance(
       props.location["latitude"],
       props.location["longitude"],
       props.carpark.Coordinates.coordinates[1],
       props.carpark.Coordinates.coordinates[0]
     );
-    console.log(distance);
   }
   selectedCarparkID = carpark.selectedCarpark;
   /* can adapt this to get trends */

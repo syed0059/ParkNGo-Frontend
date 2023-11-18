@@ -35,7 +35,7 @@ export default function Navigation(props) {
             longitude: 103.68278687819839,
             longitudeDelta: 0.008127428591251373,
           });
-          console.error("Location permission not granted");
+          console.log("Location permission not granted");
           return;
         }
 

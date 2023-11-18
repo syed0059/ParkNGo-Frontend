@@ -17,7 +17,6 @@ import { getCarparks } from "../../mapViewManager/MapManager";
 import _ from "lodash";
 
 export default function Map({ location, loading, carparks }) {
-  console.log(location);
   const { isFavouritesActive } = useContext(ActiveFavouritesContext);
   const { favourites } = useContext(FavouritesContext);
   const [locationsOfInterest, setLocationsOfInterest] = useState([]);
@@ -59,19 +58,32 @@ export default function Map({ location, loading, carparks }) {
           coordinate={item.location}
           title={item.title}
           description={item.description}
-          onPress={(e) => setMapCenterToPin(e.nativeEvent.coordinate)}
+          // onPress={(e) => setMapCenterToPin(e.nativeEvent.coordinate)}
+          onPress={(e) => centerToPin(e.nativeEvent.coordinate)}
         ></Marker>
       );
     });
   };
 
   const centerToPin = async (coords) => {
-    this.map.animateCamera({ center: coords }, { duration: 500 });
+    // this.map.animateCamera({ center: coords }, { duration: 500 });
+    setMapCoordinates({
+      latitude: coords.latitude,
+      longitude: coords.longitude,
+      latitudeDelta: 0.008540807106718562,
+      longitudeDelta: 0.008127428591251373,
+    })
   };
 
-  useEffect(() => {
-    centerToPin(mapCenterToPin);
-  }, [mapCenterToPin]);
+  // useEffect(() => {
+  //   // centerToPin(mapCenterToPin);
+  //   setMapCoordinates({
+  //     latitude: mapCenterToPin.latitude,
+  //     longitude: mapCenterToPin.longitude,
+  //     latitudeDelta: 0.008540807106718562,
+  //     longitudeDelta: 0.008127428591251373,
+  //   })
+  // }, [mapCenterToPin]);
 
   // Update pins when carpark list is updated
   useEffect(() => {
@@ -115,7 +127,13 @@ export default function Map({ location, loading, carparks }) {
       let { status } = await Location.requestForegroundPermissionsAsync();
 
       if (status !== "granted") {
-        console.error("Location permission not granted");
+        console.log("Location permission not granted");
+        setMapCoordinates({
+          latitude: 1.3478769602767113,
+          longitude: 103.68278687819839,
+          longitudeDelta: 0.008127428591251373,
+          latitudeDelta: 0.008540807106718562,
+        })
         return;
       }
 

@@ -148,9 +148,9 @@ export default function Map({ location, loading, carparks }){
 
   // Function is called when map is moved
   const onRegionChange = (region, gesture) => {
-    if (gesture.isGesture) {
+    // if (gesture.isGesture) {
       debouncedOnRegionChange(region);
-    }
+    // }
   }
 
   // Shows circle of search when not in favourite menu

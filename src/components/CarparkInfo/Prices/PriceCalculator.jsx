@@ -55,7 +55,12 @@ function PriceCalculator({ rates }) {
 
     setCalculatedPrice(price.toFixed(2)); // round to 2 decimal places
     // Error handling
-    if (arrival.getHours() < 0 || departure.getHours() > 23) {
+    if (
+      arrival.getHours() < 0 ||
+      arrival.getHours() > 23 ||
+      departure.getHours() < 0 ||
+      departure.getHours() > 23
+    ) {
       setCalculatedPrice(
         "Invalid time inserted. Please check arrival or departure timing."
       );

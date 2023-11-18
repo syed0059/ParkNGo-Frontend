@@ -15,6 +15,7 @@ import { MapCoordinates } from "./src/mapViewManager/MapCoordinatesContext";
 import { MapSearchCoordinates } from "./src/mapViewManager/MapSearchContext";
 import ActiveSearchContext from "./src/searchManager/ActiveSearchContext";
 import { FavouritesProvider } from "./src/favouritesManager/FavouritesContext";
+import { REACT_APP_GOOGLE_API_KEY } from '@env';
 
 export default function AppWrapper() {
 
@@ -103,7 +104,7 @@ export default function AppWrapper() {
                                                             }
                                                         }}
                                                         query={{
-                                                            key: String(process.env.REACT_APP_GOOGLE_API_KEY),
+                                                            key: String(REACT_APP_GOOGLE_API_KEY),
                                                             language: 'en',
                                                             components: 'country:sg',
                                                         }}

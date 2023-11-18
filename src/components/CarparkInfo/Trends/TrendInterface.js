@@ -1,4 +1,6 @@
-const localhost = String(process.env.REACT_APP_LOCAL_IP) + ":3000/trend/";
+import { REACT_APP_LOCAL_IP } from "@env"
+
+const localhost = String(REACT_APP_LOCAL_IP) + ":3000/trend/";
 
 export default getTrend = async (carparkID) => {
   let data;

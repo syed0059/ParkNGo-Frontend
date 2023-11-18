@@ -5,6 +5,7 @@ import { useEffect, useState, useContext } from "react";
 import MapView, { Marker, PROVIDER_GOOGLE, Circle } from "react-native-maps";
 import MapViewDirections from "react-native-maps-directions";
 import * as Location from "expo-location";
+import { REACT_APP_GOOGLE_API_KEY } from "@env"
 
 export default function Navigation(props) {
   const address = props.address;
@@ -72,7 +73,7 @@ export default function Navigation(props) {
             strokeColor="#53ae31"
             strokeWidth={8}
             destination={destination}
-            apikey={String(process.env.REACT_APP_GOOGLE_API_KEY)}
+            apikey={String(REACT_APP_GOOGLE_API_KEY)}
           />
         ) : null}
 

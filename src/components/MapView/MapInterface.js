@@ -81,9 +81,15 @@ export default function Map({ location, loading, carparks, selectingCarpark }) {
     mapRef.current?.animateCamera({ center: coords }, { duration: 100 });
   }, []);
 
-  useEffect(() => {
-    centerToPin(mapCenterToPin);
-  }, [mapCenterToPin]);
+  // useEffect(() => {
+  //   // centerToPin(mapCenterToPin);
+  //   setMapCoordinates({
+  //     latitude: mapCenterToPin.latitude,
+  //     longitude: mapCenterToPin.longitude,
+  //     latitudeDelta: 0.008540807106718562,
+  //     longitudeDelta: 0.008127428591251373,
+  //   })
+  // }, [mapCenterToPin]);
 
   // Update pins when carpark list is updated
   useEffect(() => {

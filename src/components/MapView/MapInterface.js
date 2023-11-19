@@ -70,26 +70,15 @@ export default function Map({ location, loading, carparks, selectingCarpark }) {
   const centerToPinFromMap = async (coords, id) => {
     centerToPin(coords);
     selectingCarpark(id);
-    //This should give out the information required for carpark info
   };
-
-  // const centerToPin = async (coords) => {
-  //   this.map.animateCamera({ center: coords }, { duration: 500 });
-  // };
 
   const centerToPin = useCallback(async (coords) => {
     mapRef.current?.animateCamera({ center: coords }, { duration: 100 });
   }, []);
 
-  // useEffect(() => {
-  //   // centerToPin(mapCenterToPin);
-  //   setMapCoordinates({
-  //     latitude: mapCenterToPin.latitude,
-  //     longitude: mapCenterToPin.longitude,
-  //     latitudeDelta: 0.008540807106718562,
-  //     longitudeDelta: 0.008127428591251373,
-  //   })
-  // }, [mapCenterToPin]);
+  useEffect(() => {
+    centerToPin(mapCenterToPin);
+  }, [mapCenterToPin]);
 
   // Update pins when carpark list is updated
   useEffect(() => {
@@ -212,9 +201,6 @@ export default function Map({ location, loading, carparks, selectingCarpark }) {
   return (
     <View style={styles.container}>
       <MapView
-        // ref={(ref) => {
-        //   this.map = ref;
-        // }}
         ref={mapRef}
         style={styles.map}
         provider={PROVIDER_GOOGLE}

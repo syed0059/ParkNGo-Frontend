@@ -69,29 +69,45 @@ ParkN'Go is a mobile application designed to help drivers find parking spaces ef
 <h2 align="center" id = "key-features"> :old_key:	Key Features</h2>
 
 - **Car Park List and Map:** Users can view nearby car parks around their location and can favourite car parks using the heart icon. Users can also move the map around to update car park list. <br/><br/>
-![car_park_list_and_map](https://github.com/syed0059/SC2006-SWE-Frontend/blob/a2e9c6d444d438705fa63d0257d458bb4b241367/assets/screenshots/AvailableCarparkList.PNG)
+<div align="center">
+  <img src="https://github.com/syed0059/SC2006-SWE-Frontend/blob/a2e9c6d444d438705fa63d0257d458bb4b241367/assets/screenshots/AvailableCarparkList.PNG" width="300">
+</div>
 
 - **Car Park Information:** Users can view car park information after clicking on a car park on the list. <br/><br/>
-![car_park_information](https://github.com/syed0059/SC2006-SWE-Frontend/blob/a2e9c6d444d438705fa63d0257d458bb4b241367/assets/screenshots/CarparkInformation.PNG)
-![car_park_information](https://github.com/syed0059/SC2006-SWE-Frontend/blob/a2e9c6d444d438705fa63d0257d458bb4b241367/assets/screenshots/Trends.PNG)
+<div align="center">
+  <img src="https://github.com/syed0059/SC2006-SWE-Frontend/blob/a2e9c6d444d438705fa63d0257d458bb4b241367/assets/screenshots/CarparkInformation.PNG" width="300">
+  <img src="https://github.com/syed0059/SC2006-SWE-Frontend/blob/a2e9c6d444d438705fa63d0257d458bb4b241367/assets/screenshots/Trends.PNG" width="300">
+</div>
 
 - **Navigation:** ParkN'Go provides a navigation route to the desired car park location. <br/><br/>
-![navigation](https://github.com/syed0059/SC2006-SWE-Frontend/blob/a2e9c6d444d438705fa63d0257d458bb4b241367/assets/screenshots/Navigation.PNG)
+<div align="center">
+  <img src="https://github.com/syed0059/SC2006-SWE-Frontend/blob/a2e9c6d444d438705fa63d0257d458bb4b241367/assets/screenshots/Navigation.PNG" width="300">
+</div>
 
 - **Price Calculator:** ParkN'Go provides a parking fee calculator that uses arrival and departure times. It also factors in the time of day and what it currently is. <br/><br/>
-![price_calculator](https://github.com/syed0059/SC2006-SWE-Frontend/blob/a2e9c6d444d438705fa63d0257d458bb4b241367/assets/screenshots/CarparkPriceCalculator.PNG)
+<div align="center">
+  <img src="https://github.com/syed0059/SC2006-SWE-Frontend/blob/a2e9c6d444d438705fa63d0257d458bb4b241367/assets/screenshots/CarparkPriceCalculator.PNG" width="300">
+</div>
 
 - **Favourite List:** Users can view their favourite car parks, and the map will only show pins of their favourite car parks. <br/><br/>
-![favourite_list](https://github.com/syed0059/SC2006-SWE-Frontend/blob/a2e9c6d444d438705fa63d0257d458bb4b241367/assets/screenshots/FavoritedCarparks.PNG)
+<div align="center">
+  <img src="https://github.com/syed0059/SC2006-SWE-Frontend/blob/a2e9c6d444d438705fa63d0257d458bb4b241367/assets/screenshots/FavoritedCarparks.PNG" width="300">
+</div>
 
 - **Notification System:** Users can click on the bell icon, and there will be a notification alert whenever the car park availability status has changed. <br/><br/>
-![notification_system](https://github.com/syed0059/SC2006-SWE-Frontend/blob/a2e9c6d444d438705fa63d0257d458bb4b241367/assets/screenshots/CarparkNotification.PNG)
+<div align="center">
+  <img src="https://github.com/syed0059/SC2006-SWE-Frontend/blob/a2e9c6d444d438705fa63d0257d458bb4b241367/assets/screenshots/CarparkNotification.PNG" width="300">
+</div>
 
 - **Search by Location:** Users can search for locations in Singapore, and the map will take them to that location and car park list would be updated. <br/><br/>
-![search_by_location](https://github.com/syed0059/SC2006-SWE-Frontend/blob/a2e9c6d444d438705fa63d0257d458bb4b241367/assets/screenshots/SearchedCarparkList.PNG)
+<div align="center">
+  <img src="https://github.com/syed0059/SC2006-SWE-Frontend/blob/a2e9c6d444d438705fa63d0257d458bb4b241367/assets/screenshots/SearchedCarparkList.PNG" width="300">
+</div>
 
 - **Settings:** Users edit the search radius for nearby car parks in the settings. It scales from 1km to 3km. <br/><br/>
-![settings](https://github.com/syed0059/SC2006-SWE-Frontend/blob/a2e9c6d444d438705fa63d0257d458bb4b241367/assets/screenshots/Settings.PNG)
+<div align="center">
+  <img src="https://github.com/syed0059/SC2006-SWE-Frontend/blob/a2e9c6d444d438705fa63d0257d458bb4b241367/assets/screenshots/Settings.PNG" width="300">
+</div>
 
 <!-- - **Register/Login:** Users can register for an account, receive a confirmation code to confirm sign-up and login with necessary authentication. This was implemented using AWS Cognito for authentication. <br/>
 <div align="center">

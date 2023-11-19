@@ -52,6 +52,8 @@ ParkN'Go is a mobile application designed to help drivers find parking spaces ef
 - **Car Park Information:** Users can view car park information after clicking on a car park on the list. <br/><br/>
 <div align="center">
   <img src="https://github.com/syed0059/SC2006-SWE-Frontend/blob/a2e9c6d444d438705fa63d0257d458bb4b241367/assets/screenshots/CarparkInformation.PNG" width="300">
+</div>
+<div align="center">
   <img src="https://github.com/syed0059/SC2006-SWE-Frontend/blob/a2e9c6d444d438705fa63d0257d458bb4b241367/assets/screenshots/Trends.PNG" width="300">
 </div>
 

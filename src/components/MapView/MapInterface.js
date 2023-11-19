@@ -55,14 +55,21 @@ export default function Map({ location, loading, carparks, selectingCarpark }) {
       return (
         <Marker
           pinColor={color}
-          key={index}
+          key={`${item.location.latitude}${item.location.longitude}`}
           coordinate={item.location}
           title={item.title}
           description={item.description}
-          onPress={(e) => setMapCenterToPin(e.nativeEvent.coordinate)}
+          id={item.id}
+          onPress={(e) => centerToPinFromMap(e.nativeEvent.coordinate, item.id)}
         ></Marker>
       );
     });
+  };
+
+  const centerToPinFromMap = async (coords, id) => {
+    centerToPin(coords);
+    //This should give out the information required for carpark info
+    console.log(id);
   };
 
   const centerToPin = async (coords) => {
@@ -115,7 +122,14 @@ export default function Map({ location, loading, carparks, selectingCarpark }) {
       let { status } = await Location.requestForegroundPermissionsAsync();
 
       if (status !== "granted") {
-        console.error("Location permission not granted");
+        console.log("Location permission not granted");
+
+        setMapCoordinates({
+          latitude: 1.3478769602767113,
+          longitude: 103.68278687819839,
+          longitudeDelta: 0.008127428591251373,
+          latitudeDelta: 0.008540807106718562,
+        })
         return;
       }
 
@@ -163,9 +177,9 @@ export default function Map({ location, loading, carparks, selectingCarpark }) {
 
   // Function is called when map is moved
   const onRegionChange = (region, gesture) => {
-    if (gesture.isGesture) {
+    // if (gesture.isGesture) {
       debouncedOnRegionChange(region);
-    }
+    // }
   };
 
   // Shows circle of search when not in favourite menu

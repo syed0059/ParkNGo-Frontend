@@ -16,6 +16,7 @@ export function getCarparks(carparks){
       },
       description: "Carpark",
       capacity: percent,
+      id: carparkArray[i],
     };
     data.push(newCarparkInfo)
 

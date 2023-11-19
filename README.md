@@ -31,7 +31,7 @@ ParkN'Go is a mobile application designed to help drivers find parking spaces ef
 * Google API Key
   + These APIs are required: Directions API, Distance Matrix API, Geocoding API, Places API and Places API(New)
   + Go to the Google Maps Platform then Credentials page https://console.cloud.google.com/project/_/google/maps-apis/credentials?utm_source=Docs_CreateAPIKey&utm_content=Docs_maps-backend
-  + On the Credentials page, click Create credentials then API Key. The API key created dialog displays your newly created API Key. Select API Key
+  + On the Credentials page, click Create credentials then API Key. The API Key created dialog displays your newly created API Key. Select API Key
   + Under API restrictions select restrict Key and choose Directions API, Distance Matrix API, Geocoding API, Places API and Places API(New) from the dropdown
 
 <h2 align="center" id = "setup"> :hammer_and_wrench:	Setup</h2>

@@ -122,13 +122,13 @@ CAN ADD DESCRIPTION HERE
   <h3>Frontend</h3>
   <p>
     <a href="https://skillicons.dev">
-      <img src="https://skillicons.dev/icons?i=react,nodejs" height=50 width=50/>
+      <img src="https://skillicons.dev/icons?i=react,nodejs" height=150 width=150/>
     </a>
   </p>
   <h3>Backend</h3>
   <p>
     <a href="https://skillicons.dev">
-      <img src="https://skillicons.dev/icons?i=express,docker,mongodb" height=50 width=50 />
+      <img src="https://skillicons.dev/icons?i=express,docker,mongodb" height=250 width=250 />
     </a>
   </p>
   <br />
@@ -138,35 +138,23 @@ CAN ADD DESCRIPTION HERE
 
 <div align="center">
     <table>
-        <thead>
-            <tr>
-                <th>Profile</th>
-                <th>Name</th>
-            </tr>
-        </thead>
         <tbody>
             <tr>
+                <th>Profile</th>
                 <td><a href='https://github.com/syed0059' title='Syed'> <img src='https://github.com/syed0059.png' height='50' width='50'/></a></td>
-                <td>Syed</td>
-            </tr>
-            <tr>
                 <td><a href='https://github.com/ayyshish' title='Ashish'> <img src='https://github.com/ayyshish.png' height='50' width='50'/></a></td>
-                <td>Ashish</td>
-            </tr>
-            <tr>
                 <td><a href='https://github.com/wjkenneth' title='Kenneth'> <img src='https://github.com/wjkenneth.png' height='50' width='50'/></a></td>
-                <td>Kenneth</td>
-            </tr>
-            <tr>
                 <td><a href='https://github.com/curd45' title='Param'> <img src='https://github.com/curd45.png' height='50' width='50'/></a></td>
-                <td>Param</td>
-            </tr>
-            <tr>
                 <td><a href='https://github.com/hiimstevenzhu' title='Steven'> <img src='https://github.com/hiimstevenzhu.png' height='50' width='50'/></a></td>
-                <td>Steven</td>
+                <td><a href='https://github.com/JaredNgwj' title='Steven'> <img src='https://github.com/JaredNgwj.png' height='50' width='50'/></a></td>
             </tr>
             <tr>
-                <td><a href='https://github.com/JaredNgwj' title='Steven'> <img src='https://github.com/JaredNgwj.png' height='50' width='50'/></a></td>
+                <th>Name</th>
+                <td>Syed</td>
+                <td>Ashish</td>
+                <td>Kenneth</td>
+                <td>Param</td>
+                <td>Steven</td>
                 <td>Jared</td>
             </tr>
         </tbody>

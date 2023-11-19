@@ -3,7 +3,7 @@
 
 ParkN'Go is a mobile application designed to help drivers find parking spaces effortlessly. Using real-time data from APIs, ParkN'Go provides the latest updates on available car park lots. ParkN'Go provides features such as colour-coded car park location pins on the map, detailed car park information, nearby places around the car park and navigation to desired car park location.
 
-THe demo video can be viewed here: https://youtu.be/9Cs6HPFZbsI
+The demo video can be viewed here: https://youtu.be/9Cs6HPFZbsI
 
 
 <h2 align = "center"> Table Of Contents </h2>

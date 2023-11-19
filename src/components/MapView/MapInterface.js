@@ -134,7 +134,6 @@ export default function Map({ location, loading, carparks, selectingCarpark }) {
 
       if (status !== "granted") {
         console.log("Location permission not granted");
-
         setMapCoordinates({
           latitude: 1.3478769602767113,
           longitude: 103.68278687819839,

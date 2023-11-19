@@ -25,7 +25,7 @@ React Native Example (Bar trend)
 <h1 align="center"> :car: ParkN'Go :motorcycle:</h1>
 
 
-ParkN'Go is a mobile application designed to help drivers find parking spaces effortlessly. Using real-time data from APIs, ParkN'Go provides the latest updates on available carpark lots. ParkN'Go provides features such as colour-coded carpark location pins on the map, detailed carpark information, nearby places around the carpark and navigation to desired carpark location.
+ParkN'Go is a mobile application designed to help drivers find parking spaces effortlessly. Using real-time data from APIs, ParkN'Go provides the latest updates on available car park lots. ParkN'Go provides features such as colour-coded car park location pins on the map, detailed car park information, nearby places around the car park and navigation to desired car park location.
 
 
 <h2 align = "center"> Table Of Contents </h2>
@@ -68,29 +68,29 @@ ParkN'Go is a mobile application designed to help drivers find parking spaces ef
 
 <h2 align="center" id = "key-features"> :old_key:	Key Features</h2>
 
-- **Carpark List and Map:** Users can view nearby carparks around their location and can favourite carparks using the heart icon. Users can also move the map around to update carpark list. <br/><br/>
+- **Carpark List and Map:** Users can view nearby car parks around their location and can favourite car parks using the heart icon. Users can also move the map around to update car park list. <br/><br/>
 ![carpark_list_and_map](https://github.com/syed0059/SC2006-SWE-Frontend/blob/a2e9c6d444d438705fa63d0257d458bb4b241367/assets/screenshots/AvailableCarparkList.PNG)
 
-- **Carpark Information:** Users can view carpark information after clicking on a carpark on the list. <br/><br/>
+- **Carpark Information:** Users can view car park information after clicking on a car park on the list. <br/><br/>
 ![carpark_information](https://github.com/syed0059/SC2006-SWE-Frontend/blob/a2e9c6d444d438705fa63d0257d458bb4b241367/assets/screenshots/CarparkInformation.PNG)
 ![carpark_information](https://github.com/syed0059/SC2006-SWE-Frontend/blob/a2e9c6d444d438705fa63d0257d458bb4b241367/assets/screenshots/Trends.PNG)
 
-- **Navigation:** ParkN'Go provides a navigation route to the desired carpark location. <br/><br/>
+- **Navigation:** ParkN'Go provides a navigation route to the desired car park location. <br/><br/>
 ![navigation](https://github.com/syed0059/SC2006-SWE-Frontend/blob/a2e9c6d444d438705fa63d0257d458bb4b241367/assets/screenshots/Navigation.PNG)
 
 - **Price Calculator:** ParkN'Go provides a parking fee calculator that uses arrival and departure times. It also factors in the time of day and what it currently is. <br/><br/>
 ![price_calculator](https://github.com/syed0059/SC2006-SWE-Frontend/blob/a2e9c6d444d438705fa63d0257d458bb4b241367/assets/screenshots/CarparkPriceCalculator.PNG)
 
-- **Favourite List:** Users can view their favourite carparks, and the map will only show pins of their favourite carparks. <br/><br/>
+- **Favourite List:** Users can view their favourite car parks, and the map will only show pins of their favourite car parks. <br/><br/>
 ![favourite_list](https://github.com/syed0059/SC2006-SWE-Frontend/blob/a2e9c6d444d438705fa63d0257d458bb4b241367/assets/screenshots/FavoritedCarparks.PNG)
 
-- **Notification System:** Users can click on the bell icon, and there will be a notification alert whenever the carpark availability status has changed. <br/><br/>
+- **Notification System:** Users can click on the bell icon, and there will be a notification alert whenever the car park availability status has changed. <br/><br/>
 ![notification_system](https://github.com/syed0059/SC2006-SWE-Frontend/blob/a2e9c6d444d438705fa63d0257d458bb4b241367/assets/screenshots/CarparkNotification.PNG)
 
-- **Search by Location:** Users can search for locations in Singapore, and the map will take them to that location and carpark list would be updated. <br/><br/>
+- **Search by Location:** Users can search for locations in Singapore, and the map will take them to that location and car park list would be updated. <br/><br/>
 ![search_by_location](https://github.com/syed0059/SC2006-SWE-Frontend/blob/a2e9c6d444d438705fa63d0257d458bb4b241367/assets/screenshots/SearchedCarparkList.PNG)
 
-- **Settings:** Users edit the search radius for nearby carparks in the settings. It scales from 1km to 3km. <br/><br/>
+- **Settings:** Users edit the search radius for nearby car parks in the settings. It scales from 1km to 3km. <br/><br/>
 ![settings](https://github.com/syed0059/SC2006-SWE-Frontend/blob/a2e9c6d444d438705fa63d0257d458bb4b241367/assets/screenshots/Settings.PNG)
 
 <!-- - **Register/Login:** Users can register for an account, receive a confirmation code to confirm sign-up and login with necessary authentication. This was implemented using AWS Cognito for authentication. <br/>

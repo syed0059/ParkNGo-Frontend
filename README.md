@@ -68,12 +68,12 @@ ParkN'Go is a mobile application designed to help drivers find parking spaces ef
 
 <h2 align="center" id = "key-features"> :old_key:	Key Features</h2>
 
-- **Carpark List and Map:** Users can view nearby car parks around their location and can favourite car parks using the heart icon. Users can also move the map around to update car park list. <br/><br/>
-![carpark_list_and_map](https://github.com/syed0059/SC2006-SWE-Frontend/blob/a2e9c6d444d438705fa63d0257d458bb4b241367/assets/screenshots/AvailableCarparkList.PNG)
+- **Car Park List and Map:** Users can view nearby car parks around their location and can favourite car parks using the heart icon. Users can also move the map around to update car park list. <br/><br/>
+![car_park_list_and_map](https://github.com/syed0059/SC2006-SWE-Frontend/blob/a2e9c6d444d438705fa63d0257d458bb4b241367/assets/screenshots/AvailableCarparkList.PNG)
 
-- **Carpark Information:** Users can view car park information after clicking on a car park on the list. <br/><br/>
-![carpark_information](https://github.com/syed0059/SC2006-SWE-Frontend/blob/a2e9c6d444d438705fa63d0257d458bb4b241367/assets/screenshots/CarparkInformation.PNG)
-![carpark_information](https://github.com/syed0059/SC2006-SWE-Frontend/blob/a2e9c6d444d438705fa63d0257d458bb4b241367/assets/screenshots/Trends.PNG)
+- **Car Park Information:** Users can view car park information after clicking on a car park on the list. <br/><br/>
+![car_park_information](https://github.com/syed0059/SC2006-SWE-Frontend/blob/a2e9c6d444d438705fa63d0257d458bb4b241367/assets/screenshots/CarparkInformation.PNG)
+![car_park_information](https://github.com/syed0059/SC2006-SWE-Frontend/blob/a2e9c6d444d438705fa63d0257d458bb4b241367/assets/screenshots/Trends.PNG)
 
 - **Navigation:** ParkN'Go provides a navigation route to the desired car park location. <br/><br/>
 ![navigation](https://github.com/syed0059/SC2006-SWE-Frontend/blob/a2e9c6d444d438705fa63d0257d458bb4b241367/assets/screenshots/Navigation.PNG)

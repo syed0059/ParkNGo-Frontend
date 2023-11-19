@@ -20,6 +20,7 @@ import FavouritesContext from "../../favouritesManager/FavouritesContext";
 import "react-native-gesture-handler";
 import ActiveSearchContext from "../../searchManager/ActiveSearchContext";
 import { useIsFocused } from "@react-navigation/native";
+import { MapCenterToPin } from "../../mapViewManager/MapCenterToPinContext";
 
 export default function SearchBar({
   location,
@@ -27,6 +28,7 @@ export default function SearchBar({
   searchCarparks,
   selecting,
 }) {
+  const { mapCenterToPin, setMapCenterToPin } = useContext(MapCenterToPin);
   const { setSearchActive } = useContext(ActiveSearchContext);
   const isFocused = useIsFocused();
 
@@ -105,6 +107,10 @@ export default function SearchBar({
               // setModalVisible(true);
               // handlePresentModalPress();
               selecting(item);
+              setMapCenterToPin({
+                latitude: item.Coordinates.coordinates[1],
+                longitude: item.Coordinates.coordinates[0],
+              });
             }}
           >
             <View style={styles.listItem}>

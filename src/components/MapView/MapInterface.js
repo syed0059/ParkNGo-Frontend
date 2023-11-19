@@ -4,7 +4,7 @@ import {
   getFavourites,
   getCarparksByIdArray,
 } from "../../carparkInterface/carparkInterface";
-import { useEffect, useState, useContext, useCallback } from "react";
+import { useEffect, useState, useContext, useCallback, useRef } from "react";
 import * as Location from "expo-location";
 import { RadiusContext } from "../../searchManager/RadiusContext";
 import { MapCoordinates } from "../../mapViewManager/MapCoordinatesContext";
@@ -25,6 +25,8 @@ export default function Map({ location, loading, carparks, selectingCarpark }) {
   const { mapSearchCoordinates } = useContext(MapSearchCoordinates);
   const { mapCenterToPin, setMapCenterToPin } = useContext(MapCenterToPin);
 
+  const mapRef = useRef(null);
+
   // To update list of carparks to be showns
   const addIn = async () => {
     let data;
@@ -43,7 +45,6 @@ export default function Map({ location, loading, carparks, selectingCarpark }) {
   // Drawing out the pins
   const showLocationsOfInterest = () => {
     return locationsOfInterest.map((item, index) => {
-      console.log(item);
       let color;
       if (item.capacity < 0.1) {
         color = "red";
@@ -68,13 +69,17 @@ export default function Map({ location, loading, carparks, selectingCarpark }) {
 
   const centerToPinFromMap = async (coords, id) => {
     centerToPin(coords);
+    selectingCarpark(id);
     //This should give out the information required for carpark info
-    console.log(id);
   };
 
-  const centerToPin = async (coords) => {
-    this.map.animateCamera({ center: coords }, { duration: 500 });
-  };
+  // const centerToPin = async (coords) => {
+  //   this.map.animateCamera({ center: coords }, { duration: 500 });
+  // };
+
+  const centerToPin = useCallback(async (coords) => {
+    mapRef.current?.animateCamera({ center: coords }, { duration: 100 });
+  }, []);
 
   useEffect(() => {
     centerToPin(mapCenterToPin);
@@ -129,7 +134,7 @@ export default function Map({ location, loading, carparks, selectingCarpark }) {
           longitude: 103.68278687819839,
           longitudeDelta: 0.008127428591251373,
           latitudeDelta: 0.008540807106718562,
-        })
+        });
         return;
       }
 
@@ -178,7 +183,7 @@ export default function Map({ location, loading, carparks, selectingCarpark }) {
   // Function is called when map is moved
   const onRegionChange = (region, gesture) => {
     // if (gesture.isGesture) {
-      debouncedOnRegionChange(region);
+    debouncedOnRegionChange(region);
     // }
   };
 
@@ -202,9 +207,10 @@ export default function Map({ location, loading, carparks, selectingCarpark }) {
   return (
     <View style={styles.container}>
       <MapView
-        ref={(ref) => {
-          this.map = ref;
-        }}
+        // ref={(ref) => {
+        //   this.map = ref;
+        // }}
+        ref={mapRef}
         style={styles.map}
         provider={PROVIDER_GOOGLE}
         region={mapCoordinates}

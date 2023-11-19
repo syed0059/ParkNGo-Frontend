@@ -23,8 +23,10 @@ import NotificationContext from "../../notificationManager/NotificationContext";
 import "react-native-gesture-handler";
 import ActiveFavouritesContext from "../../favouritesManager/ActiveFavouritesContext";
 import { useIsFocused } from "@react-navigation/native";
+import { MapCenterToPin } from "../../mapViewManager/MapCenterToPinContext";
 
 export default function Favourites({ location, selecting }) {
+  const { mapCenterToPin, setMapCenterToPin } = useContext(MapCenterToPin);
   const { setFavouritesActive } = useContext(ActiveFavouritesContext);
   const isFocused = useIsFocused();
 
@@ -191,6 +193,10 @@ export default function Favourites({ location, selecting }) {
             onPress={() => {
               setSelectedCarpark(item);
               // handlePresentModalPress();
+              setMapCenterToPin({
+                latitude: item.Coordinates.coordinates[1],
+                longitude: item.Coordinates.coordinates[0],
+              });
               selecting(item);
             }}
           >

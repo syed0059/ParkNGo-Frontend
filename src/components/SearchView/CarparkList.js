@@ -98,10 +98,10 @@ export default function CarparkList({
             onPress={() => {
               setSelectedCarpark(item);
               // setModalVisible(true);
-              // setMapCenterToPin({
-              //   latitude: item.Coordinates.coordinates[1],
-              //   longitude: item.Coordinates.coordinates[0],
-              // });
+              setMapCenterToPin({
+                latitude: item.Coordinates.coordinates[1],
+                longitude: item.Coordinates.coordinates[0],
+              });
               selecting(item);
             }}
           >
